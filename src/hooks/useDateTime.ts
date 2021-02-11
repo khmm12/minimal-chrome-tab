@@ -1,18 +1,24 @@
-import { useState } from 'preact/hooks'
-import useInterval from '@/hooks/useInterval'
+import { createSignal } from 'solid-js'
+import useEveryInterval, { Every } from '@/hooks/useEveryInterval'
 import useTabActive from '@/hooks/useTabActive'
 
-const Interval = 1000 /* 1s */
-
-export default function useDateTime(): Date {
-  const [dateTime, setDateTime] = useState(getDate)
-  const isActive = useTabActive()
-
-  useInterval(() => setDateTime(getDate), isActive ? Interval : undefined)
-
-  return dateTime
+interface UseDateTimeConfig {
+  every?: Every
 }
 
-function getDate(): Date {
-  return new Date()
+const getDate = (): Date => new Date()
+
+export default function useDateTime(config?: UseDateTimeConfig): () => Date {
+  const { every = 'second' } = config ?? {}
+
+  const [getDateTime, setDateTime] = createSignal(getDate())
+  const update = (): Date => setDateTime(getDate())
+
+  const isActive = useTabActive()
+  useEveryInterval(update, {
+    every,
+    enabled: isActive,
+  })
+
+  return getDateTime
 }

@@ -1,19 +1,14 @@
-import { useEffect, useState } from 'preact/hooks'
+import { createSignal, onCleanup } from 'solid-js'
 
-export default function useTabActive(): boolean {
-  const [state, setState] = useState(getTabState)
+const getTabState = (): boolean => !document.hidden
 
-  useEffect(() => {
-    setState(getTabState)
+export default function useTabActive(): () => boolean {
+  const [getState, setState] = createSignal(getTabState())
+  // eslint-disable-next-line no-void
+  const update = (): void => void setState(getTabState())
 
-    const callback = (): void => setState(getTabState)
-    document.addEventListener('visibilitychange', callback)
-    return () => document.removeEventListener('visibilitychange', callback)
-  }, [])
+  document.addEventListener('visibilitychange', update)
+  onCleanup(() => document.removeEventListener('visibilitychange', update))
 
-  return state
-}
-
-function getTabState(): boolean {
-  return !document.hidden
+  return getState
 }

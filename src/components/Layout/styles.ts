@@ -36,9 +36,18 @@ export const global = css`
 
     html,
     body,
-    #root {
+    #app {
       height: 100%;
       width: 100%;
+    }
+  }
+`
+
+export const mountedApp = css`
+  :global() {
+    #app#app {
+      opacity: 1;
+      transition: opacity 0.1s ease-out;
     }
   }
 `

@@ -1,22 +1,20 @@
-import type { VNode, ComponentChildren } from 'preact'
+import type { JSX } from 'solid-js'
 import Bar from './components/Bar'
 import * as css from './styles'
 
 interface MilestoneProps {
   value: number
-  description: ComponentChildren
+  description: JSX.Element
 }
 
 const formatValue = (value: number): string => `${Math.floor(value * 100)}%`
 
-export default function Milestone(props: MilestoneProps): VNode {
-  const { value, description } = props
-
+export default function Milestone(props: MilestoneProps): JSX.Element {
   return (
     <div className={css.container}>
-      <span className={css.value}>{formatValue(value)}</span>
-      <Bar progress={value} />
-      <span className={css.description}>...{description}</span>
+      <span className={css.value}>{formatValue(props.value)}</span>
+      <Bar progress={props.value} />
+      <span className={css.description}>...{props.description}</span>
     </div>
   )
 }

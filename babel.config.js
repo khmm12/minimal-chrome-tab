@@ -1,9 +1,5 @@
-const { getIfUtils, removeEmpty } = require('webpack-config-utils')
-
 module.exports = (api) => {
-  const production = api.env('production')
-
-  const { ifProduction, ifDevelopment } = getIfUtils(production ? 'production' : 'development')
+  api.cache(true)
 
   const presets = [
     [
@@ -17,17 +13,10 @@ module.exports = (api) => {
       },
     ],
     '@babel/preset-typescript',
-    [
-      '@babel/preset-react',
-      {
-        development: ifDevelopment(true, false),
-        runtime: 'automatic',
-        importSource: 'preact',
-      },
-    ],
+    'solid',
   ]
 
-  const plugins = removeEmpty([
+  const plugins = [
     '@babel/plugin-proposal-optional-chaining',
     '@babel/plugin-proposal-nullish-coalescing-operator',
     [
@@ -39,8 +28,7 @@ module.exports = (api) => {
       },
     ],
     '@babel/plugin-syntax-dynamic-import',
-    ifProduction('@babel/plugin-transform-react-constant-elements'),
-  ])
+  ]
 
   return {
     presets,

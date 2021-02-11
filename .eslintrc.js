@@ -1,14 +1,5 @@
 module.exports = {
-  extends: [
-    'standard',
-    'standard-react',
-    'standard-with-typescript',
-    'plugin:prettier/recommended'
-  ],
-  rules: {
-    'react/prop-types': 0,
-    'react/react-in-jsx-scope': 0,
-  },
+  extends: ['standard', 'standard-with-typescript', 'plugin:prettier/recommended'],
   env: {
     webextensions: true,
   },

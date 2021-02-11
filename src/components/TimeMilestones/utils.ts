@@ -10,8 +10,9 @@ import {
   setYear,
 } from 'date-fns'
 import { BirthDate } from '@/config'
+import round from '@/utils/round'
 
-const PRECISION = 1e2
+const PRECISION = 2
 
 type GetSecondsIn = (dateTime: Date) => number
 type GetStartOf = (dateTime: Date) => Date
@@ -69,7 +70,7 @@ function makeMilestoneCalculator(getSecondIn: GetSecondsIn, getStartOf: GetStart
   return function milestoneCalculator(dateTime) {
     const passedSeconds = differenceInSeconds(dateTime, getStartOf(dateTime))
     const value = passedSeconds / getSecondIn(dateTime)
-    return Math.floor(value * PRECISION) / PRECISION
+    return round(value, PRECISION)
   }
 }
 

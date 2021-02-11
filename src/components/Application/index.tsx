@@ -1,10 +1,10 @@
-import type { VNode } from 'preact'
+import type { JSX } from 'solid-js'
 import Layout from '@/components/Layout'
 import TimeMilestones from '@/components/TimeMilestones'
 import Time from '@/components/Time'
 import Credits from '@/components/Credits'
 
-export default function Application(): VNode {
+export default function Application(): JSX.Element {
   return (
     <Layout>
       <TimeMilestones />

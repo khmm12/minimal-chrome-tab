@@ -1,30 +1,31 @@
-import { useRef, useEffect } from 'preact/hooks'
+import useEffect from '@/hooks/useEffect'
 
 type Callback = () => void
 
-export default function useInterval(callback: Callback, interval?: number): void {
-  const callbackRef = useRef(callback)
-  const lastCalledAt = useRef(0)
+export default function useInterval(callback: Callback, getInterval: () => number | undefined): void {
+  let lastCalledAt = 0
 
   useEffect(() => {
-    callbackRef.current = callback
-  })
+    const interval = getInterval() ?? 0
 
-  useEffect(() => {
-    if (!interval) return
+    if (interval < 1) return
 
     let timeoutId: number | null = null
 
+    const getDelay = (): number => {
+      const elapsed = Date.now() - lastCalledAt
+      return elapsed > interval ? 0 : interval - elapsed
+    }
+
     const tick = (): void => {
+      callback()
+      lastCalledAt = Date.now()
       timeoutId = null
-      lastCalledAt.current = Date.now()
-      callbackRef?.current()
       schedule()
     }
 
     const schedule = (): void => {
-      const elapsed = Date.now() - lastCalledAt.current
-      const delay = elapsed > interval ? 0 : interval - elapsed
+      const delay = getDelay()
 
       if (delay > 0) {
         timeoutId = setTimeout(tick, delay)
@@ -38,5 +39,5 @@ export default function useInterval(callback: Callback, interval?: number): void
     return () => {
       if (timeoutId !== null) clearTimeout(timeoutId)
     }
-  }, [interval])
+  }, [getInterval])
 }
