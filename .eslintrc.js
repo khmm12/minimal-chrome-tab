@@ -3,10 +3,7 @@ module.exports = {
     'standard',
     'standard-react',
     'standard-with-typescript',
-    'plugin:prettier/recommended',
-    'prettier/@typescript-eslint',
-    'prettier/standard',
-    'prettier/react',
+    'plugin:prettier/recommended'
   ],
   rules: {
     'react/prop-types': 0,
