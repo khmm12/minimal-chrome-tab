@@ -1,0 +1,9 @@
+{
+  "name": "Minimal Chrome Tab",
+  "version": "1.3.3",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": [],
+  "manifest_version": 2
+}

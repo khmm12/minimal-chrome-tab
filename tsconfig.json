@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "target": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "strict": true,
+    "jsx": "preserve",
+    "jsxImportSource": "preact",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
+    "types": [
+      "chrome"
+    ]
+  },
+  "include": [
+    "src",
+    "typings"
+  ],
+  "exclude": ["./dist"]
+}
