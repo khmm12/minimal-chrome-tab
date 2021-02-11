@@ -74,7 +74,6 @@ module.exports = (env = {}, argv = {}) => {
         new TerserPlugin({
           extractComments: false,
           terserOptions: {
-            ecma: 2020,
             output: { comments: false },
           },
         }),
