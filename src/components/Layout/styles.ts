@@ -14,6 +14,11 @@ export const global = css`
       font-weight: 400;
       font-size: 10px;
       box-sizing: border-box;
+      background: ${white};
+
+      @media ${darkScheme} {
+        background: ${dark1};
+      }
     }
 
     body {
@@ -34,14 +39,6 @@ export const global = css`
     #root {
       height: 100%;
       width: 100%;
-    }
-
-    html {
-      background: ${white};
-
-      @media ${darkScheme} {
-        background: ${dark1};
-      }
     }
   }
 `
