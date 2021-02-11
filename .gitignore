@@ -3,3 +3,10 @@ node_modules
 .linaria-cache
 .DS_Store
 .vscode
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*

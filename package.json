@@ -8,8 +8,8 @@
     "build:production": "NODE_ENV=production webpack --env production --progress",
     "analyze-bundle": "NODE_ENV=production webpack --env production --analyze",
     "dev": "NODE_ENV=development webpack serve",
-    "test": "run-p lint:* typecheck --aggregate-output",
-    "lint": "run-p lint:* --aggregate-output",
+    "test": "run-p \"lint:*\" typecheck --aggregate-output",
+    "lint": "run-p \"lint:*\" --aggregate-output",
     "lint:eslint": "eslint --ext .js,.ts,.tsx src",
     "lint:stylelint": "stylelint \"src/**/*.{css,ts,tsx}\"",
     "typecheck": "tsc --noEmit --pretty --project ."
@@ -75,5 +75,9 @@
     "webpack-cli": "^4.5.0",
     "webpack-config-utils": "^2.3.1",
     "webpack-dev-server": "^3.11.2"
+  },
+  "optionalDependencies": {
+    "eslint-import-resolver-node": "*",
+    "stylis": "^3"
   }
 }
