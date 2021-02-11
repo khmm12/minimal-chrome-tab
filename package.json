@@ -34,6 +34,7 @@
     "@linaria/babel-preset": "^3.0.0-beta.1",
     "@linaria/shaker": "^3.0.0-beta.1",
     "@linaria/webpack-loader": "^3.0.0-beta.1",
+    "@principalstudio/html-webpack-inject-preload": "^1.2.3",
     "@types/chrome": "^0.0.129",
     "@types/use-subscription": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.14.2",

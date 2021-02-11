@@ -4,6 +4,7 @@ const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackInjectPreload = require('@principalstudio/html-webpack-inject-preload')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const stylis = require('stylis')
@@ -87,6 +88,14 @@ module.exports = (env = {}, argv = {}) => {
       new HtmlWebpackPlugin({
         template: resolveSrc('index.html'),
         filename: 'index.html',
+      }),
+      new HtmlWebpackInjectPreload({
+        files: [
+          {
+            match: /\.woff2$/,
+            attributes: { as: 'font', type: 'font/woff2', crossorigin: true },
+          },
+        ],
       }),
       ifProduction(new CleanWebpackPlugin()),
       new CopyWebpackPlugin({
