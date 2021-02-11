@@ -19,13 +19,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": [
-      "chrome"
-    ]
+    "types": ["chrome"]
   },
-  "include": [
-    "src",
-    "typings"
-  ],
+  "include": ["src", "typings"],
   "exclude": ["./dist"]
 }

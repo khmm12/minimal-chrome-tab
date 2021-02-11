@@ -6,7 +6,7 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier/@typescript-eslint',
     'prettier/standard',
-    'prettier/react'
+    'prettier/react',
   ],
   rules: {
     'react/prop-types': 0,
