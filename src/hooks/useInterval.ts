@@ -22,7 +22,7 @@ const AddTimeStrategis: Record<Every, (date: Date, value: number) => Date> = {
   hour: addHours,
 }
 
-export default function useEveryInterval(callback: Callback, config: Config): void {
+export default function useInterval(callback: Callback, config: Config): void {
   const { every, enabled } = config
 
   const addTime = AddTimeStrategis[every]

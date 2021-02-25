@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js'
-import useEveryInterval, { Every } from '@/hooks/useEveryInterval'
+import useInterval, { Every } from '@/hooks/useInterval'
 import useTabActive from '@/hooks/useTabActive'
 
 interface UseDateTimeConfig {
@@ -15,7 +15,7 @@ export default function useDateTime(config?: UseDateTimeConfig): () => Date {
   const update = (): Date => setDateTime(getDate())
 
   const isActive = useTabActive()
-  useEveryInterval(update, {
+  useInterval(update, {
     every,
     enabled: isActive,
   })
