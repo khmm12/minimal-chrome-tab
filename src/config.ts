@@ -1,2 +1,2 @@
-export const BirthDate = '1994-08-12'
+export const BirthDate = process.env.BIRTHDATE as string
 export const DefaultLocale = navigator.language

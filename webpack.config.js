@@ -1,4 +1,5 @@
 const { resolve } = require('path')
+const Dotenv = require('dotenv-webpack')
 const { getIfUtils, removeEmpty } = require('webpack-config-utils')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -81,6 +82,9 @@ module.exports = (env = {}, argv = {}) => {
       ],
     },
     plugins: removeEmpty([
+      new Dotenv({
+        defaults: true,
+      }),
       new MiniCssExtractPlugin({
         filename: ifProduction('[name]-[contenthash].css', '[name].css'),
       }),

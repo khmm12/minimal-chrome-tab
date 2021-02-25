@@ -3,6 +3,7 @@ node_modules
 .linaria-cache
 .DS_Store
 .vscode
+.env
 
 .yarn/*
 !.yarn/releases

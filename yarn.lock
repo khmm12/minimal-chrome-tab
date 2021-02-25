@@ -2088,6 +2088,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^14.14.31":
+  version: 14.14.31
+  resolution: "@types/node@npm:14.14.31"
+  checksum: 635dc8a0898a923621e02ca179e17baa39fdfa44f0096fcc1b7046c9b32317e74a99956a7b45ca0e8069874f51f4e7873a418239a318a4b6e7936f6510ac5992
+  languageName: node
+  linkType: hard
+
 "@types/normalize-package-data@npm:^2.4.0":
   version: 2.4.0
   resolution: "@types/normalize-package-data@npm:2.4.0"
@@ -4362,6 +4369,33 @@ __metadata:
   dependencies:
     is-obj: ^2.0.0
   checksum: 76e6693d8803eeff9cb920988446bf223cf1f6e5b1c0c2fe07a66906392134931a481b11e3c0bd852c5cfc97fad65258bcb4359169ad1d8d624cb3f56932be98
+  languageName: node
+  linkType: hard
+
+"dotenv-defaults@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "dotenv-defaults@npm:2.0.1"
+  dependencies:
+    dotenv: ^8.2.0
+  checksum: 53ac7d987bb9de5d9be0f76040460f398cd56708833143f95ed48732c8d73cf55868d4b368c4eb6dbeba704263da7262623c33557c897f5c06262973477abf0d
+  languageName: node
+  linkType: hard
+
+"dotenv-webpack@npm:^6.0.2":
+  version: 6.0.2
+  resolution: "dotenv-webpack@npm:6.0.2"
+  dependencies:
+    dotenv-defaults: ^2.0.1
+  peerDependencies:
+    webpack: ^1 || ^2 || ^3 || ^4 || ^5
+  checksum: c889b8e6f8a6c6e8dfc7b471ddcacbea2eb26cfb826b0f1472f77cfc6970e6e66efed5ee7c0511b45b0f554dd8c41416244d2f6e5687074bfac33b5d6bde7a45
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^8.2.0":
+  version: 8.2.0
+  resolution: "dotenv@npm:8.2.0"
+  checksum: 16cb89cbd7b98b053899b8aba8c5044c8fb61a2db8a81fe70360b75035fce5fed53bd7a34d772be717d0880c0321122a4c09423f518025e1b52d96791521b1a7
   languageName: node
   linkType: hard
 
@@ -7209,6 +7243,7 @@ fsevents@^1.2.7:
     "@linaria/webpack-loader": ^3.0.0-beta.1
     "@principalstudio/html-webpack-inject-preload": ^1.2.4
     "@types/chrome": ^0.0.133
+    "@types/node": ^14.14.31
     "@types/use-subscription": ^1.0.0
     "@typescript-eslint/eslint-plugin": ^4.15.2
     "@typescript-eslint/parser": ^4.15.2
@@ -7220,6 +7255,7 @@ fsevents@^1.2.7:
     css-loader: ^5.1.0
     css-minimizer-webpack-plugin: ^1.2.0
     date-fns: ^2.17.0
+    dotenv-webpack: ^6.0.2
     eslint: ^7.20.0
     eslint-config-prettier: ^8.1.0
     eslint-config-standard: ^16.0.2

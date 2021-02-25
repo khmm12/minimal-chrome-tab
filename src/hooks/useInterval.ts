@@ -33,7 +33,7 @@ export default function useInterval(callback: Callback, config: Config): void {
   let nextCallAt = getNextCallAt()
 
   const startInterval = (): { dispose: () => void } => {
-    let timeoutId: number | null = null
+    let timeoutId: NodeJS.Timeout | null = null
 
     const getDelay = (): number => {
       const delay = nextCallAt.valueOf() - Date.now()
