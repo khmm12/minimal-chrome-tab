@@ -4,6 +4,7 @@ const { getIfUtils, removeEmpty } = require('webpack-config-utils')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
+const HtmlMinimizerPlugin = require('html-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackInjectPreload = require('@principalstudio/html-webpack-inject-preload')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -24,14 +25,15 @@ module.exports = (env = {}, argv = {}) => {
       main: resolveSrc('index'),
     }),
     output: {
-      path: resolve(__dirname, 'dist'),
+      assetModuleFilename: '[name]-[contenthash][ext]',
       filename: ifProduction('[name]-[contenthash].js', '[name].js'),
+      path: resolve(__dirname, 'dist'),
       publicPath: '',
     },
     module: {
       rules: [
         {
-          test: /\.(js|ts|tsx)$/i,
+          test: /\.(js|ts|tsx)$/,
           exclude: /node_modules/,
           use: [
             {
@@ -53,14 +55,8 @@ module.exports = (env = {}, argv = {}) => {
           use: [MiniCssExtractPlugin.loader, 'css-loader'],
         },
         {
-          test: /\.woff2$/i,
-          use: {
-            loader: 'url-loader',
-            options: {
-              limit: 4096,
-              name: '[name]-[hash].[ext]',
-            },
-          },
+          test: /\.woff2$/,
+          type: 'asset/resource'
         },
       ],
     },
@@ -79,6 +75,7 @@ module.exports = (env = {}, argv = {}) => {
           },
         }),
         new CssMinimizerPlugin(),
+        new HtmlMinimizerPlugin(),
       ],
     },
     plugins: removeEmpty([
