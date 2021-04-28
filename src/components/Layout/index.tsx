@@ -7,11 +7,11 @@ interface LayoutProps {
   children?: JSX.Element
 }
 
+const containerCss = cx(css.global, fontsClassName, css.container)
+
 export default function Layout(props: LayoutProps): JSX.Element {
-  const [mounted, setMounted] = createSignal(false)
+  const [isMounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  return (
-    <div className={cx(css.global, fontsClassName, css.container, mounted() && css.mountedApp)}>{props.children}</div>
-  )
+  return <div className={cx(containerCss, isMounted() && css.mountedApp)}>{props.children}</div>
 }

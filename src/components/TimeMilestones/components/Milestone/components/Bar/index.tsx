@@ -1,4 +1,4 @@
-import { For, JSX, mergeProps } from 'solid-js'
+import { JSX, For, mergeProps, createMemo } from 'solid-js'
 import round from '@/utils/round'
 import times from '@/utils/times'
 import * as css from './styles'
@@ -14,23 +14,36 @@ const Bars = 10
 export default function Bar(_props: BarProps): JSX.Element {
   const props = mergeProps(_props, { width: 20, height: 5 })
 
-  const bars = (): string[] => times(Bars, (index) => getPathD(index, props))
+  const bars = createMemo(() => times(Bars))
 
   return (
     <svg className={css.svg} preserveAspectRatio="none" viewBox={`0 0 ${props.width} ${props.height}`}>
-      <For each={bars()}>{(d) => <path className={css.path} d={d} />}</For>
+      <For each={bars()}>
+        {(index) => <Path index={index} progress={props.progress} width={props.width} height={props.height} />}
+      </For>
     </svg>
   )
 }
 
-function getPathD(index: number, props: { progress: number; width: number; height: number }): string {
-  const { progress, width, height } = props
+interface PathProps {
+  index: number
+  progress: number
+  width: number
+  height: number
+}
 
-  const left = index / Bars
-  const lineProgress = Math.min((progress - left) * Bars, 1)
+function Path(props: PathProps): JSX.Element {
+  const d = (): string => {
+    const { index, progress, width, height } = props
 
-  const x = (width / Bars) * index + 1
-  const y = Math.min(height - 0.5, round(height * (1 - lineProgress), 2))
+    const left = index / Bars
+    const lineProgress = Math.min((progress - left) * Bars, 1)
 
-  return `M${x} ${y} L${x} ${height} Z`
+    const x = (width / Bars) * index + 1
+    const y = Math.min(height - 0.5, round(height * (1 - lineProgress), 2))
+
+    return `M${x} ${y} L${x} ${height} Z`
+  }
+
+  return <path className={css.path} d={d()} />
 }

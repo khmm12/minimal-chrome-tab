@@ -1,13 +1,17 @@
 import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
+import type { SignalValue } from '@/utils/solid'
 import useEffect from '@/hooks/useEffect'
-
-type Callback = () => void
 
 export type Every = 'second' | 'minute' | 'hour'
 
+type Callback = () => void
 interface Config {
-  enabled: () => boolean
+  enabled: SignalValue<boolean>
   every: Every
+}
+
+interface Disposable {
+  dispose: () => void
 }
 
 const StartOfStrategies: Record<Every, (date: Date) => Date> = {
@@ -32,7 +36,7 @@ export default function useInterval(callback: Callback, config: Config): void {
 
   let nextCallAt = getNextCallAt()
 
-  const startInterval = (): { dispose: () => void } => {
+  const startInterval = (): Disposable => {
     let timeoutId: NodeJS.Timeout | null = null
 
     const getDelay = (): number => {
