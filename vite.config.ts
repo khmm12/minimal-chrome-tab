@@ -11,17 +11,24 @@ export default defineConfig({
   resolve: {
     alias: { '@': resolvePath(__dirname, './src') },
   },
-  plugins: [linaria({ preprocessor: stylis }), solidPlugin(), copyManifest()],
+  plugins: [
+    linaria({ preprocessor: stylis }),
+    solidPlugin(),
+    writeExtensionManifest(resolvePath(__dirname, './src/manifest.json')),
+  ],
 })
 
-function copyManifest(): Plugin {
+function writeExtensionManifest(manifest: string): Plugin {
   return {
-    name: 'copyManifest',
-    async writeBundle() {
-      return fs.promises.copyFile(
-        resolvePath(__dirname, 'src/manifest.json'),
-        resolvePath(__dirname, 'dist/manifest.json')
-      )
+    name: 'wirteExrensionManifest',
+    async generateBundle() {
+      const source = await fs.promises.readFile(resolvePath(__dirname, manifest), 'utf-8')
+
+      this.emitFile({
+        type: 'asset',
+        fileName: 'manifest.json',
+        source,
+      })
     },
   }
 }
