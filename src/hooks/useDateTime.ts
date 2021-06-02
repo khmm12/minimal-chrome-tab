@@ -4,7 +4,7 @@ import useInterval, { Every } from '@/hooks/useInterval'
 import useTabActive from '@/hooks/useTabActive'
 
 interface UseDateTimeConfig {
-  every?: Every
+  every?: Every | SignalValue<Every>
 }
 
 const getDate = (): Date => new Date()
@@ -16,6 +16,7 @@ export default function useDateTime(config?: UseDateTimeConfig): SignalValue<Dat
   const update = (): Date => setDateTime(getDate())
 
   const isActive = useTabActive()
+
   useInterval(update, {
     every,
     enabled: isActive,
