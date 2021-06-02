@@ -1,6 +1,6 @@
 import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
+import { createEffect, onCleanup } from 'solid-js'
 import type { SignalValue } from '@/utils/solid'
-import useEffect from '@/hooks/useEffect'
 
 export type Every = 'second' | 'minute' | 'hour'
 
@@ -36,13 +36,13 @@ export default function useInterval(callback: Callback, config: Config): void {
 
   let nextCallAt = getNextCallAt()
 
+  const getDelay = (): number => {
+    const delay = nextCallAt.valueOf() - Date.now()
+    return Math.max(0, delay)
+  }
+
   const startInterval = (): Disposable => {
     let timeoutId: NodeJS.Timeout | null = null
-
-    const getDelay = (): number => {
-      const delay = nextCallAt.valueOf() - Date.now()
-      return Math.max(0, delay)
-    }
 
     const tick = (): void => {
       callback()
@@ -70,10 +70,10 @@ export default function useInterval(callback: Callback, config: Config): void {
     }
   }
 
-  useEffect(() => {
+  createEffect(() => {
     if (enabled()) {
-      const { dispose } = startInterval()
-      return dispose
+      const ctrl = startInterval()
+      onCleanup(() => ctrl.dispose())
     }
-  }, [enabled])
+  })
 }

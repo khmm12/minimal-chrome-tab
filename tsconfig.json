@@ -17,8 +17,8 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["chrome"]
+    "types": ["@types/node", "chrome", "vite/client"]
   },
-  "include": ["src", "typings"],
+  "include": ["typings", "src"],
   "exclude": ["./dist"]
 }

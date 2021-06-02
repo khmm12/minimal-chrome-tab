@@ -1,13 +1,13 @@
 import { createSignal, JSX, onMount } from 'solid-js'
 import { cx } from '@linaria/core'
-import { fontsClassName } from './components/Fonts'
+import './components/Fonts'
 import * as css from './styles'
 
 interface LayoutProps {
   children?: JSX.Element
 }
 
-const containerCss = cx(css.global, fontsClassName, css.container)
+const containerCss = cx(css.global, css.container)
 
 export default function Layout(props: LayoutProps): JSX.Element {
   const [isMounted, setMounted] = createSignal(false)

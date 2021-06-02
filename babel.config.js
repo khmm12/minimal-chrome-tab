@@ -1,37 +1,24 @@
 module.exports = (api) => {
-  api.cache(true)
+  const linaria = api.caller((caller) => !!caller && caller.name === 'linaria')
 
-  const presets = [
-    [
-      '@babel/preset-env',
-      {
-        useBuiltIns: 'usage',
-        corejs: 3,
-        loose: true,
-        bugfixes: true,
-        modules: false,
-      },
-    ],
-    '@babel/preset-typescript',
-    'solid',
-  ]
-
-  const plugins = [
-    '@babel/plugin-proposal-optional-chaining',
-    '@babel/plugin-proposal-nullish-coalescing-operator',
-    [
-      '@babel/plugin-transform-runtime',
-      {
-        corejs: false,
-        helpers: true,
-        regenerator: false,
-      },
-    ],
-    '@babel/plugin-syntax-dynamic-import',
-  ]
+  if (linaria) {
+    return {
+      plugins: [
+        [
+          'module-resolver',
+          {
+            root: [require('path').resolve(__dirname)],
+            alias: {
+              '@': './src',
+            },
+          },
+        ],
+      ],
+    }
+  }
 
   return {
-    presets,
-    plugins,
+    presets: [],
+    plugins: [],
   }
 }
