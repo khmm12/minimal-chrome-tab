@@ -3,25 +3,25 @@ import fs from 'fs'
 import { defineConfig, Plugin } from 'vite'
 import linaria from 'vite-plugin-linaria-styled'
 import solidPlugin from 'vite-plugin-solid'
-import stylis from 'stylis'
+import Stylis from 'stylis'
 
-stylis.set({ prefix: false })
+const stylis = new Stylis({ prefix: false })
 
-const copyManifest = (): Plugin => {
+export default defineConfig({
+  resolve: {
+    alias: { '@': resolvePath(__dirname, './src') },
+  },
+  plugins: [linaria({ preprocessor: stylis }), solidPlugin(), copyManifest()],
+})
+
+function copyManifest(): Plugin {
   return {
     name: 'copyManifest',
     async writeBundle() {
-      return await fs.promises.copyFile(
+      return fs.promises.copyFile(
         resolvePath(__dirname, 'src/manifest.json'),
         resolvePath(__dirname, 'dist/manifest.json')
       )
     },
   }
 }
-
-export default defineConfig({
-  resolve: {
-    alias: { '@': resolvePath(__dirname, './src') },
-  },
-  plugins: [linaria(), solidPlugin(), copyManifest()],
-})

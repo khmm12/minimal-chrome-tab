@@ -5238,8 +5238,6 @@ fsevents@~2.3.1:
   dependenciesMeta:
     eslint-import-resolver-node:
       optional: true
-    stylis:
-      optional: true
   languageName: unknown
   linkType: soft
 
