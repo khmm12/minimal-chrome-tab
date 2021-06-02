@@ -18,7 +18,6 @@
   "dependencies": {
     "@linaria/core": "^3.0.0-beta.4",
     "@yarnpkg/pnpify": "^3.0.0-rc.3",
-    "core-js": "^3.13.1",
     "date-fns": "^2.22.1",
     "solid-js": "^0.26.5"
   },

@@ -2873,13 +2873,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"core-js@npm:^3.13.1":
-  version: 3.13.1
-  resolution: "core-js@npm:3.13.1"
-  checksum: f020e194bac93eb54fbefd1c33931582e3408d08584d9c6829cd3428ebe8b39e1e93a3b03e8aa49f7bf731ff07ef9c76abc2e9efa128edfa2216e00620830dee
-  languageName: node
-  linkType: hard
-
 "core-util-is@npm:1.0.2, core-util-is@npm:^1.0.2, core-util-is@npm:~1.0.0":
   version: 1.0.2
   resolution: "core-util-is@npm:1.0.2"
@@ -5227,7 +5220,6 @@ fsevents@~2.3.1:
     "@typescript-eslint/parser": ^4.26.0
     "@yarnpkg/pnpify": ^3.0.0-rc.3
     babel-plugin-module-resolver: ^4.1.0
-    core-js: ^3.13.1
     date-fns: ^2.22.1
     eslint: ^7.27.0
     eslint-config-prettier: ^8.3.0
