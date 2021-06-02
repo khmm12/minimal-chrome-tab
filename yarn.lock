@@ -1855,13 +1855,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/use-subscription@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "@types/use-subscription@npm:1.0.0"
-  checksum: 47fff868682692ecda7110bd04ba4c5b1324854c0bcccc765606a42d4bd9be475207413c8829a883b98e7edd801100df53876da0ff89ac21a8f964e440636ef2
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/eslint-plugin@npm:^4.26.0":
   version: 4.26.0
   resolution: "@typescript-eslint/eslint-plugin@npm:4.26.0"
@@ -5215,7 +5208,6 @@ fsevents@~2.3.1:
     "@linaria/stylelint": ^3.0.0-beta.4
     "@types/chrome": ^0.0.144
     "@types/node": ^15.6.2
-    "@types/use-subscription": ^1.0.0
     "@typescript-eslint/eslint-plugin": ^4.26.0
     "@typescript-eslint/parser": ^4.26.0
     "@yarnpkg/pnpify": ^3.0.0-rc.3
