@@ -1,4 +1,4 @@
-import { Accessor, createSignal, onCleanup } from 'solid-js'
+import { Accessor, createSignal, onMount, onCleanup } from 'solid-js'
 
 const getTabState = (): boolean => !document.hidden
 
@@ -9,7 +9,11 @@ export default function createTabActive(): Accessor<boolean> {
     setState(getTabState())
   }
 
-  document.addEventListener('visibilitychange', update)
+  onMount(() => {
+    update()
+    document.addEventListener('visibilitychange', update)
+  })
+
   onCleanup(() => document.removeEventListener('visibilitychange', update))
 
   return getState

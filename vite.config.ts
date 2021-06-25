@@ -13,7 +13,7 @@ export default defineConfig({
     alias: { '@': resolvePath(__dirname, './src') },
   },
   plugins: [
-    linaria({ preprocessor: stylis }),
+    linaria({ preprocessor: stylis, sourceMap: process.env.NODE_ENV !== 'production' }),
     solidPlugin(),
     minifyHtml(),
     writeExtensionManifest(resolvePath(__dirname, './src/manifest.json')),

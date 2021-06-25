@@ -1,14 +1,13 @@
 import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
-import { Accessor, createEffect, createMemo, onCleanup } from 'solid-js'
-import { unwrap } from '@/utils/solid'
+import { createEffect, onCleanup } from 'solid-js'
 
 export type Every = 'second' | 'minute' | 'hour'
 
 type Callback = () => void
 
 interface Config {
-  enabled: Accessor<boolean>
-  every: Every | Accessor<Every>
+  enabled: boolean
+  every: Every
 }
 
 type Strategy = (relative: number) => number
@@ -20,13 +19,10 @@ const Strategies: Record<Every, Strategy> = {
 }
 
 export default function createInterval(fn: Callback, config: Config): void {
-  const { every, enabled } = config
-
   let timeoutId: number | undefined
   let lastTickedAt = Date.now()
 
-  const strategy = createMemo((): Strategy => Strategies[unwrap(every)])
-  const scheduledAt = (): number => strategy()(lastTickedAt)
+  const scheduledAt = (): number => Strategies[config.every](lastTickedAt)
 
   const schedule = (): void => {
     const delay = scheduledAt() - Date.now()
@@ -52,7 +48,7 @@ export default function createInterval(fn: Callback, config: Config): void {
   }
 
   createEffect(() => {
-    if (enabled()) {
+    if (config.enabled) {
       schedule()
       onCleanup(() => dispose())
     }

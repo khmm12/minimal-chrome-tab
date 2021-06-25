@@ -1,3 +1,1 @@
-interface ImportMetaEnv {
-  VITE_BIRTHDATE: string
-}
+// interface ImportMetaEnv {}

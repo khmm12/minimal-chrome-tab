@@ -4,6 +4,8 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": [],
+  "permissions": [
+    "storage"
+  ],
   "manifest_version": 3
 }

@@ -3,22 +3,24 @@ import createInterval, { Every } from '@/hooks/createInterval'
 import createTabActive from '@/hooks/createTabActive'
 
 interface UseDateTimeConfig {
-  every?: Every | Accessor<Every>
+  every?: Every
 }
 
 const getDate = (): Date => new Date()
 
 export default function createDateTime(config?: UseDateTimeConfig): Accessor<Date> {
-  const { every = 'second' } = config ?? {}
-
   const [dateTime, setDateTime] = createSignal(getDate())
   const update = (): Date => setDateTime(getDate())
 
   const isTabActive = createTabActive()
 
   createInterval(update, {
-    every,
-    enabled: isTabActive,
+    get every() {
+      return config?.every ?? 'second'
+    },
+    get enabled() {
+      return isTabActive()
+    },
   })
 
   return dateTime

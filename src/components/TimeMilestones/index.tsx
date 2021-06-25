@@ -1,22 +1,39 @@
-import { createDeferred, JSX } from 'solid-js'
+import { JSX, createMemo, Accessor } from 'solid-js'
 import createDateTime from '@/hooks/createDateTime'
+import createSettingsStorage from '@/hooks/createSettingsStorage'
+import Show from '@/components/Show'
 import Milestone from './components/Milestone'
-import { getDayMilestone, getWeekMilestone, getMonthMilestone, getYearMilestone, getBirthDayMilestone } from './utils'
+import {
+  GetMilestone,
+  getDayMilestone,
+  getWeekMilestone,
+  getMonthMilestone,
+  getYearMilestone,
+  getBirthDayMilestone,
+} from './utils'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const dateTime_ = createDateTime({ every: 'minute' })
-  const dateTime = createDeferred(dateTime_, { timeoutMs: 60 * 1_000 })
+  const dateTime = createDateTime({ every: 'minute' })
+
+  const [settings] = createSettingsStorage()
+
+  const now = (fn: Accessor<GetMilestone>): Accessor<number> => createMemo(() => fn()(dateTime()))
 
   return (
     <div className={css.container}>
       <h1 className={css.title}>We're now through...</h1>
       <div className={css.items}>
-        <Milestone value={getDayMilestone(dateTime())} description="of day" />
-        <Milestone value={getWeekMilestone(dateTime())} description="of week" />
-        <Milestone value={getMonthMilestone(dateTime())} description="of month" />
-        <Milestone value={getYearMilestone(dateTime())} description="of year" />
-        <Milestone value={getBirthDayMilestone(dateTime())} description="of dob" />
+        <Milestone value={now(getDayMilestone)()} description="of day" />
+        <Milestone value={now(getWeekMilestone)()} description="of week" />
+        <Milestone value={now(getMonthMilestone)()} description="of month" />
+        <Milestone value={now(getYearMilestone)()} description="of year" />
+        <Show when={settings()?.birthDate}>
+          {(birthDate) => {
+            const getMyBirthDayMilestone = createMemo(() => getBirthDayMilestone(new Date(birthDate())))
+            return <Milestone value={now(getMyBirthDayMilestone)()} description="of dob" />
+          }}
+        </Show>
       </div>
     </div>
   )
