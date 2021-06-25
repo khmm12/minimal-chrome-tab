@@ -39,7 +39,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.14.6, @babel/core@npm:>=7.9.0, @babel/core@npm:^7.14.2, @babel/core@npm:^7.14.6":
+"@babel/core@npm:7.14.6, @babel/core@npm:>=7.9.0, @babel/core@npm:^7.14.3, @babel/core@npm:^7.14.6":
   version: 7.14.6
   resolution: "@babel/core@npm:7.14.6"
   dependencies:
@@ -2018,14 +2018,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-jsx-dom-expressions@npm:~0.26.3":
-  version: 0.26.3
-  resolution: "babel-plugin-jsx-dom-expressions@npm:0.26.3"
+"babel-plugin-jsx-dom-expressions@npm:^0.28.9":
+  version: 0.28.9
+  resolution: "babel-plugin-jsx-dom-expressions@npm:0.28.9"
   dependencies:
     "@babel/helper-module-imports": ^7.10.4
     "@babel/plugin-syntax-jsx": ^7.10.4
     "@babel/types": ^7.11.5
-  checksum: 4740e312805e48530a70232380d09b013fa0c9abb994c42f6407fc89824bad29522c40df5e4a4d0ed7836760821c9c765676fcd6642c53f12969a35c748ac931
+  checksum: 382bf13c90d30a75ed0d33eb38c52ddcfb90a5ca6027f40497eb7cdf8b32931ad56f0af49b7db21b284cbcfec88fee367d31d970ad289bcadf0dbbfad68ec13f
   languageName: node
   linkType: hard
 
@@ -2049,12 +2049,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-preset-solid@npm:^0.26.5":
-  version: 0.26.5
-  resolution: "babel-preset-solid@npm:0.26.5"
+"babel-preset-solid@npm:^1.0.0-rc.2":
+  version: 1.0.0-rc.9
+  resolution: "babel-preset-solid@npm:1.0.0-rc.9"
   dependencies:
-    babel-plugin-jsx-dom-expressions: ~0.26.3
-  checksum: 8d1f1b8edf4b626033bf708e17970e6ae253323f67fbc72e4d802ffa2e97704444e9f95eada25d7ed1127be916c8538953d56bc7b70e9257aef43f2c0ea496ef
+    babel-plugin-jsx-dom-expressions: ^0.28.9
+  checksum: e08d5e8eda1e72ee1f2ba49aea7b120b7b88034dc0e4a4f18eb05e628e283c5d8aa00e3c7ff4e8ef46707d5f718ae69ed9766424db1114832c4dae4e5c14d764
   languageName: node
   linkType: hard
 
@@ -4469,7 +4469,7 @@ __metadata:
     eslint-plugin-promise: ^4
     npm-run-all: ^4.1.5
     prettier: ^2.3.1
-    solid-js: ^0.26.5
+    solid-js: ^1.0.0-rc.9
     stylelint: ^13.13.1
     stylelint-config-prettier: ^8.0.2
     stylelint-config-standard: ^22.0.0
@@ -4477,7 +4477,7 @@ __metadata:
     stylis: ^3
     typescript: ^4.3.4
     vite: ^2.3.8
-    vite-plugin-solid: ^1.9.0
+    vite-plugin-solid: ^2.0.0-rc.3
   dependenciesMeta:
     eslint-import-resolver-node:
       optional: true
@@ -5777,19 +5777,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"solid-js@npm:^0.26.5":
-  version: 0.26.5
-  resolution: "solid-js@npm:0.26.5"
-  checksum: bdc877344f8c0379e86d6642e35a943bcaf2bbadfaf270bbc934cd66b63c817cacc5c354b1cf561807bb358e254682e1a9f066ce5d2c5ec89c06b3de33838e84
+"solid-js@npm:^1.0.0-rc.2, solid-js@npm:^1.0.0-rc.9":
+  version: 1.0.0-rc.9
+  resolution: "solid-js@npm:1.0.0-rc.9"
+  checksum: 90d2da03502e7f518cb99b91e99a5e4f94f347f9d2e81a71db820389b991f5867a5b0e518ec5473155581c263ba28e01c28fae3e2d5df7b6ba1c84e1176847cc
   languageName: node
   linkType: hard
 
-"solid-refresh@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "solid-refresh@npm:0.1.2"
+"solid-refresh@npm:^0.2.0-rc.0":
+  version: 0.2.0-rc.0
+  resolution: "solid-refresh@npm:0.2.0-rc.0"
   peerDependencies:
     solid-js: "*"
-  checksum: 38f0e71421f9c9716fe05e533f6fcb3a7c958fbd5af0ed535700141ed0abbc21e407ef8e73dd06b1e7697def18d74be8a18689ed20781d8a72ec79c812d86779
+  checksum: 3739fc98eb6f190f40fec7fffd6ec915e047ada5aa8320dac1e188fceabb925df137bd6ad5786902989d67cfa2ce14a178c1c477db2172358d46d2aa529a594d
   languageName: node
   linkType: hard
 
@@ -6590,22 +6590,22 @@ typescript@^4.3.4:
   languageName: node
   linkType: hard
 
-"vite-plugin-solid@npm:^1.9.0":
-  version: 1.9.0
-  resolution: "vite-plugin-solid@npm:1.9.0"
+"vite-plugin-solid@npm:^2.0.0-rc.3":
+  version: 2.0.0-rc.3
+  resolution: "vite-plugin-solid@npm:2.0.0-rc.3"
   dependencies:
-    "@babel/core": ^7.14.2
+    "@babel/core": ^7.14.3
     "@babel/preset-typescript": ^7.13.0
-    babel-preset-solid: ^0.26.5
+    babel-preset-solid: ^1.0.0-rc.2
     merge-anything: ^4.0.1
-    solid-js: ^0.26.5
-    solid-refresh: ^0.1.2
-    vite: ^2.3.2
-  checksum: cad35bc5815d6c8b2d7da120e7cd368297d5de7b8a5ffe9d5c45a912f89a41a2560f2599afa0df0f0ae5efe5e476d7cf52493640664a66f4029cb7946318504f
+    solid-js: ^1.0.0-rc.2
+    solid-refresh: ^0.2.0-rc.0
+    vite: ^2.3.6
+  checksum: 69f1a19f1af6092536fa3beece43ef78486360b08959c71a2a44e12694ed2a42f1dda964ba9a35f222b8a7834575905b954d8af0e50939db1ab23b2509794dd1
   languageName: node
   linkType: hard
 
-"vite@npm:^2.3.2, vite@npm:^2.3.8":
+"vite@npm:^2.3.6, vite@npm:^2.3.8":
   version: 2.3.8
   resolution: "vite@npm:2.3.8"
   dependencies:
