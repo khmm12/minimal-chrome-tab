@@ -1,7 +1,7 @@
 import { resolve as resolvePath } from 'path'
 import fs from 'fs'
 import { defineConfig, Plugin } from 'vite'
-import linaria from 'vite-plugin-linaria-styled'
+import linaria from '@linaria/rollup'
 import solidPlugin from 'vite-plugin-solid'
 import Stylis from 'stylis'
 
