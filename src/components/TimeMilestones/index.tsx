@@ -1,5 +1,4 @@
 import { createDeferred, JSX } from 'solid-js'
-import type { SignalValue } from '@/utils/solid'
 import useDateTime from '@/hooks/useDateTime'
 import Milestone from './components/Milestone'
 import { getDayMilestone, getWeekMilestone, getMonthMilestone, getYearMilestone, getBirthDayMilstone } from './utils'
@@ -7,7 +6,7 @@ import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
   const dateTime_ = useDateTime({ every: 'minute' })
-  const dateTime = createDeferred(dateTime_, { timeoutMs: 60 * 1_000 }) as SignalValue<Date>
+  const dateTime = createDeferred(dateTime_, { timeoutMs: 60 * 1_000 })
 
   return (
     <div className={css.container}>

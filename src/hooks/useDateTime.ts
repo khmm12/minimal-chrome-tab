@@ -1,15 +1,14 @@
-import { createSignal } from 'solid-js'
-import type { SignalValue } from '@/utils/solid'
+import { Accessor, createSignal } from 'solid-js'
 import useInterval, { Every } from '@/hooks/useInterval'
 import useTabActive from '@/hooks/useTabActive'
 
 interface UseDateTimeConfig {
-  every?: Every | SignalValue<Every>
+  every?: Every | Accessor<Every>
 }
 
 const getDate = (): Date => new Date()
 
-export default function useDateTime(config?: UseDateTimeConfig): SignalValue<Date> {
+export default function useDateTime(config?: UseDateTimeConfig): Accessor<Date> {
   const { every = 'second' } = config ?? {}
 
   const [dateTime, setDateTime] = createSignal(getDate())

@@ -1,14 +1,14 @@
 import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
-import { createEffect, createMemo, onCleanup } from 'solid-js'
-import { SignalValue, unwrap } from '@/utils/solid'
+import { Accessor, createEffect, createMemo, onCleanup } from 'solid-js'
+import { unwrap } from '@/utils/solid'
 
 export type Every = 'second' | 'minute' | 'hour'
 
 type Callback = () => void
 
 interface Config {
-  enabled: SignalValue<boolean>
-  every: Every | SignalValue<Every>
+  enabled: Accessor<boolean>
+  every: Every | Accessor<Every>
 }
 
 type Strategy = (relative: number) => number

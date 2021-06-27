@@ -1,9 +1,8 @@
-import { createSignal, onCleanup } from 'solid-js'
-import type { SignalValue } from '@/utils/solid'
+import { Accessor, createSignal, onCleanup } from 'solid-js'
 
 const getTabState = (): boolean => !document.hidden
 
-export default function useTabActive(): SignalValue<boolean> {
+export default function useTabActive(): Accessor<boolean> {
   const [getState, setState] = createSignal(getTabState())
 
   const update = (): void => {
