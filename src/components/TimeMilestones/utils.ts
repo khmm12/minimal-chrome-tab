@@ -33,7 +33,7 @@ export const getDayMilestone = makeMilestoneCalculator(getSecondsInDay, startOfD
 export const getWeekMilestone = makeMilestoneCalculator(getSecondsInWeek, startOfISOWeek)
 export const getMonthMilestone = makeMilestoneCalculator(getSecondsInMonth, startOfMonth)
 export const getYearMilestone = makeMilestoneCalculator(getSecondsInYear, startOfYear)
-export const getBirthDayMilstone = makeMilestoneCalculator(getSecondsInBirthDayYear, getPreviousBirthDate)
+export const getBirthDayMilestone = makeMilestoneCalculator(getSecondsInBirthDayYear, getPreviousBirthDate)
 
 function getSecondsInBirthDayYear(dateTime: Date): number {
   const getSecondsInYearDate = makeGetSecondsInYearDate(new Date(BirthDate))
