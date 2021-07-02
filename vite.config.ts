@@ -3,6 +3,7 @@ import fs from 'fs'
 import { defineConfig, Plugin } from 'vite'
 import linaria from '@linaria/rollup'
 import solidPlugin from 'vite-plugin-solid'
+import { minifyHtml } from 'vite-plugin-html'
 import Stylis from 'stylis'
 
 const stylis = new Stylis({ prefix: false })
@@ -14,6 +15,7 @@ export default defineConfig({
   plugins: [
     linaria({ preprocessor: stylis }),
     solidPlugin(),
+    minifyHtml(),
     writeExtensionManifest(resolvePath(__dirname, './src/manifest.json')),
   ],
 })
