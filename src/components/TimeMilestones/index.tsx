@@ -1,11 +1,11 @@
 import { createDeferred, JSX } from 'solid-js'
-import useDateTime from '@/hooks/useDateTime'
+import createDateTime from '@/hooks/createDateTime'
 import Milestone from './components/Milestone'
 import { getDayMilestone, getWeekMilestone, getMonthMilestone, getYearMilestone, getBirthDayMilestone } from './utils'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const dateTime_ = useDateTime({ every: 'minute' })
+  const dateTime_ = createDateTime({ every: 'minute' })
   const dateTime = createDeferred(dateTime_, { timeoutMs: 60 * 1_000 })
 
   return (

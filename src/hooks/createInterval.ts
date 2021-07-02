@@ -19,10 +19,10 @@ const Strategies: Record<Every, Strategy> = {
   hour: (relative) => addHours(startOfHour(relative), 1).valueOf(),
 }
 
-export default function useInterval(fn: Callback, config: Config): void {
+export default function createInterval(fn: Callback, config: Config): void {
   const { every, enabled } = config
 
-  let timeoutId: NodeJS.Timeout | undefined
+  let timeoutId: number | undefined
   let lastTickedAt = Date.now()
 
   const strategy = createMemo((): Strategy => Strategies[unwrap(every)])

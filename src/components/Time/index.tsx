@@ -1,6 +1,6 @@
 import type { JSX } from 'solid-js'
 import { DefaultLocale } from '@/config'
-import useDateTime from '@/hooks/useDateTime'
+import createDateTime from '@/hooks/createDateTime'
 import * as css from './styles'
 
 const { format: formatDate } = new Intl.DateTimeFormat(DefaultLocale)
@@ -11,7 +11,7 @@ const { format: formatTime } = new Intl.DateTimeFormat(DefaultLocale, {
 })
 
 export default function Time(): JSX.Element {
-  const dateTime = useDateTime({ every: 'second' })
+  const dateTime = createDateTime({ every: 'second' })
 
   return (
     <div className={css.container}>

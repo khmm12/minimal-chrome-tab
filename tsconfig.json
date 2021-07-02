@@ -1,23 +1,22 @@
 {
   "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
     "experimentalDecorators": true,
-    "lib": ["esnext", "dom"],
-    "module": "esnext",
-    "target": "esnext",
-    "moduleResolution": "node",
     "isolatedModules": false,
-    "strict": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "allowJs": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
+    "lib": ["esnext", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
     "noEmit": true,
-    "baseUrl": ".",
+    "strict": true,
+    "target": "esnext",
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["@types/node", "chrome", "vite/client"]
+    "types": ["chrome", "vite/client"]
   },
   "include": ["typings", "src"],
   "exclude": ["./dist"]
