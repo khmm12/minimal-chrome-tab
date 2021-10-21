@@ -1,7 +1,7 @@
 import StorageSubscribtion from '../subscription'
 import type { Subscriber } from '../types'
 
-export default abstract class StorageAdapter<T> {
+export default abstract class StorageAdapter<T> implements StorageAdapter<T> {
   protected readonly subscription: StorageSubscribtion<T> = new StorageSubscribtion()
 
   constructor(public readonly name: string, public readonly defaultValue: T) {}
