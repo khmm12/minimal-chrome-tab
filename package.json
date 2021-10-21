@@ -17,46 +17,46 @@
     "*.css"
   ],
   "dependencies": {
-    "@felte/solid": "^0.1.8",
+    "@felte/solid": "^0.2.4",
     "@linaria/core": "^3.0.0-beta.13",
-    "date-fns": "^2.24.0",
-    "focus-trap": "^6.6.1",
+    "date-fns": "^2.25.0",
+    "focus-trap": "^6.7.1",
     "polished": "^4.1.3",
-    "solid-js": "^1.1.4",
+    "solid-js": "^1.1.7",
     "solid-transition-group": "^0.0.8"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.5",
+    "@babel/core": "^7.15.8",
     "@linaria/rollup": "^3.0.0-beta.13",
     "@linaria/shaker": "^3.0.0-beta.13",
     "@linaria/stylelint": "^3.0.0-beta.13",
-    "@types/chrome": "^0.0.157",
-    "@types/node": "^16.9.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.1",
-    "@typescript-eslint/parser": "^4.31.1",
+    "@types/chrome": "^0.0.159",
+    "@types/node": "^16.11.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
     "eslint-config-standard-with-typescript": "^21.0.1",
-    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-promise": "^5.1.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.4.1",
     "stylelint": "^13.13.1",
-    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^22.0.0",
     "stylelint-prettier": "^1.2.0",
     "stylis": "^3",
-    "typescript": "^4.4.3",
-    "vite": "^2.5.8",
-    "vite-plugin-html": "^2.1.0",
-    "vite-plugin-solid": "^2.0.3"
+    "typescript": "^4.4.4",
+    "vite": "^2.6.10",
+    "vite-plugin-html": "^2.1.1",
+    "vite-plugin-solid": "^2.1.1"
   },
   "optionalDependencies": {
     "eslint-import-resolver-node": "^0.3.6"
   },
-  "packageManager": "yarn@3.1.0-rc.5"
+  "packageManager": "yarn@3.1.0-rc.12"
 }
