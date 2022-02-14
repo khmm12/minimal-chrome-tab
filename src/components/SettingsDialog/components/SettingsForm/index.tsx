@@ -1,4 +1,4 @@
-import { JSX } from 'solid-js'
+import type { JSX } from 'solid-js'
 import { createForm } from '@felte/solid'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import * as css from './styles'
@@ -10,9 +10,7 @@ interface SettingsFormProps {
 
 export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const { form } = createForm({
-    get initialValues() {
-      return props.initialValues
-    },
+    initialValues: props.initialValues,
     onSubmit: (values) => props.onSubmit(values),
   })
 
