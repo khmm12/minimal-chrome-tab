@@ -16,6 +16,10 @@ export default function Modal(props: ModalProps): JSX.Element {
   let $overlay: HTMLDivElement | undefined
   let $dialog: HTMLDivElement | undefined
 
+  const handleOverlayKeyDown = (e: KeyboardEvent): void => {
+    if (e.code === 'Escape') props.onClose?.()
+  }
+
   const handleOverlayClick = (e: MouseEvent): void => {
     if (e.target instanceof Node && !$dialog?.contains(e.target)) props.onClose?.()
   }
@@ -36,7 +40,7 @@ export default function Modal(props: ModalProps): JSX.Element {
     <Portal>
       <Transition name="overlay" appear onAfterExit={transition.onAfterExit}>
         <Show when={transition.isOpened()}>
-          <div ref={$overlay} className={css.overlay} onClick={handleOverlayClick}>
+          <div ref={$overlay} className={css.overlay} onKeyDown={handleOverlayKeyDown} onClick={handleOverlayClick}>
             <div ref={$dialog} className={css.dialog}>
               <div className={css.header}>
                 <h1 className={css.title}>{props.title}</h1>
