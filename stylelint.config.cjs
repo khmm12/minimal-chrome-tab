@@ -6,6 +6,6 @@ module.exports = {
       {
         ignorePseudoClasses: ['global'],
       },
-    ]
+    ],
   },
 }
