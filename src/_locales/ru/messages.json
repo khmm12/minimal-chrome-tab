@@ -1,0 +1,11 @@
+{
+  "app_name": {
+    "message": "Minimal Chrome Tab"
+  },
+  "app_description": {
+    "message": "Когда стандартная новая вкладка уже достала"
+  },
+  "new_tab_title": {
+    "message": "Новая вкладка"
+  }
+}

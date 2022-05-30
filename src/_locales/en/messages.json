@@ -1,0 +1,11 @@
+{
+  "app_name": {
+    "message": "Minimal Chrome Tab"
+  },
+  "app_description": {
+    "message": "When the default new tab already pissed you off"
+  },
+  "new_tab_title": {
+    "message": "New tab"
+  }
+}
