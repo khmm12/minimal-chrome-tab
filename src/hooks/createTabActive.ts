@@ -1,20 +1,16 @@
-import { Accessor, createSignal, onMount, onCleanup } from 'solid-js'
+import { Accessor } from 'solid-js'
+import createSubscription from '@/hooks/createSubscription'
 
 const getTabState = (): boolean => !document.hidden
 
 export default function createTabActive(): Accessor<boolean> {
-  const [getState, setState] = createSignal(getTabState())
-
-  const update = (): void => {
-    setState(getTabState())
-  }
-
-  onMount(() => {
-    update()
-    document.addEventListener('visibilitychange', update)
+  const isTabActive = createSubscription({
+    getCurrentValue: getTabState,
+    subscribe(fn) {
+      document.addEventListener('visibilitychange', fn)
+      return () => document.removeEventListener('visibilitychange', fn)
+    },
   })
 
-  onCleanup(() => document.removeEventListener('visibilitychange', update))
-
-  return getState
+  return isTabActive
 }
