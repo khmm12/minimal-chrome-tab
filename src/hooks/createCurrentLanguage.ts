@@ -1,17 +1,8 @@
-import { Accessor, createEffect, createSignal, onCleanup } from 'solid-js'
+import { Accessor, createSignal } from 'solid-js'
+import getCurrentLocale from '@/utils/get-current-locale'
 
 export function createCurrentLanguage(): Accessor<string> {
-  const [language, setLanguage] = createSignal(navigator.language)
-
-  createEffect(() => {
-    const abortCtrl = new AbortController()
-
-    chrome.i18n.getAcceptLanguages((languages) => {
-      if (languages.length > 0 && !abortCtrl.signal.aborted) setLanguage(languages[0])
-    })
-
-    onCleanup(() => abortCtrl.abort())
-  })
+  const [language] = createSignal(getCurrentLocale())
 
   return language
 }
