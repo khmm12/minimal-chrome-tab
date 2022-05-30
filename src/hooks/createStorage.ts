@@ -9,7 +9,7 @@ export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> 
   const [resource, { mutate }] = createResource(async () => await storage.read())
 
   const change = async (fn: (value: T) => T): Promise<void> => {
-    const previous = resource() ?? (await storage.read())
+    const previous = resource.latest ?? (await storage.read())
     const nextValue = fn(previous)
     await storage.write(nextValue)
     mutate(() => nextValue)
