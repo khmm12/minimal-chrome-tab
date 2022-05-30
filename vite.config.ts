@@ -1,5 +1,5 @@
 import { resolve as resolvePath } from 'path'
-import fs from 'fs'
+import fs from 'fs/promises'
 import { defineConfig, Plugin } from 'vite'
 import linaria from '@linaria/rollup'
 import solidPlugin from 'vite-plugin-solid'
@@ -33,7 +33,7 @@ function writeExtensionManifest(manifest: string): Plugin {
   return {
     name: 'wirteExrensionManifest',
     async generateBundle() {
-      const source = await fs.promises.readFile(resolvePath(__dirname, manifest), 'utf-8')
+      const source = await fs.readFile(resolvePath(__dirname, manifest), 'utf-8')
 
       this.emitFile({
         type: 'asset',
