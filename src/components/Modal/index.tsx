@@ -1,4 +1,4 @@
-import { JSX, createEffect, onCleanup, useContext } from 'solid-js'
+import { JSX, createEffect, onCleanup, useContext, createUniqueId } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
 import { createFocusTrap } from 'focus-trap'
@@ -36,16 +36,22 @@ export default function Modal(props: ModalProps): JSX.Element {
     }
   })
 
+  const ids = {
+    title: createUniqueId(),
+  }
+
   return (
     <Portal>
       <Transition name="overlay" appear onAfterExit={transition.onAfterExit}>
         <Show when={transition.isOpened()}>
           <div ref={$overlay} class={css.overlay} onKeyDown={handleOverlayKeyDown} onClick={handleOverlayClick}>
-            <div ref={$dialog} class={css.dialog}>
+            <div ref={$dialog} class={css.dialog} aria-labelledby={ids.title} role="dialog" tabIndex={-1}>
               <div class={css.header}>
-                <h1 class={css.title}>{props.title}</h1>
-                <button class={css.closeButton} type="button" onClick={props.onClose}>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
+                <h1 id={ids.title} class={css.title}>
+                  {props.title}
+                </h1>
+                <button class={css.closeButton} type="button" title="Close" onClick={props.onClose}>
+                  <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
                     <path d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7z" />
                   </svg>
                 </button>

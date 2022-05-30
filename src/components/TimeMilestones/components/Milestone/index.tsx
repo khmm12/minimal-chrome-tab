@@ -6,7 +6,7 @@ import * as css from './styles'
 
 interface MilestoneProps {
   value: number
-  description: JSX.Element
+  description: string
 }
 
 const PercentFormatOptions = { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 }
