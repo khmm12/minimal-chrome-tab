@@ -3,7 +3,7 @@ import getDocumentLanguage from '@/utils/get-document-language'
 const DataAttribute = 'localize'
 
 setDocumentLanguage()
-if (typeof chrome !== 'undefined') localizeContent()
+if (typeof chrome !== 'undefined' && typeof chrome.i18n !== 'undefined') localizeContent()
 
 function setDocumentLanguage(): void {
   document.documentElement.lang = getDocumentLanguage()
