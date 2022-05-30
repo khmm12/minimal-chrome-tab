@@ -13,10 +13,12 @@ import round from '@/utils/round'
 
 const PRECISION = 2
 
-type GetSecondsInEpoch = (dateTime: Date) => number
-type GetStartOfEpoch = (dateTime: Date) => Date
+type CalculateRelative<T> = (now: Date) => T
 
-export type GetMilestone = (dateTime: Date) => number
+type GetSecondsInEpoch = CalculateRelative<number>
+type GetStartOfEpoch = CalculateRelative<Date>
+
+export type GetMilestone = CalculateRelative<number>
 
 const getMinutesInHour = constant(60)
 const getHoursInDay = constant(24)
@@ -29,24 +31,25 @@ const getSecondsInWeek = mul(getDaysInWeek, getSecondsInDay)
 const getSecondsInMonth = mul(getDaysInMonth, getSecondsInDay)
 const getSecondsInYear = mul(getDaysInYear, getSecondsInDay)
 
-export const getDayMilestone = (): GetMilestone => milestone(getSecondsInDay, startOfDay)
-export const getWeekMilestone = (): GetMilestone => milestone(getSecondsInWeek, startOfISOWeek)
-export const getMonthMilestone = (): GetMilestone => milestone(getSecondsInMonth, startOfMonth)
-export const getYearMilestone = (): GetMilestone => milestone(getSecondsInYear, startOfYear)
-export const getBirthDayMilestone = (birthDate: Date): GetMilestone =>
-  milestone(getSecondsInYearDate(birthDate), getPreviousDate(birthDate))
+export const getDayMilestone = milestone(getSecondsInDay, startOfDay)
+export const getWeekMilestone = milestone(getSecondsInWeek, startOfISOWeek)
+export const getMonthMilestone = milestone(getSecondsInMonth, startOfMonth)
+export const getYearMilestone = milestone(getSecondsInYear, startOfYear)
 
-function getSecondsInYearDate(date: Date): GetSecondsInEpoch {
-  const getOnPreviousYear = getPreviousDate(date)
+export const getBirthDayMilestone = (birthDate: Date): GetMilestone =>
+  milestone(getSecondsFromLastToThisYearDate(birthDate), getLastYearDate(birthDate))
+
+function getSecondsFromLastToThisYearDate(date: Date): GetSecondsInEpoch {
+  const getLastYear = getLastYearDate(date)
 
   return (now: Date) => {
-    const dateOnPreviousYear = getOnPreviousYear(now)
-    const dateOnNextYear = setYear(dateOnPreviousYear, getYear(dateOnPreviousYear) + 1)
-    return differenceInSeconds(dateOnNextYear, dateOnPreviousYear)
+    const lastYearDate = getLastYear(now)
+    const nextYearDate = setYear(lastYearDate, getYear(lastYearDate) + 1)
+    return differenceInSeconds(nextYearDate, lastYearDate)
   }
 }
 
-function getPreviousDate(date: Date): (now: Date) => Date {
+function getLastYearDate(date: Date): CalculateRelative<Date> {
   date = startOfDay(date)
 
   return (now: Date): Date => {
@@ -59,10 +62,10 @@ function getPreviousDate(date: Date): (now: Date) => Date {
   }
 }
 
-function milestone(getSecondInEpoch: GetSecondsInEpoch, getStartOfEpoch: GetStartOfEpoch): GetMilestone {
+function milestone(getSecondsInEpoch: GetSecondsInEpoch, getStartOfEpoch: GetStartOfEpoch): GetMilestone {
   return (now) => {
     const secondsSinceStart = differenceInSeconds(now, getStartOfEpoch(now))
-    const value = secondsSinceStart / getSecondInEpoch(now)
+    const value = secondsSinceStart / getSecondsInEpoch(now)
     return round(value, PRECISION)
   }
 }
