@@ -15,7 +15,7 @@ export default function Bar(_props: BarProps): JSX.Element {
   const props = mergeProps(_props, { width: 20, height: 5 })
 
   return (
-    <svg className={css.svg} preserveAspectRatio="none" viewBox={`0 0 ${props.width} ${props.height}`}>
+    <svg class={css.svg} preserveAspectRatio="none" viewBox={`0 0 ${props.width} ${props.height}`}>
       <For each={Bars}>
         {(index) => {
           const d = createMemo((): string => {
@@ -31,7 +31,7 @@ export default function Bar(_props: BarProps): JSX.Element {
             return `M${x} ${y} L${x} ${height} Z`
           })
 
-          return <path className={css.path} d={d()} />
+          return <path class={css.path} d={d()} />
         }}
       </For>
     </svg>

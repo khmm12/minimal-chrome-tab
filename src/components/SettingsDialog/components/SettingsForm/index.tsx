@@ -15,14 +15,14 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   })
 
   return (
-    <form className={css.container} ref={form}>
-      <div className={css.formGroup}>
-        <label htmlFor="birthDate" className={css.label}>
+    <form class={css.container} ref={form}>
+      <div class={css.formGroup}>
+        <label for="birthDate" class={css.label}>
           Birth date
         </label>
-        <input id="birthDate" className={css.input} name="birthDate" type="date" />
+        <input id="birthDate" class={css.input} name="birthDate" type="date" />
       </div>
-      <button className={css.button} type="submit">
+      <button class={css.button} type="submit">
         Save
       </button>
     </form>

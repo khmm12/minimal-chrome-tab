@@ -14,7 +14,7 @@ export default function Time(): JSX.Element {
   const dateTime = createDateTime({ every: 'second' })
 
   return (
-    <div className={css.container}>
+    <div class={css.container}>
       <span>{formatDate(dateTime())}</span>
       <span>{formatTime(dateTime())}</span>
     </div>

@@ -13,5 +13,5 @@ export default function Layout(props: LayoutProps): JSX.Element {
   const [isMounted, setMounted] = createSignal(false)
   onMount(() => setMounted(true))
 
-  return <div className={cx(containerCss, isMounted() && css.mountedApp)}>{props.children}</div>
+  return <div class={cx(containerCss, isMounted() && css.mountedApp)}>{props.children}</div>
 }

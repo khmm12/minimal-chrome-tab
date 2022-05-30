@@ -19,7 +19,7 @@ export default function Application(): JSX.Element {
     <Layout>
       <TimeMilestones />
       <Time />
-      <div className={css.footer}>
+      <div class={css.footer}>
         <SettingsButton onClick={handleSettingsClick} />
         <Credits />
       </div>

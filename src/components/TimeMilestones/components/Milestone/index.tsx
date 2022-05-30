@@ -11,10 +11,10 @@ const formatValue = (value: number): string => `${Math.floor(value * 100)}%`
 
 export default function Milestone(props: MilestoneProps): JSX.Element {
   return (
-    <div className={css.container}>
-      <span className={css.value}>{formatValue(props.value)}</span>
+    <div class={css.container}>
+      <span class={css.value}>{formatValue(props.value)}</span>
       <Bar progress={props.value} />
-      <span className={css.description}>...{props.description}</span>
+      <span class={css.description}>...{props.description}</span>
     </div>
   )
 }

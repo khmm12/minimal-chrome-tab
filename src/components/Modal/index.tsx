@@ -40,17 +40,17 @@ export default function Modal(props: ModalProps): JSX.Element {
     <Portal>
       <Transition name="overlay" appear onAfterExit={transition.onAfterExit}>
         <Show when={transition.isOpened()}>
-          <div ref={$overlay} className={css.overlay} onKeyDown={handleOverlayKeyDown} onClick={handleOverlayClick}>
-            <div ref={$dialog} className={css.dialog}>
-              <div className={css.header}>
-                <h1 className={css.title}>{props.title}</h1>
-                <button className={css.closeButton} type="button" onClick={props.onClose}>
+          <div ref={$overlay} class={css.overlay} onKeyDown={handleOverlayKeyDown} onClick={handleOverlayClick}>
+            <div ref={$dialog} class={css.dialog}>
+              <div class={css.header}>
+                <h1 class={css.title}>{props.title}</h1>
+                <button class={css.closeButton} type="button" onClick={props.onClose}>
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
                     <path d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7z" />
                   </svg>
                 </button>
               </div>
-              <div className={css.body}>{props.children}</div>
+              <div class={css.body}>{props.children}</div>
             </div>
           </div>
         </Show>

@@ -21,9 +21,9 @@ export default function TimeMilestones(): JSX.Element {
   const now = (fn: Accessor<GetMilestone>): Accessor<number> => createMemo(() => fn()(dateTime()))
 
   return (
-    <div className={css.container}>
-      <h1 className={css.title}>We're now through...</h1>
-      <div className={css.items}>
+    <div class={css.container}>
+      <h1 class={css.title}>We're now through...</h1>
+      <div class={css.items}>
         <Milestone value={now(getDayMilestone)()} description="of day" />
         <Milestone value={now(getWeekMilestone)()} description="of week" />
         <Milestone value={now(getMonthMilestone)()} description="of month" />
