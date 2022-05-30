@@ -5,8 +5,9 @@ type Locales = string | string[]
 
 export function getDateFormatter(locales: Locales, options: Intl.DateTimeFormatOptions = {}): Intl.DateTimeFormat {
   const key = cacheKey(locales, options)
-  const cachedFormatter = dateFormatterCache.get(key)
-  if (cachedFormatter != null) return cachedFormatter
+
+  const cached = dateFormatterCache.get(key)
+  if (cached != null) return cached
 
   const formatter = new Intl.DateTimeFormat(locales, options)
   dateFormatterCache.set(key, formatter)
@@ -15,8 +16,9 @@ export function getDateFormatter(locales: Locales, options: Intl.DateTimeFormatO
 
 export function getNumberFormatter(locales: Locales, options: Intl.NumberFormatOptions = {}): Intl.NumberFormat {
   const key = cacheKey(locales, options)
-  const cachedFormatter = numberFormatterCache.get(key)
-  if (cachedFormatter != null) return cachedFormatter
+
+  const cached = numberFormatterCache.get(key)
+  if (cached != null) return cached
 
   const formatter = new Intl.NumberFormat(locales, options)
   numberFormatterCache.set(key, formatter)
