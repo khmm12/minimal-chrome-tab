@@ -1,31 +1,52 @@
-const numberFormatterCache = new Map<string, Intl.NumberFormat>()
-const dateFormatterCache = new Map<string, Intl.DateTimeFormat>()
+const Cache = new WeakMap<Formatters, FormatterCache<Formatters>>()
 
 type Locales = string | string[]
+type Formatters = Intl.DateTimeFormat | Intl.NumberFormat
 
-export function getDateFormatter(locales: Locales, options: Intl.DateTimeFormatOptions = {}): Intl.DateTimeFormat {
-  const key = cacheKey(locales, options)
+type CacheFactory<TFormatter extends Formatters, TFormatOptions> = (
+  locales: Locales,
+  options?: TFormatOptions
+) => TFormatter
+type FormatterCache<T extends Formatters> = Map<string, T>
 
-  const cached = dateFormatterCache.get(key)
-  if (cached != null) return cached
+export const getDateFormatter = /* @__PURE__ */ getFormatter<Intl.DateTimeFormat, Intl.DateTimeFormatOptions>(
+  Intl.DateTimeFormat.prototype,
+  (locales, options) => new Intl.DateTimeFormat(locales, options)
+)
 
-  const formatter = new Intl.DateTimeFormat(locales, options)
-  dateFormatterCache.set(key, formatter)
-  return formatter
+export const getNumberFormatter = /* @__PURE__ */ getFormatter<Intl.NumberFormat, Intl.NumberFormatOptions>(
+  Intl.NumberFormat.prototype,
+  (locales, options) => new Intl.NumberFormat(locales, options)
+)
+
+function getFormatter<TFormatter extends Formatters, TFormatOptions extends {}>(
+  formatterProto: TFormatter,
+  factory: CacheFactory<TFormatter, TFormatOptions>
+): (locales: Locales, options?: TFormatOptions) => TFormatter {
+  const cache = getFormatterCache(formatterProto)
+
+  return (locales, options) => {
+    const key = getCacheKey(locales, options)
+
+    const cached = cache.get(key)
+    if (cached != null) return cached
+
+    const formatter = factory(locales, options)
+    cache.set(key, formatter)
+    return formatter
+  }
 }
 
-export function getNumberFormatter(locales: Locales, options: Intl.NumberFormatOptions = {}): Intl.NumberFormat {
-  const key = cacheKey(locales, options)
+function getFormatterCache<T extends Formatters>(formatterProto: T): FormatterCache<T> {
+  const cached = Cache.get(formatterProto)
+  if (cached != null) return cached as FormatterCache<T>
 
-  const cached = numberFormatterCache.get(key)
-  if (cached != null) return cached
-
-  const formatter = new Intl.NumberFormat(locales, options)
-  numberFormatterCache.set(key, formatter)
-  return formatter
+  const cache: FormatterCache<T> = new Map()
+  Cache.set(formatterProto, cache)
+  return cache
 }
 
-function cacheKey<T extends {}>(locales?: string | string[], options: Partial<T> = {}): string {
+function getCacheKey<T extends {}>(locales?: string | string[], options: Partial<T> = {}): string {
   const localeKey = Array.isArray(locales) ? locales.slice().sort().join('-') : locales ?? '-'
   return `${localeKey}-${JSON.stringify(options)}`
 }
