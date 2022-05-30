@@ -40,16 +40,18 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
     if (shouldShow()) {
       return (
         <ShowWithTransitionContext.Provider value={{ isOpened, onAfterExit: handleAfterExit }}>
-          {createMemo(() => {
-            const child = props.children
-            if (typeof child === 'function') {
-              strictEqual = true
-              return child.length > 0 ? untrack(() => child(condition as Accessor<T>)) : undefined
-            } else {
-              strictEqual = false
-              return child
-            }
-          })}
+          {
+            createMemo(() => {
+              const child = props.children
+              if (typeof child === 'function' && child.length > 0) {
+                strictEqual = true
+                return untrack(() => child(condition as Accessor<T>))
+              } else {
+                strictEqual = false
+                return child
+              }
+            }) as () => JSX.Element
+          }
         </ShowWithTransitionContext.Provider>
       )
     } else {
