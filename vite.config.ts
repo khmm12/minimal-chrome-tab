@@ -1,5 +1,6 @@
 import { resolve as resolvePath } from 'path'
 import { defineConfig } from 'vite'
+import browserslistToEsbuild from 'browserslist-to-esbuild'
 import linaria from '@linaria/rollup'
 import solidPlugin from 'vite-plugin-solid'
 import { createHtmlPlugin } from 'vite-plugin-html'
@@ -10,6 +11,9 @@ import manifestPlugin from './lib/vite/manifest-plugin'
 const stylis = new Stylis({ prefix: false })
 
 export default defineConfig({
+  build: {
+    target: browserslistToEsbuild(),
+  },
   resolve: {
     alias: { '@': resolvePath(__dirname, './src') },
   },
