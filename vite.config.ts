@@ -1,11 +1,11 @@
 import { resolve as resolvePath } from 'path'
-import fs from 'fs/promises'
-import { defineConfig, Plugin } from 'vite'
+import { defineConfig } from 'vite'
 import linaria from '@linaria/rollup'
 import solidPlugin from 'vite-plugin-solid'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import Stylis from 'stylis'
+import manifestPlugin from './lib/vite/manifest-plugin'
 
 const stylis = new Stylis({ prefix: false })
 
@@ -25,21 +25,8 @@ export default defineConfig({
         },
       ],
     }),
-    writeExtensionManifest(resolvePath(__dirname, './src/manifest.json')),
+    manifestPlugin({
+      sourcePath: resolvePath(__dirname, './src/manifest.json'),
+    }),
   ],
 })
-
-function writeExtensionManifest(manifest: string): Plugin {
-  return {
-    name: 'wirteExrensionManifest',
-    async generateBundle() {
-      const source = await fs.readFile(resolvePath(__dirname, manifest), 'utf-8')
-
-      this.emitFile({
-        type: 'asset',
-        fileName: 'manifest.json',
-        source,
-      })
-    },
-  }
-}

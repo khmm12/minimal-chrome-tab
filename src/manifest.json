@@ -2,7 +2,6 @@
   "name": "__MSG_app_name__",
   "description": "__MSG_app_description__",
   "manifest_version": 3,
-  "version": "2.0.0",
   "default_locale": "en",
   "chrome_url_overrides": {
     "newtab": "index.html"
