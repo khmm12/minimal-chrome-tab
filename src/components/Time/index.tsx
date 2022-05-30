@@ -1,22 +1,23 @@
 import type { JSX } from 'solid-js'
 import createDateTime from '@/hooks/createDateTime'
-import createDateTimeFormatter from '@/hooks/createDateTimeFormatter'
+import createIntlFormatter from '@/hooks/createIntlFormatter'
 import * as css from './styles'
 
 export default function Time(): JSX.Element {
-  const formatDate = createDateTimeFormatter()
-  const formatTime = createDateTimeFormatter({
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-  })
+  const int = createIntlFormatter()
 
   const dateTime = createDateTime({ every: 'second' })
 
   return (
     <div class={css.container}>
-      <span>{formatDate(dateTime())}</span>
-      <span>{formatTime(dateTime())}</span>
+      <span>{int.date(dateTime())}</span>
+      <span>
+        {int.date(dateTime(), {
+          hour: 'numeric',
+          minute: 'numeric',
+          second: 'numeric',
+        })}
+      </span>
     </div>
   )
 }
