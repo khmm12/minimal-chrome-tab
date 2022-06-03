@@ -1,5 +1,5 @@
 import * as intl from '@/utils/intl'
-import { createCurrentLanguage } from '@/hooks/createCurrentLanguage'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 interface IntlFormatter {
   date: (date?: number | Date, options?: Intl.DateTimeFormatOptions) => string
@@ -7,7 +7,7 @@ interface IntlFormatter {
 }
 
 export default function createIntlFormatter(): IntlFormatter {
-  const currentLanguage = createCurrentLanguage()
+  const currentLanguage = useCurrentLanguage()
 
   return {
     date(value, options) {
