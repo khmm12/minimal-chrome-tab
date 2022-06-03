@@ -1167,7 +1167,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/traverse@npm:^7.12.13, @babel/traverse@npm:^7.16.7, @babel/traverse@npm:^7.18.0, @babel/traverse@npm:^7.18.2":
+"@babel/traverse@npm:>=7, @babel/traverse@npm:^7.12.13, @babel/traverse@npm:^7.16.7, @babel/traverse@npm:^7.18.0, @babel/traverse@npm:^7.18.2":
   version: 7.18.2
   resolution: "@babel/traverse@npm:7.18.2"
   dependencies:
@@ -1299,100 +1299,104 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linaria/babel-preset@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/babel-preset@npm:3.0.0-beta.18"
+"@linaria/babel-preset@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/babel-preset@npm:3.0.0-beta.19"
   dependencies:
     "@babel/generator": ">=7"
     "@babel/plugin-syntax-dynamic-import": ">=7"
     "@babel/template": ">=7"
-    "@linaria/core": ^3.0.0-beta.18
-    "@linaria/logger": ^3.0.0-beta.15
-    "@linaria/utils": ^3.0.0-beta.18
+    "@babel/traverse": ">=7"
+    "@linaria/core": ^3.0.0-beta.19
+    "@linaria/logger": ^3.0.0-beta.19
+    "@linaria/utils": ^3.0.0-beta.19
     cosmiconfig: ^5.1.0
+    find-up: ^5.0.0
     source-map: ^0.7.3
     stylis: ^3.5.4
   peerDependencies:
     "@babel/core": ">=7"
-  checksum: 17dfa0dad87618f2527ba92736f7a050a3da5a23fd888d3e3c08c1c59f09de8a7d6ddf5365c8cc690cbb6dd247018b65bebe832c019090f653fccee0a0952003
+    "@babel/traverse": ">=7"
+  checksum: 26590473b222be42889448cb841d1b2e746f89c5e673622ce6dedc11580d1542ca9568335bb006a64d22482f50382473df73787598089b84aeb6869954de71b7
   languageName: node
   linkType: hard
 
-"@linaria/core@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/core@npm:3.0.0-beta.18"
+"@linaria/core@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/core@npm:3.0.0-beta.19"
   dependencies:
-    "@linaria/utils": ^3.0.0-beta.18
-  checksum: a685b272dccf53e8b7d73e1246ca0e6eeb5a4c5576a344d7619ddaf17e55a63093b783b3b8daba90d9209de00c66b28f53dfe4d60e36ddf70d78fc8833560969
+    "@linaria/logger": ^3.0.0-beta.19
+    "@linaria/utils": ^3.0.0-beta.19
+  checksum: f7bcb955a3266ce55804d4bc8d9698c7227465956f4f369f02755c92c65c420fd349ff6e562c230cf60b7cdc8aeb13339b81cd27d51238b1fbd774115a30b908
   languageName: node
   linkType: hard
 
-"@linaria/logger@npm:^3.0.0-beta.15":
-  version: 3.0.0-beta.15
-  resolution: "@linaria/logger@npm:3.0.0-beta.15"
+"@linaria/logger@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/logger@npm:3.0.0-beta.19"
   dependencies:
     debug: ^4.1.1
     picocolors: ^1.0.0
-  checksum: fd855f0bfe97f5629e00241f961862f192e64e7d2a7e6dce5d3ef631396d9434def88c699550a2d46a8c45278acea1a0059937cf8f265a98c95c1c8254ccd788
+  checksum: db253fec535e5717353636de48951bc9b81d65537f7589bfcdab89198fdf6f6fc895fda6a5fbed45c45c6ca52bc28920b536fa08eca6890e70268b02dc25bef2
   languageName: node
   linkType: hard
 
-"@linaria/preeval@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/preeval@npm:3.0.0-beta.18"
+"@linaria/preeval@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/preeval@npm:3.0.0-beta.19"
   dependencies:
-    "@linaria/babel-preset": ^3.0.0-beta.18
+    "@linaria/babel-preset": ^3.0.0-beta.19
   peerDependencies:
     "@babel/core": ">=7"
-  checksum: 0bc5f8786165db87d4700dfdb75a54e98b7ae7ae6929ff37c3df265bed759398cf346ea422b6fc5de7e271e605915363d060f564aec27ba508ef8b419e55c34d
+  checksum: 84ba85d4721c0bd49eb8522f84d3fd8472464832fe59ecd5d3a5a0bc460dc0798249f23233590ba1989154fd0d16b8b1545fd969a8524541bb1fcd3a99122b41
   languageName: node
   linkType: hard
 
-"@linaria/rollup@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/rollup@npm:3.0.0-beta.18"
+"@linaria/rollup@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/rollup@npm:3.0.0-beta.19"
   dependencies:
-    "@linaria/babel-preset": ^3.0.0-beta.18
+    "@linaria/babel-preset": ^3.0.0-beta.19
     "@rollup/pluginutils": ^4.1.0
   peerDependencies:
     "@babel/core": ">=7"
-  checksum: a9b0b7a68bcb5371d6e68c4cbd0271b806db4f34c1dd6436c6b5b48851354178180a2e2175fe28906c48bb0f6ca626612f6e42c06d73c605ca3adb8cfa103c4a
+  checksum: 4e06d69302e9c49227112c6e7f39f9d522069418bbdbd9e18f37e905bcb87fa172302f92a5c17c0862fc42ccf31c9d2a17e695adca7133b8b21fd8f707589d1f
   languageName: node
   linkType: hard
 
-"@linaria/shaker@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/shaker@npm:3.0.0-beta.18"
+"@linaria/shaker@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/shaker@npm:3.0.0-beta.19"
   dependencies:
     "@babel/generator": ">=7"
     "@babel/plugin-transform-runtime": ">=7"
     "@babel/plugin-transform-template-literals": ">=7"
     "@babel/preset-env": ">=7"
-    "@linaria/babel-preset": ^3.0.0-beta.18
-    "@linaria/logger": ^3.0.0-beta.15
-    "@linaria/preeval": ^3.0.0-beta.18
+    "@linaria/babel-preset": ^3.0.0-beta.19
+    "@linaria/logger": ^3.0.0-beta.19
+    "@linaria/preeval": ^3.0.0-beta.19
     babel-plugin-transform-react-remove-prop-types: ^0.4.24
-    ts-invariant: ^0.9.0
+    ts-invariant: ^0.10.3
   peerDependencies:
     "@babel/core": ">=7"
-  checksum: 7740b9a4ec513e4be6e897a9c618b7bb30296717a30b62da7ee9d181e8243e55ff2073540db4b2abae24e5ed57027298a939f254f8f870f4795015aa97b849f7
+  checksum: e49a1e026a11e61efb811c1ad1d5c616dc329f8a6d6893598fa3de3be302b07fbfe1e056cba41eb3e670b4af1b000dc03ddc9467fedc34caa475bdd60641f213
   languageName: node
   linkType: hard
 
-"@linaria/stylelint@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/stylelint@npm:3.0.0-beta.18"
+"@linaria/stylelint@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/stylelint@npm:3.0.0-beta.19"
   dependencies:
-    "@linaria/babel-preset": ^3.0.0-beta.18
+    "@linaria/babel-preset": ^3.0.0-beta.19
     strip-ansi: ^5.2.0
-  checksum: 4ad047f7f4bc9f2f205ff182ce6527fb6e9b03e386bfcf9661fb12ec5cea779a36011b1bcc8a98c58ea62c0a38bf68e1b023090a4adea462d5bf53dddb11af9e
+  checksum: 83ca756ef8a2a6683c851dc3f7edbe6700e3c7a48f9c3d040e8ddaee91b44628eb829977eb08ef0b1b7882bbb2d68a365aad1c05186b634b47c8e26921b875da
   languageName: node
   linkType: hard
 
-"@linaria/utils@npm:^3.0.0-beta.18":
-  version: 3.0.0-beta.18
-  resolution: "@linaria/utils@npm:3.0.0-beta.18"
-  checksum: ecbd189c93fc31175e5107eb9ced88da260181d16eb93ee22b54abff72858bef12edfd29771865f85babe4a6b6166dc8616a030c78c352ac3896f5d875cf80a4
+"@linaria/utils@npm:^3.0.0-beta.19":
+  version: 3.0.0-beta.19
+  resolution: "@linaria/utils@npm:3.0.0-beta.19"
+  checksum: 2e93d76c828038672ed37bf7c26919bd483767a697c7b423c08037dff63fbf7a4e685060002ed6034669bc6716285fc6f4744c9ab33de110d1763fee7d7f2fac
   languageName: node
   linkType: hard
 
@@ -3450,6 +3454,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"find-up@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "find-up@npm:5.0.0"
+  dependencies:
+    locate-path: ^6.0.0
+    path-exists: ^4.0.0
+  checksum: 07955e357348f34660bde7920783204ff5a26ac2cafcaa28bace494027158a97b9f56faaf2d89a6106211a8174db650dd9f503f9c0d526b1202d5554a00b9095
+  languageName: node
+  linkType: hard
+
 "flat-cache@npm:^3.0.4":
   version: 3.0.4
   resolution: "flat-cache@npm:3.0.4"
@@ -4473,6 +4487,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"locate-path@npm:^6.0.0":
+  version: 6.0.0
+  resolution: "locate-path@npm:6.0.0"
+  dependencies:
+    p-locate: ^5.0.0
+  checksum: 72eb661788a0368c099a184c59d2fee760b3831c9c1c33955e8a19ae4a21b4116e53fa736dc086cdeb9fce9f7cc508f2f92d2d3aae516f133e16a2bb59a39f5a
+  languageName: node
+  linkType: hard
+
 "lodash.merge@npm:^4.6.2":
   version: 4.6.2
   resolution: "lodash.merge@npm:4.6.2"
@@ -4677,10 +4700,10 @@ fsevents@~2.3.2:
   dependencies:
     "@babel/core": ^7.18.2
     "@felte/solid": ^1.2.2
-    "@linaria/core": ^3.0.0-beta.18
-    "@linaria/rollup": ^3.0.0-beta.18
-    "@linaria/shaker": ^3.0.0-beta.18
-    "@linaria/stylelint": ^3.0.0-beta.18
+    "@linaria/core": ^3.0.0-beta.19
+    "@linaria/rollup": ^3.0.0-beta.19
+    "@linaria/shaker": ^3.0.0-beta.19
+    "@linaria/stylelint": ^3.0.0-beta.19
     "@types/chrome": ^0.0.188
     "@types/node": ^16.11.36
     "@typescript-eslint/eslint-plugin": ^5.26.0
@@ -5069,6 +5092,15 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
+"p-limit@npm:^3.0.2":
+  version: 3.1.0
+  resolution: "p-limit@npm:3.1.0"
+  dependencies:
+    yocto-queue: ^0.1.0
+  checksum: 7c3690c4dbf62ef625671e20b7bdf1cbc9534e83352a2780f165b0d3ceba21907e77ad63401708145ca4e25bfc51636588d89a8c0aeb715e6c37d1c066430360
+  languageName: node
+  linkType: hard
+
 "p-locate@npm:^2.0.0":
   version: 2.0.0
   resolution: "p-locate@npm:2.0.0"
@@ -5093,6 +5125,15 @@ fsevents@~2.3.2:
   dependencies:
     p-limit: ^2.2.0
   checksum: 513bd14a455f5da4ebfcb819ef706c54adb09097703de6aeaa5d26fe5ea16df92b48d1ac45e01e3944ce1e6aa2a66f7f8894742b8c9d6e276e16cd2049a2b870
+  languageName: node
+  linkType: hard
+
+"p-locate@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "p-locate@npm:5.0.0"
+  dependencies:
+    p-limit: ^3.0.2
+  checksum: 1623088f36cf1cbca58e9b61c4e62bf0c60a07af5ae1ca99a720837356b5b6c5ba3eb1b2127e47a06865fee59dd0453cad7cc844cda9d5a62ac1a5a51b7c86d3
   languageName: node
   linkType: hard
 
@@ -6470,12 +6511,12 @@ fsevents@~2.3.2:
   languageName: node
   linkType: hard
 
-"ts-invariant@npm:^0.9.0":
-  version: 0.9.0
-  resolution: "ts-invariant@npm:0.9.0"
+"ts-invariant@npm:^0.10.3":
+  version: 0.10.3
+  resolution: "ts-invariant@npm:0.10.3"
   dependencies:
     tslib: ^2.1.0
-  checksum: 9292b437abb29d2fcc72f09d6bca04006ed6a661c5b6dd1d64a9a5bef87010f4272391b9bfc61ddef137d4c9b69cdf5132e17dabeed654c598954624415e2c93
+  checksum: bb07d56fe4aae69d8860e0301dfdee2d375281159054bc24bf1e49e513fb0835bf7f70a11351344d213a79199c5e695f37ebbf5a447188a377ce0cd81d91ddb5
   languageName: node
   linkType: hard
 
@@ -6937,6 +6978,13 @@ fsevents@~2.3.2:
   version: 20.2.4
   resolution: "yargs-parser@npm:20.2.4"
   checksum: d251998a374b2743a20271c2fd752b9fbef24eb881d53a3b99a7caa5e8227fcafd9abf1f345ac5de46435821be25ec12189a11030c12ee6481fef6863ed8b924
+  languageName: node
+  linkType: hard
+
+"yocto-queue@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "yocto-queue@npm:0.1.0"
+  checksum: f77b3d8d00310def622123df93d4ee654fc6a0096182af8bd60679ddcdfb3474c56c6c7190817c84a2785648cdee9d721c0154eb45698c62176c322fb46fc700
   languageName: node
   linkType: hard
 

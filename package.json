@@ -19,7 +19,7 @@
   ],
   "dependencies": {
     "@felte/solid": "^1.2.2",
-    "@linaria/core": "^3.0.0-beta.18",
+    "@linaria/core": "^3.0.0-beta.19",
     "date-fns": "^2.28.0",
     "focus-trap": "^6.9.3",
     "polished": "^4.2.2",
@@ -28,9 +28,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.18.2",
-    "@linaria/rollup": "^3.0.0-beta.18",
-    "@linaria/shaker": "^3.0.0-beta.18",
-    "@linaria/stylelint": "^3.0.0-beta.18",
+    "@linaria/rollup": "^3.0.0-beta.19",
+    "@linaria/shaker": "^3.0.0-beta.19",
+    "@linaria/stylelint": "^3.0.0-beta.19",
     "@types/chrome": "^0.0.188",
     "@types/node": "^16.11.36",
     "@typescript-eslint/eslint-plugin": "^5.26.0",
