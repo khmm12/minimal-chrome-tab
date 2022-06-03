@@ -1,5 +1,5 @@
 import { JSX, createMemo } from 'solid-js'
-import createDateTime from '@/hooks/createDateTime'
+import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
 import Show from '@/components/Show'
 import Milestone from './components/Milestone'
@@ -7,7 +7,7 @@ import * as time from './utils'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const dateTime = createDateTime({ every: 'minute' })
+  const dateTime = createCurrentDateTime({ updateEvery: 'minute' })
 
   const [settings] = createSettingsStorage()
 
