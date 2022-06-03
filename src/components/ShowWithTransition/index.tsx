@@ -34,7 +34,7 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
   const equals = <T extends any>(a: T, b: T): boolean => (strictEqual ? a === b : !a === !b)
 
   const condition = createMemo(() => when(), undefined, { equals })
-  const shouldShow = createMemo(() => !!when(), undefined, { equals })
+  const shouldShow = createMemo(() => !isNegative(when()), undefined, { equals })
 
   return createMemo(() => {
     if (shouldShow()) {
@@ -58,4 +58,8 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
       return props.fallback
     }
   })
+}
+
+function isNegative<T>(value: T | undefined | null | false): boolean {
+  return value == null || value === false
 }

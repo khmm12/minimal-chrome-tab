@@ -12,7 +12,7 @@ export default function Show<T>(props: ShowProps<T>): JSX.Element {
   const equals = <T extends any>(a: T, b: T): boolean => (strictEqual ? a === b : !a === !b)
 
   const condition = createMemo(() => props.when, undefined, { equals })
-  const shouldShow = createMemo(() => !!props.when, undefined, { equals })
+  const shouldShow = createMemo(() => !isNegative(props.when), undefined, { equals })
 
   return createMemo(() => {
     if (shouldShow()) {
@@ -27,4 +27,8 @@ export default function Show<T>(props: ShowProps<T>): JSX.Element {
     }
     return props.fallback
   }) as () => JSX.Element
+}
+
+function isNegative<T>(value: T | undefined | null | false): boolean {
+  return value == null || value === false
 }
