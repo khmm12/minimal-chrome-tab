@@ -1,7 +1,8 @@
-import { JSX, createEffect, onCleanup, useContext, createUniqueId } from 'solid-js'
+import { JSX, createEffect, onCleanup, useContext } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
 import { createFocusTrap } from 'focus-trap'
+import createUniqueIds from '@/hooks/createUniqueIds'
 import Show from '@/components/Show'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'
 import * as css from './styles'
@@ -36,9 +37,7 @@ export default function Modal(props: ModalProps): JSX.Element {
     }
   })
 
-  const ids = {
-    title: createUniqueId(),
-  }
+  const ids = createUniqueIds(['title'])
 
   return (
     <Portal>
