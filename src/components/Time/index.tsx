@@ -4,15 +4,15 @@ import createIntlFormatter from '@/hooks/createIntlFormatter'
 import * as css from './styles'
 
 export default function Time(): JSX.Element {
-  const int = createIntlFormatter()
+  const intl = createIntlFormatter()
 
   const dateTime = createDateTime({ every: 'second' })
 
   return (
     <div class={css.container}>
-      <span>{int.date(dateTime())}</span>
+      <span>{intl.date(dateTime())}</span>
       <span>
-        {int.date(dateTime(), {
+        {intl.date(dateTime(), {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
