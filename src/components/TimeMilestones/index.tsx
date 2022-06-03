@@ -1,36 +1,35 @@
-import { JSX, createMemo } from 'solid-js'
+import type { JSX } from 'solid-js'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
 import Show from '@/components/Show'
+import createTimeMilestones from './hooks/createTimeMilestones'
 import Milestone from './components/Milestone'
-import * as time from './utils'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const dateTime = createCurrentDateTime({ updateEvery: 'minute' })
-
   const [settings] = createSettingsStorage()
+  const currentDateTime = createCurrentDateTime({ updateEvery: 'minute' })
 
-  const getBirthDateMilestone = createMemo((): time.GetMilestone | null => {
-    const value = settings()?.birthDate
-    return value != null ? time.getBirthDayMilestone(new Date(value)) : null
+  const milestones = createTimeMilestones({
+    get currentDateTime() {
+      return currentDateTime()
+    },
+    get birthDate() {
+      return settings()?.birthDate
+    },
   })
-
-  const dayMilestone = createMemo(() => time.getDayMilestone(dateTime()))
-  const weekMilestone = createMemo(() => time.getWeekMilestone(dateTime()))
-  const monthMilestone = createMemo(() => time.getMonthMilestone(dateTime()))
-  const yearMilestone = createMemo(() => time.getYearMilestone(dateTime()))
-  const birthDateMilestone = createMemo(() => getBirthDateMilestone()?.(dateTime()))
 
   return (
     <div class={css.container}>
       <h1 class={css.title}>We're now through...</h1>
       <div class={css.items}>
-        <Milestone value={dayMilestone()} description="of day" />
-        <Milestone value={weekMilestone()} description="of week" />
-        <Milestone value={monthMilestone()} description="of month" />
-        <Milestone value={yearMilestone()} description="of year" />
-        <Show when={birthDateMilestone()}>{(milestone) => <Milestone value={milestone()} description="of dob" />}</Show>
+        <Milestone value={milestones.day()} description="of day" />
+        <Milestone value={milestones.week()} description="of week" />
+        <Milestone value={milestones.month()} description="of month" />
+        <Milestone value={milestones.year()} description="of year" />
+        <Show when={milestones.birthDate()}>
+          {(milestone) => <Milestone value={milestone()} description="of dob" />}
+        </Show>
       </div>
     </div>
   )
