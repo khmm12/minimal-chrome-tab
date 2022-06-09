@@ -1,17 +1,12 @@
-import { createSignal, JSX, onMount } from 'solid-js'
+import type { JSX } from 'solid-js'
 import { cx } from '@linaria/core'
-import './components/Fonts'
+import '@/components/Fonts'
 import * as css from './styles'
 
 interface LayoutProps {
-  children?: JSX.Element
+  children?: [header: JSX.Element, content: JSX.Element, footer: JSX.Element]
 }
 
-const containerCss = cx(css.global, css.container)
-
 export default function Layout(props: LayoutProps): JSX.Element {
-  const [isMounted, setMounted] = createSignal(false)
-  onMount(() => setMounted(true))
-
-  return <div class={cx(containerCss, isMounted() && css.mountedApp)}>{props.children}</div>
+  return <div class={cx(css.global, css.container)}>{props.children}</div>
 }

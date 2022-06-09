@@ -1,12 +1,12 @@
 import { Accessor, JSX, createMemo, untrack } from 'solid-js'
 
-interface ShowProps<T> {
+interface ReactiveShowProps<T> {
   when: T | undefined | null | false
   fallback?: JSX.Element
   children: JSX.Element | ((item: Accessor<NonNullable<T>>) => JSX.Element)
 }
 
-export default function Show<T>(props: ShowProps<T>): JSX.Element {
+export default function ReactiveShow<T>(props: ReactiveShowProps<T>): JSX.Element {
   let strictEqual = false
 
   const equals = <T extends any>(a: T, b: T): boolean => (strictEqual ? a === b : !a === !b)

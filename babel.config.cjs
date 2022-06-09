@@ -1,8 +1,9 @@
 module.exports = (api) => {
-  const linaria = api.caller((caller) => !!caller && caller.name === 'linaria')
+  const linaria = api.caller((caller) => caller?.name === 'linaria')
 
   if (linaria) {
     return {
+      presets: ['@babel/preset-typescript'],
       plugins: [
         [
           'module-resolver',

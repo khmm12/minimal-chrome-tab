@@ -13,6 +13,8 @@ export const button = css`
   background: none;
   border: none;
   cursor: pointer;
+  transform: rotate(0deg);
+  transition: 0.1s color ease-out;
 
   &:hover {
     color: ${black};
@@ -25,13 +27,15 @@ export const button = css`
       color: ${white};
     }
   }
+`
 
-  & > svg {
-    width: 100%;
-    height: 100%;
+export const svg = css`
+  width: 100%;
+  height: 100%;
+  transform: rotate(0deg);
+  transition: 0.1s transform ease-out;
 
-    & > path {
-      fill: currentColor;
-    }
+  .${button}:hover > & {
+    transform: rotate(22.5deg);
   }
 `

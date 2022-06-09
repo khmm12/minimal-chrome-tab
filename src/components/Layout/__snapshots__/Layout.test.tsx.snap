@@ -1,0 +1,17 @@
+// Vitest Snapshot v1
+
+exports[`Layout > renders correctly 1`] = `
+<div
+  class="global_g184xznc container_c7fober"
+>
+  <div>
+    Header
+  </div>
+  <div>
+    Content
+  </div>
+  <div>
+    Footer
+  </div>
+</div>
+`;

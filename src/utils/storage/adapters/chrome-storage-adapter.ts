@@ -1,14 +1,14 @@
 import StorageAdapter from './storage-adapter'
 
-const read = async (keys: string | Object | string[] | null): Promise<Record<string, any>> =>
-  await new Promise((resolve) => chrome.storage.local.get(keys, (items) => resolve(items)))
+const read = async (key: string): Promise<Record<string, any>> =>
+  await new Promise((resolve) => chrome.storage.local.get(key, (items) => resolve(items[key])))
 
 const write = async (key: string, value: any): Promise<void> =>
   await new Promise((resolve) => chrome.storage.local.set({ [key]: value }, resolve))
 
 export default class ChromeStorageAdapter<T> extends StorageAdapter<T> {
   static get isAvailable(): boolean {
-    return typeof chrome.storage !== 'undefined'
+    return typeof chrome !== 'undefined' && typeof chrome.storage !== 'undefined'
   }
 
   constructor(name: string, defaultValue: T) {
@@ -19,8 +19,7 @@ export default class ChromeStorageAdapter<T> extends StorageAdapter<T> {
   }
 
   async read(): Promise<T> {
-    const items = await read(this.name)
-    return items[this.name] ?? this.defaultValue
+    return ((await read(this.name)) as T | null) ?? this.defaultValue
   }
 
   async write(value: T): Promise<void> {

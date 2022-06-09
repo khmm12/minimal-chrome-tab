@@ -1,13 +1,13 @@
-const Cache = new WeakMap<Formatters, FormatterCache<Formatters>>()
-
 type Locales = string | string[]
 type Formatters = Intl.DateTimeFormat | Intl.NumberFormat
 
 type CacheFactory<TFormatter extends Formatters, TFormatOptions> = (
-  locales: Locales,
+  locales?: Locales,
   options?: TFormatOptions
 ) => TFormatter
 type FormatterCache<T extends Formatters> = Map<string, T>
+
+const Cache = new WeakMap<Formatters, FormatterCache<Formatters>>()
 
 export const getDateFormatter = /* @__PURE__ */ getFormatter<Intl.DateTimeFormat, Intl.DateTimeFormatOptions>(
   Intl.DateTimeFormat.prototype,
@@ -22,7 +22,7 @@ export const getNumberFormatter = /* @__PURE__ */ getFormatter<Intl.NumberFormat
 function getFormatter<TFormatter extends Formatters, TFormatOptions extends {}>(
   formatterProto: TFormatter,
   factory: CacheFactory<TFormatter, TFormatOptions>
-): (locales: Locales, options?: TFormatOptions) => TFormatter {
+): (locales?: Locales, options?: TFormatOptions) => TFormatter {
   const cache = getFormatterCache(formatterProto)
 
   return (locales, options) => {
@@ -46,7 +46,13 @@ function getFormatterCache<T extends Formatters>(formatterProto: T): FormatterCa
   return cache
 }
 
-function getCacheKey<T extends {}>(locales?: string | string[], options: Partial<T> = {}): string {
-  const localeKey = Array.isArray(locales) ? locales.slice().sort().join('-') : locales ?? '-'
-  return `${localeKey}-${JSON.stringify(options)}`
+function getCacheKey<T extends {}>(locales: string | string[] | undefined = '', options: Partial<T> = {}): string {
+  const separator = '-'
+  const localeKey = Array.isArray(locales) ? locales.slice().sort().join(separator) : locales
+  const optionsKey = JSON.stringify(options)
+
+  let key = ''
+  if (localeKey !== '') key += localeKey
+  if (optionsKey !== '') key += (key !== '' ? separator : '') + optionsKey
+  return key
 }

@@ -1,5 +1,5 @@
 import type { JSX } from 'solid-js'
-import round from '@/utils/round'
+import { round } from '@/utils/rounds'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
 import Bar from './components/Bar'
 import * as css from './styles'
@@ -12,9 +12,9 @@ interface MilestoneProps {
 const PercentFormatOptions = { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 }
 
 export default function Milestone(props: MilestoneProps): JSX.Element {
-  const intl = createIntlFormatter()
+  const format = createIntlFormatter()
 
-  const formatPercent = (value: number): string => intl.number(value, PercentFormatOptions)
+  const formatPercent = (value: number): string => format.number(value, PercentFormatOptions)
   const formatValue = (value: number): string => formatPercent(round(value, 2)).replaceAll(/\s/g, '')
 
   return (

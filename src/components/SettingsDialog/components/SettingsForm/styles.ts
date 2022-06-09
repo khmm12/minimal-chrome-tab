@@ -1,6 +1,6 @@
 import { css } from '@linaria/core'
-import { darken } from 'polished'
-import { dark1, white } from '@/theme/colors'
+import { darken, rgba } from 'polished'
+import { black, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'
 
 export const container = css`
@@ -24,15 +24,38 @@ export const input = css`
   font-family: inherit;
   font-size: 1.6rem;
   padding: 0.8rem 1.2rem;
+  color: ${black};
+  border: 1px solid ${black};
+  border-radius: 0.4rem;
 
   @media ${darkScheme} {
     color: ${white};
-    background: ${darken(0.05, dark1)};
-    border: none;
+    background: ${darken(0.85, white)};
+    border-color: ${white};
   }
 `
 
 export const button = css`
+  appearance: none;
+  background: none;
+  border-radius: 0.4rem;
+  border: 1px solid ${black};
+  color: ${black};
+  cursor: pointer;
+  font-size: 1.4rem;
   margin: 2.4rem 0 0;
   padding: 0.8rem 2.4rem;
+
+  &:hover {
+    background: ${rgba(black, 0.1)};
+  }
+
+  @media ${darkScheme} {
+    color: ${white};
+    border-color: ${white};
+
+    &:hover {
+      background: ${rgba(white, 0.1)};
+    }
+  }
 `

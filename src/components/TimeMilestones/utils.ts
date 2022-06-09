@@ -9,7 +9,7 @@ import {
   getYear,
   setYear,
 } from 'date-fns'
-import round from '@/utils/round'
+import { roundDown } from '@/utils/rounds'
 
 const PRECISION = 2
 
@@ -66,7 +66,7 @@ function milestone(getSecondsInEpoch: GetSecondsInEpoch, getStartOfEpoch: GetSta
   return (now) => {
     const secondsSinceStart = differenceInSeconds(now, getStartOfEpoch(now))
     const value = secondsSinceStart / getSecondsInEpoch(now)
-    return round(value, PRECISION)
+    return roundDown(value, PRECISION)
   }
 }
 

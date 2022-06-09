@@ -43,15 +43,6 @@ export const global = css`
   }
 `
 
-export const mountedApp = css`
-  :global() {
-    #app#app {
-      opacity: 1;
-      transition: opacity 0.1s ease-out;
-    }
-  }
-`
-
 export const container = css`
   height: 100%;
   width: 100%;
