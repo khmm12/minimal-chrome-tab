@@ -11,8 +11,8 @@
   <summary>Screenshots</summary>
 
   #### Light mode
-  ![Light mode](https://user-images.githubusercontent.com/4437249/109197737-6bb57100-77ae-11eb-914b-f473f38ffce6.png)
+  ![Light mode](https://user-images.githubusercontent.com/4437249/172926328-1e98d455-bf6f-4462-ae62-49b9cf75e79e.png)
 
   #### Dark mode
-  ![Dark mode](https://user-images.githubusercontent.com/4437249/109197745-6d7f3480-77ae-11eb-93a8-d2ff19b9ff81.png)
+  ![Dark mode](https://user-images.githubusercontent.com/4437249/172926315-99c183db-6c27-4c0b-9307-4af809f3c538.png)
 </details>
