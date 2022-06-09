@@ -1,7 +1,14 @@
-import { css } from '@linaria/core'
-import { rgba } from 'polished'
+import { css, CSSProperties } from '@linaria/core'
+import { darken, rgba } from 'polished'
 import { black, dark1, lightGrey, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'
+
+const overlayBackground = (opacity = 1): CSSProperties => ({
+  background: rgba(black, 0.5 * opacity),
+  [`@media ${darkScheme}`]: {
+    background: rgba(black, 0.1 * opacity),
+  },
+})
 
 export const overlay = css`
   position: fixed;
@@ -10,32 +17,28 @@ export const overlay = css`
   right: 0;
   top: 0;
   bottom: 0;
-  background: ${rgba(black, 0.5)};
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1.6rem 2.4rem;
-
-  @media ${darkScheme} {
-    background: ${rgba(black, 0.1)};
-  }
+  ${overlayBackground()}
 
   &.overlay-enter-active {
-    opacity: 0.3;
+    ${overlayBackground(0.3)}
   }
 
   &.overlay-enter-to {
-    opacity: 1;
-    transition: opacity 0.15s ease-out;
+    transition: background 0.15s ease-out;
+    ${overlayBackground()}
   }
 
   &.overlay-exit-active {
-    opacity: 1;
+    ${overlayBackground()}
   }
 
   &.overlay-exit-to {
-    opacity: 0.3;
-    transition: opacity 0.15s ease-out;
+    transition: background 0.15s ease-in;
+    ${overlayBackground(0.3)}
   }
 `
 
@@ -55,22 +58,26 @@ export const dialog = css`
     color: ${white};
   }
 
-  .${overlay}.overlay-enter-active & {
+  .overlay-enter-active > & {
     transform: scale(0.6);
+    opacity: 0.3;
   }
 
-  .${overlay}.overlay-enter-to & {
+  .overlay-enter-to > & {
     transform: scale(1);
-    transition: transform 0.15s ease-out;
+    opacity: 1;
+    transition: transform 0.15s ease-out, opacity 0.15s ease-out;
   }
 
-  .${overlay}.overlay-exit-active & {
+  .overlay-exit-active > & {
     transform: scale(1);
+    opacity: 1;
   }
 
-  .${overlay}.overlay-exit-to & {
+  .overlay-exit-to > & {
     transform: scale(0.6);
-    transition: transform 0.15s ease-out;
+    opacity: 0.3;
+    transition: transform 0.15s ease-in, opacity 0.15s ease-in;
   }
 `
 
@@ -83,14 +90,37 @@ export const header = css`
   border-bottom: 1px solid ${lightGrey};
 
   @media ${darkScheme} {
-    border-bottom-color: ${black};
+    border-bottom-color: ${darken(0.5, white)};
+  }
+`
+
+export const titleWrapper = css`
+  grid-area: title;
+  text-align: center;
+
+  &:empty {
+    display: none;
+  }
+`
+
+export const icon = css`
+  display: inline-block;
+  vertical-align: middle;
+  width: 3.2rem;
+  height: 3.2rem;
+  padding: 0.4rem;
+
+  & > * {
+    width: 100%;
+    height: 100%;
   }
 `
 
 export const title = css`
+  display: inline-block;
+  vertical-align: middle;
   font-size: 2rem;
-  grid-area: title;
-  text-align: center;
+  line-height: 3.2rem;
   margin: 0;
   font-weight: 500;
 `

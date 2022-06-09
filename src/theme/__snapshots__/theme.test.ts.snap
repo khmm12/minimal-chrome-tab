@@ -1,0 +1,27 @@
+// Vitest Snapshot v1
+
+exports[`colors 1`] = `
+{
+  "black": "#000000",
+  "dark1": "#202124",
+  "lightGrey": "#eeeeee",
+  "white": "#ffffff",
+  Symbol(Symbol.toStringTag): "Module",
+}
+`;
+
+exports[`fonts 1`] = `
+{
+  "Digital7Mono": "Digital-7Mono",
+  "HelveticaNeue": "\\"Helvetica Neue\\", Helvetica",
+  Symbol(Symbol.toStringTag): "Module",
+}
+`;
+
+exports[`media 1`] = `
+{
+  "beforeSmall": "(max-width: 599px)",
+  "darkScheme": "(prefers-color-scheme: dark)",
+  Symbol(Symbol.toStringTag): "Module",
+}
+`;

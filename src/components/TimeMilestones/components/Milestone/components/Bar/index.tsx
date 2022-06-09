@@ -1,5 +1,5 @@
 import { JSX, For, mergeProps, createMemo } from 'solid-js'
-import round from '@/utils/round'
+import { round } from '@/utils/rounds'
 import times from '@/utils/times'
 import * as css from './styles'
 

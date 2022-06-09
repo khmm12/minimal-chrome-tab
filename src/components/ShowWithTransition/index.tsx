@@ -7,12 +7,12 @@ interface ShowWithTransitionProps<T> {
 }
 
 interface ShowWithTransitionContextValue {
-  isOpened: () => boolean
+  isOpened: boolean
   onAfterExit: () => void
 }
 
 export const ShowWithTransitionContext = createContext<ShowWithTransitionContextValue>({
-  isOpened: () => true,
+  isOpened: true,
   onAfterExit: () => {},
 })
 
@@ -20,14 +20,14 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
   const [when, setWhen] = createSignal(props.when)
 
   createComputed(() => {
-    if (!!props.when || !when()) setWhen(() => props.when)
+    if (!isNegative(props.when) || isNegative(when())) setWhen(() => props.when)
   })
 
   const handleAfterExit = (): void => {
     setWhen(undefined)
   }
 
-  const isOpened = createMemo(() => !!props.when)
+  const isOpened = createMemo(() => !isNegative(props.when))
 
   let strictEqual = false
 
@@ -38,8 +38,15 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
 
   return createMemo(() => {
     if (shouldShow()) {
+      const value: ShowWithTransitionContextValue = {
+        get isOpened() {
+          return isOpened()
+        },
+        onAfterExit: handleAfterExit,
+      }
+
       return (
-        <ShowWithTransitionContext.Provider value={{ isOpened, onAfterExit: handleAfterExit }}>
+        <ShowWithTransitionContext.Provider value={value}>
           {
             createMemo(() => {
               const child = props.children

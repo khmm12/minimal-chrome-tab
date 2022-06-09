@@ -1,24 +1,25 @@
+import { createEffect, onCleanup, untrack } from 'solid-js'
 import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
-import { createEffect, onCleanup } from 'solid-js'
 
 export type Every = 'second' | 'minute' | 'hour'
 
-type Callback = () => void
+type IntervalTick = () => void
 
-interface Config {
+interface IntervalConfig {
   enabled: boolean
   every: Every
+  onTick: IntervalTick
 }
 
-type Strategy = (relative: number) => number
+type IntervalStrategy = (relative: number) => number
 
-const Strategies: Record<Every, Strategy> = {
+const Strategies: Record<Every, IntervalStrategy> = {
   second: (relative) => addSeconds(startOfSecond(relative), 1).valueOf(),
   minute: (relative) => addMinutes(startOfMinute(relative), 1).valueOf(),
   hour: (relative) => addHours(startOfHour(relative), 1).valueOf(),
 }
 
-export default function createInterval(fn: Callback, config: Config): void {
+export default function createInterval(config: IntervalConfig): void {
   let timeoutId: number | undefined
   let lastTickedAt = Date.now()
 
@@ -27,15 +28,15 @@ export default function createInterval(fn: Callback, config: Config): void {
   const schedule = (): void => {
     const delay = scheduledAt() - Date.now()
     if (delay <= 0) {
-      tick()
+      queueMicrotask(tick)
     } else {
-      timeoutId = setTimeout(tick, delay)
+      timeoutId = setTimeout(tick, delay) as unknown as number
     }
   }
 
   const tick = (): void => {
     timeoutId = undefined
-    fn()
+    untrack(() => config.onTick())
     lastTickedAt = Date.now()
     schedule()
   }

@@ -1,30 +1,31 @@
-import { Accessor, createMemo } from 'solid-js'
+import { createMemo } from 'solid-js'
+import asGetters from '@/utils/as-getters'
 import * as time from '../utils'
 
 interface TimeMilestones {
-  birthDate: Accessor<number | undefined>
-  day: Accessor<number>
-  month: Accessor<number>
-  week: Accessor<number>
-  year: Accessor<number>
+  readonly birthDate: number | undefined
+  readonly day: number
+  readonly month: number
+  readonly week: number
+  readonly year: number
 }
 
 interface CreateMilestonesConfig {
-  currentDateTime: Date
-  birthDate?: Date | string
+  readonly currentDateTime: Date
+  readonly birthDate?: Date | null
 }
 
 export default function createTimeMilestones(config: CreateMilestonesConfig): TimeMilestones {
   const getBirthDateMilestone = createMemo((): time.GetMilestone | null => {
     const value = config.birthDate
-    return value != null ? time.getBirthDayMilestone(new Date(value)) : null
+    return value != null ? time.getBirthDayMilestone(value) : null
   })
 
-  return {
+  return asGetters({
     birthDate: createMemo(() => getBirthDateMilestone()?.(config.currentDateTime)),
     day: createMemo(() => time.getDayMilestone(config.currentDateTime)),
     month: createMemo(() => time.getMonthMilestone(config.currentDateTime)),
     week: createMemo(() => time.getWeekMilestone(config.currentDateTime)),
     year: createMemo(() => time.getYearMilestone(config.currentDateTime)),
-  }
+  })
 }

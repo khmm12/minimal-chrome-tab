@@ -15,7 +15,9 @@ export default defineConfig({
     target: browserslistToEsbuild(),
   },
   resolve: {
-    alias: { '@': resolvePath(__dirname, './src') },
+    alias: {
+      '@': resolvePath(__dirname, './src'),
+    },
   },
   plugins: [
     linaria({ preprocessor: stylis, sourceMap: process.env.NODE_ENV !== 'production' }),

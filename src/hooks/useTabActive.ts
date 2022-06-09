@@ -1,4 +1,4 @@
-import { Accessor } from 'solid-js'
+import type { Accessor } from 'solid-js'
 import createSubscription from '@/hooks/createSubscription'
 
 const getTabState = (): boolean => !document.hidden

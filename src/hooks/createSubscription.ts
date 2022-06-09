@@ -1,4 +1,4 @@
-import { Accessor, createEffect, createSignal, onCleanup, untrack } from 'solid-js'
+import { Accessor, createEffect, createSignal, mergeProps, onCleanup, untrack } from 'solid-js'
 
 type Unsubscribe = () => void
 
@@ -13,22 +13,24 @@ interface Subscription<T> {
 const DefaultIdentity = <T>(a: T, b: T): boolean => Object.is(a, b)
 
 export default function createSubscription<T>(subscription: Subscription<T>): Accessor<T> {
-  const [value, setValue] = createSignal(subscription.getCurrentValue())
+  const resolved = mergeProps({ identity: DefaultIdentity as Identity<T> }, subscription)
+
+  const [value, setValue] = createSignal(resolved.getCurrentValue())
 
   const updateValue = (nextValue: T): void => {
-    const isEqual: Identity<T> = untrack(() => subscription.identity ?? DefaultIdentity)
+    const isEqual = untrack(() => resolved.identity)
     setValue((previous) => (isEqual(previous, nextValue) ? previous : nextValue))
   }
 
   createEffect(() => {
-    // Update value on mount and observe subscription changes
-    updateValue(subscription.getCurrentValue())
+    // Update value on mount and observe `getCurrentValue` only
+    updateValue(resolved.getCurrentValue())
   })
 
   createEffect(() => {
-    // Subscribe and observe subscribe only
-    const unsubscribe = subscription.subscribe(() => {
-      untrack(() => updateValue(subscription.getCurrentValue()))
+    // Subscribe and observe `subscribe` only
+    const unsubscribe = resolved.subscribe(() => {
+      untrack(() => updateValue(resolved.getCurrentValue()))
     })
     onCleanup(() => unsubscribe())
   })
