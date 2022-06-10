@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js'
-import { addHours, addMinutes, addSeconds, startOfHour, startOfMinute, startOfSecond } from 'date-fns'
+import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { renderHook } from '@test/helpers/solid'
 import createCurrentDateTime from './createCurrentDateTime'
 import useTabActive from './useTabActive'
@@ -70,20 +70,6 @@ describe('createCurrentDateTime', () => {
       vi.advanceTimersByTime(1000)
 
       expect(currentDateTime()).toEqual(addMinutes(date, 1))
-    })
-
-    it('can update every hour', () => {
-      const date = startOfHour(new Date())
-      vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'hour' }))
-
-      vi.advanceTimersByTime(1000 * 60 * 59)
-
-      expect(currentDateTime()).toEqual(date)
-
-      vi.advanceTimersByTime(1000 * 60)
-
-      expect(currentDateTime()).toEqual(addHours(date, 1))
     })
   })
 })

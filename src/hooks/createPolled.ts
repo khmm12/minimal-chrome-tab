@@ -1,25 +1,24 @@
 import { createEffect, onCleanup, untrack } from 'solid-js'
-import { startOfHour, startOfMinute, startOfSecond, addSeconds, addMinutes, addHours } from 'date-fns'
+import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 
-export type Every = 'second' | 'minute' | 'hour'
+export type Every = 'second' | 'minute'
 
-type IntervalTick = () => void
+type Tick = () => void
 
-interface IntervalConfig {
+interface PolledConfig {
   enabled: boolean
   every: Every
-  onTick: IntervalTick
+  onTick: Tick
 }
 
-type IntervalStrategy = (relative: number) => number
+type PolledStrategy = (relative: number) => number
 
-const Strategies: Record<Every, IntervalStrategy> = {
+const Strategies: Record<Every, PolledStrategy> = {
   second: (relative) => addSeconds(startOfSecond(relative), 1).valueOf(),
   minute: (relative) => addMinutes(startOfMinute(relative), 1).valueOf(),
-  hour: (relative) => addHours(startOfHour(relative), 1).valueOf(),
 }
 
-export default function createInterval(config: IntervalConfig): void {
+export default function createPolled(config: PolledConfig): void {
   let timeoutId: number | undefined
   let lastTickedAt = Date.now()
 
