@@ -8,16 +8,22 @@ import Milestone from './components/Milestone'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const [settings] = createSettingsStorage()
   const currentDateTime = createCurrentDateTime({ updateEvery: 'minute' })
+
+  const [settings] = createSettingsStorage()
+  const birthDate = createMemo(
+    () => {
+      const value = settings()?.birthDate
+      return value != null && value !== '' ? new Date(value) : null
+    },
+    undefined,
+    { equals: (a, b) => a?.valueOf() === b?.valueOf() }
+  )
 
   const milestones = createTimeMilestones(
     asGetters({
       currentDateTime,
-      birthDate: createMemo(() => {
-        const value = settings()?.birthDate
-        return value != null && value !== '' ? new Date(value) : null
-      }),
+      birthDate,
     })
   )
 
