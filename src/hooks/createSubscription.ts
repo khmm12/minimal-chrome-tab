@@ -15,22 +15,18 @@ const DefaultIdentity = <T>(a: T, b: T): boolean => Object.is(a, b)
 export default function createSubscription<T>(subscription: Subscription<T>): Accessor<T> {
   const resolved = mergeProps({ identity: DefaultIdentity as Identity<T> }, subscription)
 
-  const [value, setValue] = createSignal(resolved.getCurrentValue())
-
-  const updateValue = (nextValue: T): void => {
-    const isEqual = untrack(() => resolved.identity)
-    setValue((previous) => (isEqual(previous, nextValue) ? previous : nextValue))
-  }
+  const [value, setValue] = createSignal(resolved.getCurrentValue(), { equals: (a, b) => resolved.identity(a, b) })
 
   createEffect(() => {
     // Update value on mount and observe `getCurrentValue` only
-    updateValue(resolved.getCurrentValue())
+    setValue(() => resolved.getCurrentValue())
   })
 
   createEffect(() => {
     // Subscribe and observe `subscribe` only
     const unsubscribe = resolved.subscribe(() => {
-      untrack(() => updateValue(resolved.getCurrentValue()))
+      const nextValue = untrack(() => resolved.getCurrentValue())
+      setValue(() => nextValue)
     })
     onCleanup(() => unsubscribe())
   })

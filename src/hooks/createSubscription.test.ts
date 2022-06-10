@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createEffect, createSignal } from 'solid-js'
 import { renderHook, withRoot } from '@test/helpers/solid'
 import createSubscription from './createSubscription'
 
@@ -45,7 +45,6 @@ describe('createSubscription', () => {
 
   it("doesn't update value when identity function returns true", () => {
     let currentValue = 1
-
     const { value, trigger } = renderHook(() =>
       createContainer({
         getCurrentValue: () => currentValue,
@@ -53,11 +52,15 @@ describe('createSubscription', () => {
       })
     )
 
+    const onUpdate = vi.fn()
+    withRoot(() => createEffect(() => onUpdate(value())))
+
     trigger(() => {
       currentValue += 1
     })
 
     expect(value()).toBe(1)
+    expect(onUpdate).toBeCalledTimes(1) // including mount
   })
 
   it('unsubscribes on unmount', () => {
