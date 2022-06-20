@@ -1,4 +1,5 @@
 import type { JSX } from 'solid-js'
+import '@/components/GlobalStyles'
 import Footer from '@/components/Footer'
 import Layout from '@/components/Layout'
 import Time from '@/components/Time'

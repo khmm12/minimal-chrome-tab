@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit --pretty --project ."
   },
   "sideEffects": [
-    "src/components/Fonts/*",
+    "src/components/GlobalStyles/*",
     "*.css"
   ],
   "dependencies": {

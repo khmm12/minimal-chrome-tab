@@ -1,6 +1,4 @@
 import type { JSX } from 'solid-js'
-import { cx } from '@linaria/core'
-import '@/components/Fonts'
 import * as css from './styles'
 
 interface LayoutProps {
@@ -8,5 +6,5 @@ interface LayoutProps {
 }
 
 export default function Layout(props: LayoutProps): JSX.Element {
-  return <div class={cx(css.global, css.container)}>{props.children}</div>
+  return <div class={css.container}>{props.children}</div>
 }

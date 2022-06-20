@@ -2,7 +2,7 @@
 
 exports[`Layout > renders correctly 1`] = `
 <div
-  class="global_g184xznc container_c7fober"
+  class="container_c184xznc"
 >
   <div>
     Header
