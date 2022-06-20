@@ -24,7 +24,7 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
 
   return (
     <button class={css.button} type="button" title="Open settings" onClick={handleClick}>
-      <SettingsIcon ref={$svg} aria-hidden="true" class={css.svg} />
+      <SettingsIcon ref={$svg} aria-hidden class={css.svg} />
     </button>
   )
 }
