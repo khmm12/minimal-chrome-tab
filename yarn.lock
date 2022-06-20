@@ -4944,6 +4944,7 @@ __metadata:
     eslint-plugin-promise: ^6.0.0
     focus-trap: ^6.9.4
     jsdom: ^20.0.0
+    mq-polyfill: ^1.1.8
     npm-run-all: ^4.1.5
     polished: ^4.2.2
     prettier: ^2.7.1
@@ -5062,6 +5063,13 @@ __metadata:
   bin:
     mkdirp: bin/cmd.js
   checksum: a96865108c6c3b1b8e1d5e9f11843de1e077e57737602de1b82030815f311be11f96f09cce59bd5b903d0b29834733e5313f9301e3ed6d6f6fba2eae0df4298f
+  languageName: node
+  linkType: hard
+
+"mq-polyfill@npm:^1.1.8":
+  version: 1.1.8
+  resolution: "mq-polyfill@npm:1.1.8"
+  checksum: 8f2482f6fce891dad56603fb6c2016f1739e45b417b30f9a04c29905be64f040d9a16b2560ecfd9d181ac4c069f67c0d562edee604a8aab7b212ac642cee50d6
   languageName: node
   linkType: hard
 

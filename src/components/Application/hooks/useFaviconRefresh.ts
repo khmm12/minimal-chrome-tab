@@ -1,5 +1,6 @@
-import { Accessor, createEffect, onCleanup, onMount, untrack } from 'solid-js'
+import { Accessor, createEffect, on, onMount } from 'solid-js'
 import { darkScheme } from '@/theme/media'
+import createMediaQuery from '@/hooks/createMediaQuery'
 
 const RefreshKey = '__t__'
 
@@ -29,13 +30,8 @@ function useFavicon(): Accessor<HTMLLinkElement | null> {
  * It calls the given function when the browser's theme changes
  */
 function onThemeChange(fn: () => void): void {
-  createEffect(() => {
-    const mediaQuery = window.matchMedia(darkScheme)
-    const handleMediaChange = (): void => untrack(() => fn())
-
-    mediaQuery.addEventListener('change', handleMediaChange)
-    onCleanup(() => mediaQuery.removeEventListener('change', handleMediaChange))
-  })
+  const isDarkTheme = createMediaQuery(darkScheme)
+  createEffect(on(isDarkTheme, fn, { defer: true }))
 }
 
 /**
