@@ -3,10 +3,11 @@ import { createFocusTrap } from 'focus-trap'
 
 interface OverlayHooksConfig {
   readonly $overlay: HTMLElement | undefined
+  readonly $dialog: HTMLElement | undefined
   readonly onClose?: () => void
 }
 
-export default function useOverlayHooks(config: OverlayHooksConfig): void {
+export default function useDialogHooks(config: OverlayHooksConfig): void {
   createEffect(() => {
     const { $overlay } = config
     if ($overlay == null) return
@@ -24,7 +25,7 @@ export default function useOverlayHooks(config: OverlayHooksConfig): void {
 
   createEffect(() => {
     const handleDocumentClick = (e: MouseEvent): void => {
-      if (shouldClose(e, config.$overlay)) {
+      if (shouldClose(e, config.$dialog)) {
         e.stopPropagation()
         config.onClose?.()
       }
@@ -35,8 +36,7 @@ export default function useOverlayHooks(config: OverlayHooksConfig): void {
   })
 
   createEffect(() => {
-    const { $overlay } = config
-    const $dialog = $overlay?.firstChild as HTMLElement | null
+    const { $overlay, $dialog } = config
 
     if ($overlay != null && $dialog != null) {
       const focusTrap = createFocusTrap($overlay, {
@@ -49,11 +49,6 @@ export default function useOverlayHooks(config: OverlayHooksConfig): void {
   })
 }
 
-function shouldClose(e: MouseEvent, $overlay: HTMLElement | undefined): boolean {
-  return $overlay != null && e.target instanceof Node && !isOverlayDescendant($overlay, e.target)
-}
-
-function isOverlayDescendant($overlay: HTMLElement, node: Node): boolean {
-  for (const child of $overlay.children) if (child.contains(node)) return true
-  return false
+function shouldClose(e: MouseEvent, $dialog: HTMLElement | undefined): boolean {
+  return e.target instanceof Node && $dialog != null && !$dialog.contains(e.target)
 }

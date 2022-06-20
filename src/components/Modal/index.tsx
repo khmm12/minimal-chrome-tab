@@ -3,7 +3,7 @@ import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'
 import createUniqueIds from '@/hooks/createUniqueIds'
-import useOverlayHooks from './hooks/useOverlayHooks'
+import useDialogHooks from './hooks/useDialogHooks'
 import * as css from './styles'
 
 interface ModalProps {
@@ -19,22 +19,25 @@ export default function Modal(props: ModalProps): JSX.Element {
 
   const transition = useContext(ShowWithTransitionContext)
 
-  const handleCloseButtonClick = (e: MouseEvent): void => {
-    e.stopPropagation()
-    props.onClose?.()
-  }
-
-  useOverlayHooks({
-    get $overlay() {
-      return $overlay
-    },
-    onClose: () => props.onClose?.(),
-  })
-
   createEffect(() => {
     // Manually call if by some reasons animations are not supported
     if (typeof AnimationEvent === 'undefined' && !transition.isOpened) transition.onAfterExit()
   }, transition.isOpened)
+
+  useDialogHooks({
+    get $overlay() {
+      return $overlay
+    },
+    get $dialog() {
+      return $dialog
+    },
+    onClose: () => props.onClose?.(),
+  })
+
+  const handleCloseButtonClick = (e: MouseEvent): void => {
+    e.stopPropagation()
+    props.onClose?.()
+  }
 
   const ids = createUniqueIds(['title'])
 
