@@ -25,11 +25,11 @@ export default function createSettingsDialog(): CreateSettingsDialogReturnValue 
 
   return {
     $el: (
-      <Suspense>
-        <ShowWithTransition when={showSettings()}>
+      <ShowWithTransition when={showSettings()}>
+        <Suspense>
           <SettingsDialog onClose={handleSettingsClose} onSaved={handleSettingsSaved} />
-        </ShowWithTransition>
-      </Suspense>
+        </Suspense>
+      </ShowWithTransition>
     ),
     open: handleSettingsRequest,
   }

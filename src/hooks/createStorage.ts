@@ -5,12 +5,14 @@ type Mutator<T> = (previousState: T) => T
 
 type Set<T> = (value: T | Mutator<T>) => Promise<void>
 
-export type StorageReturn<T> = [value: Resource<T | undefined>, set: Set<T>]
+export type StorageReturn<T> = [value: Resource<T>, set: Set<T>]
 
 export { Storage }
 
 export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> {
-  const [resource, { mutate }] = createResource(async () => await storage.read())
+  const [resource, { mutate }] = createResource(async () => await storage.read(), {
+    initialValue: storage.defaultValue,
+  })
 
   const set: Set<T> = async (v: Mutator<T> | T) => {
     const mutator = typeof v === 'function' ? (v as Mutator<T>) : ((() => v) as Mutator<T>)
@@ -28,5 +30,5 @@ export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> 
   onMount(() => storage.subscribe(subscriber))
   onCleanup(() => storage.unsubscribe(subscriber))
 
-  return [resource, set]
+  return [resource as Resource<T>, set]
 }
