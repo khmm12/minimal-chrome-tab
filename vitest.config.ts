@@ -17,7 +17,7 @@ export default defineConfig({
       inline: [/solid-js/, '@felte/solid', 'solid-transition-group'],
     },
     coverage: {
-      exclude: ['.pnp.cjs', '.pnp.loader.mjs', 'test-support/**', ...configDefaults.coverage.exclude],
+      exclude: ['.pnp.cjs', '.pnp.loader.mjs', 'test-support/**', ...(configDefaults.coverage.exclude ?? [])],
     },
   },
   plugins: [
