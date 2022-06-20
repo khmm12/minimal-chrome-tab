@@ -16,10 +16,9 @@ interface CreateMilestonesConfig {
 }
 
 export default function createTimeMilestones(config: CreateMilestonesConfig): TimeMilestones {
-  const getBirthDateMilestone = createMemo((): time.GetMilestone | null => {
-    const value = config.birthDate
-    return value != null ? time.getBirthDayMilestone(value) : null
-  })
+  const getBirthDateMilestone = createMemo((): time.GetMilestone | null =>
+    config.birthDate != null ? time.getBirthDayMilestone(config.birthDate) : null
+  )
 
   return asGetters({
     birthDate: createMemo(() => getBirthDateMilestone()?.(config.currentDateTime)),

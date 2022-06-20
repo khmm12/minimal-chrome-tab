@@ -1,24 +1,15 @@
-import { JSX, createMemo } from 'solid-js'
+import type { JSX } from 'solid-js'
 import asGetters from '@/utils/as-getters'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
-import createSettingsStorage from '@/hooks/createSettingsStorage'
 import ReactiveShow from '@/components/ReactiveShow'
 import createTimeMilestones from './hooks/createTimeMilestones'
+import useBirthDate from './hooks/useBirthDate'
 import Milestone from './components/Milestone'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
   const currentDateTime = createCurrentDateTime({ updateEvery: 'minute' })
-
-  const [settings] = createSettingsStorage()
-  const birthDate = createMemo(
-    () => {
-      const value = settings()?.birthDate
-      return value != null && value !== '' ? new Date(value) : null
-    },
-    undefined,
-    { equals: (a, b) => a?.valueOf() === b?.valueOf() }
-  )
+  const birthDate = useBirthDate()
 
   const milestones = createTimeMilestones(
     asGetters({
