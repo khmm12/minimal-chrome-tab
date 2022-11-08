@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "packageManager": "yarn@3.2.4",
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "NODE_ENV=production vite build",

@@ -20,7 +20,12 @@ export default defineConfig((config) => ({
     },
   },
   plugins: [
-    linaria({ preprocessor: stylis, sourceMap: config.mode !== 'production' }),
+    linaria({
+      preprocessor: stylis,
+      evaluate: true,
+      displayName: config.mode !== 'production',
+      sourceMap: config.mode !== 'production',
+    }),
     solidPlugin(),
     createHtmlPlugin({ minify: true }),
     viteStaticCopy({

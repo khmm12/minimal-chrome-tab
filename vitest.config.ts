@@ -3,6 +3,10 @@ import { defineConfig, configDefaults } from 'vitest/config'
 import solidPlugin from 'vite-plugin-solid'
 import babelPlugin from 'vite-plugin-babel'
 
+const linariaConfig = {
+  displayName: true,
+}
+
 export default defineConfig({
   test: {
     setupFiles: ['test-support/setup.ts'],
@@ -25,7 +29,7 @@ export default defineConfig({
       hot: false,
       babel: {
         // Handle linaria in tsx
-        presets: ['@linaria/babel-preset'],
+        presets: [['@linaria/babel-preset', linariaConfig]],
       },
     }),
     // Handle linaria in other extensions
@@ -33,7 +37,7 @@ export default defineConfig({
       filter: /\.[cm]?[jt]s$/,
       babelConfig: {
         plugins: ['@babel/plugin-syntax-typescript'],
-        presets: ['@linaria/babel-preset'],
+        presets: [['@linaria/babel-preset', linariaConfig]],
       },
     }),
   ],
