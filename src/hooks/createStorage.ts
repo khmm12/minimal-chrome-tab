@@ -1,11 +1,11 @@
-import { Resource, createResource, onCleanup, onMount } from 'solid-js'
+import { createResource, onCleanup, onMount, InitializedResource } from 'solid-js'
 import Storage from '@/utils/storage'
 
 type Mutator<T> = (previousState: T) => T
 
 type Set<T> = (value: T | Mutator<T>) => Promise<void>
 
-export type StorageReturn<T> = [value: Resource<T>, set: Set<T>]
+export type StorageReturn<T> = [value: InitializedResource<T>, set: Set<T>]
 
 export { Storage }
 
@@ -30,5 +30,5 @@ export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> 
   onMount(() => storage.subscribe(subscriber))
   onCleanup(() => storage.unsubscribe(subscriber))
 
-  return [resource as Resource<T>, set]
+  return [resource, set]
 }

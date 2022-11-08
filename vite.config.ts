@@ -10,7 +10,7 @@ import manifestPlugin from './lib/vite/manifest-plugin'
 
 const stylis = new Stylis({ prefix: false })
 
-export default defineConfig({
+export default defineConfig((config) => ({
   build: {
     target: browserslistToEsbuild(),
   },
@@ -20,7 +20,7 @@ export default defineConfig({
     },
   },
   plugins: [
-    linaria({ preprocessor: stylis, sourceMap: process.env.NODE_ENV !== 'production' }),
+    linaria({ preprocessor: stylis, sourceMap: config.mode !== 'production' }),
     solidPlugin(),
     createHtmlPlugin({ minify: true }),
     viteStaticCopy({
@@ -35,4 +35,4 @@ export default defineConfig({
       sourcePath: resolvePath(__dirname, './src/manifest.json'),
     }),
   ],
-})
+}))
