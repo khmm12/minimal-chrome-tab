@@ -1,7 +1,7 @@
 import { resolve as resolvePath } from 'path'
 import { defineConfig } from 'vite'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
-import linaria from '@linaria/rollup'
+import linaria from '@linaria/vite'
 import solidPlugin from 'vite-plugin-solid'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import { viteStaticCopy } from 'vite-plugin-static-copy'

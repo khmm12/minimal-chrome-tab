@@ -1541,19 +1541,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@linaria/rollup@npm:^4.3.0":
-  version: 4.3.0
-  resolution: "@linaria/rollup@npm:4.3.0"
-  dependencies:
-    "@linaria/babel-preset": ^4.3.1
-    "@linaria/logger": ^4.0.0
-    "@linaria/utils": ^4.2.5
-    "@linaria/vite": ^4.2.3
-    "@rollup/pluginutils": ^4.1.0
-  checksum: 43bda153ae00ecaea4a4a845759b08999e8e06be57e1a1c51dd82469733d3ac768799851550a12f7a4dbcefcdf63f61cc979a18a91b5056a0ab00f059a18d22b
-  languageName: node
-  linkType: hard
-
 "@linaria/shaker@npm:^4.2.5":
   version: 4.2.5
   resolution: "@linaria/shaker@npm:4.2.5"
@@ -5029,8 +5016,8 @@ __metadata:
     "@felte/solid": ^1.2.6
     "@linaria/babel-preset": ^4.3.1
     "@linaria/core": ^4.2.3
-    "@linaria/rollup": ^4.3.0
     "@linaria/shaker": ^4.2.5
+    "@linaria/vite": ^4.2.3
     "@testing-library/dom": ^8.19.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/user-event": ^14.4.3
