@@ -1,4 +1,4 @@
-import { createEffect, JSX, on } from 'solid-js'
+import { createComputed, createEffect, JSX, on } from 'solid-js'
 import { createForm } from '@felte/solid'
 import toISODate from '@/utils/to-iso-date'
 import createUniqueIds from '@/hooks/createUniqueIds'
@@ -17,6 +17,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
     onSubmit: (values) => props.onSubmit(values),
   })
 
+  createComputed(() => props.initialValues) // Trigger suspense
   createEffect(
     on(
       () => props.initialValues,
