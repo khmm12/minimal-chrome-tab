@@ -6,9 +6,6 @@ module.exports = {
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
-      rules: {
-        '@typescript-eslint/strict-boolean-expressions': 0,
-      },
       parserOptions: {
         project: './tsconfig.json',
         sourceType: 'module',
