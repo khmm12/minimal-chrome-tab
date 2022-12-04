@@ -5,17 +5,18 @@ export default class Storage<T> implements IStorage<T> {
   protected readonly adapter: IStorageAdapter<T>
   protected readonly subscription = new StorageSubscribtion<T>()
 
-  public readonly name: string
-  public readonly defaultValue: T
-
   protected isLoaded = false
   protected currentValue: T
 
-  constructor(Adapter: IStorageAdapterConstructor<T>, name: string, defaultValue: T) {
-    this.name = name
+  public readonly defaultValue: T
+  public readonly name: string
+
+  constructor(Adapter: IStorageAdapterConstructor, name: string, defaultValue: T) {
+    this.adapter = new Adapter<T>(name, (value) => this.handleChanged(value))
+
     this.defaultValue = defaultValue
     this.currentValue = defaultValue
-    this.adapter = new Adapter(name, (value) => this.handleChanged(value))
+    this.name = name
 
     if (import.meta.env.TEST) {
       afterEach(async () => await this.refresh())

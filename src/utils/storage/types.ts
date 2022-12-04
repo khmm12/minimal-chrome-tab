@@ -35,4 +35,4 @@ export interface ISubscribableStorage<T> {
   unsubscribe: (subscriber: Subscriber<T>) => void
 }
 
-export type IStorageAdapterConstructor<T> = new (name: string, subscriber: Subscriber<T | null>) => IStorageAdapter<T>
+export type IStorageAdapterConstructor = new <T>(name: string, subscriber: Subscriber<T | null>) => IStorageAdapter<T>
