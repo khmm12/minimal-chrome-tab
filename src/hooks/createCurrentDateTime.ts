@@ -6,9 +6,9 @@ interface CurrentDateTimeConfig {
   updateEvery?: Every
 }
 
-const Defaults: Required<CurrentDateTimeConfig> = {
+const Defaults = {
   updateEvery: 'second',
-}
+} satisfies CurrentDateTimeConfig
 
 const getDate = (): Date => new Date()
 const isDateEqual = (a: Date, b: Date): boolean => a.valueOf() === b.valueOf()
