@@ -94,7 +94,9 @@ async function createContainer(props?: SettingsDialogProps) {
     </Suspense>
   ))
 
-  await waitForElementToBeRemoved(() => container.queryByText(/loading/i))
+  if (container.queryByText(/loading/i) != null) {
+    await waitForElementToBeRemoved(() => container.queryByText(/loading/i))
+  }
 
   return { ...container, user }
 }

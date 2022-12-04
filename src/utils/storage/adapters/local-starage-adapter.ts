@@ -1,42 +1,41 @@
-import { name as PackageName } from '@/../package.json'
-import StorageAdapter from './storage-adapter'
+import getPackageName from '@/utils/get-package-name'
+import type { IStorageAdapter, Subscriber } from '../types'
 
-export default class LocalStorageAdapter<T> extends StorageAdapter<T> {
-  constructor(name: string, defaultValue: T) {
-    super(name, defaultValue)
-
+export default class LocalStorageAdapter<T> implements IStorageAdapter<T> {
+  constructor(protected readonly name: string, protected readonly subscriber: Subscriber<T | null>) {
     this.handleChanged = this.handleChanged.bind(this)
     window.addEventListener('storage', this.handleChanged)
   }
 
-  async read(): Promise<T> {
+  read(): T | null {
     return this.parse(localStorage.getItem(this.storageKey))
   }
 
-  async write(value: T): Promise<void> {
-    localStorage.setItem(this.storageKey, JSON.stringify(value))
-    await super.write(value)
+  write(value: T): void {
+    localStorage.setItem(this.storageKey, this.serialize(value))
   }
 
   dispose(): void {
     window.removeEventListener('storage', this.handleChanged)
-    super.dispose()
   }
 
   protected get storageKey(): string {
-    return `${PackageName}:${this.name}`
+    return `${getPackageName()}:${this.name}`
   }
 
-  protected parse(val: any): T {
+  protected parse(val: any): T | null {
     try {
-      return JSON.parse(val) ?? this.defaultValue
+      return JSON.parse(val) ?? null
     } catch {
-      return this.defaultValue
+      return null
     }
   }
 
+  protected serialize(value: T): string {
+    return JSON.stringify(value)
+  }
+
   protected handleChanged(e: StorageEvent): void {
-    if (e.key !== this.storageKey) return
-    this.subscription.notify(this.parse(e.newValue))
+    if (e.key === this.storageKey) this.subscriber(this.parse(e.newValue))
   }
 }

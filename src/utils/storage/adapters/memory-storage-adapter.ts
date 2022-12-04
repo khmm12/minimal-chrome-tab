@@ -1,19 +1,13 @@
-import StorageAdapter from './storage-adapter'
+import type { IStorageAdapter } from '../types'
 
-export default class MemoryStorageAdapter<T> extends StorageAdapter<T> {
-  protected value: T
+export default class MemoryStorageAdapter<T> implements IStorageAdapter<T> {
+  protected value: T | null = null
 
-  constructor(name: string, defaultValue: T) {
-    super(name, defaultValue)
-    this.value = defaultValue
-  }
-
-  async read(): Promise<T> {
+  read(): T | null {
     return this.value
   }
 
-  async write(value: T): Promise<void> {
+  write(value: T): void {
     this.value = value
-    await super.write(value)
   }
 }
