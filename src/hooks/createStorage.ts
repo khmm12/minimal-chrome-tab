@@ -7,8 +7,6 @@ type Set<T> = (value: T | Mutator<T>) => Promise<void>
 
 export type StorageReturn<T> = [value: InitializedResource<T>, set: Set<T>]
 
-export { Storage }
-
 export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> {
   const [resource, { mutate }] = createResource(async () => await storage.read(), {
     initialValue: storage.defaultValue,

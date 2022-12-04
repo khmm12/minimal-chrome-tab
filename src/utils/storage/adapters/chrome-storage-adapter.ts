@@ -7,10 +7,6 @@ const write = async (key: string, value: any): Promise<void> =>
   await new Promise((resolve) => chrome.storage.local.set({ [key]: value }, resolve))
 
 export default class ChromeStorageAdapter<T> extends StorageAdapter<T> {
-  static get isAvailable(): boolean {
-    return typeof chrome !== 'undefined' && typeof chrome.storage !== 'undefined'
-  }
-
   constructor(name: string, defaultValue: T) {
     super(name, defaultValue)
 

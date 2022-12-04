@@ -2,10 +2,6 @@ import { name as PackageName } from '@/../package.json'
 import StorageAdapter from './storage-adapter'
 
 export default class LocalStorageAdapter<T> extends StorageAdapter<T> {
-  static get isAvailable(): boolean {
-    return typeof localStorage !== 'undefined'
-  }
-
   constructor(name: string, defaultValue: T) {
     super(name, defaultValue)
 
