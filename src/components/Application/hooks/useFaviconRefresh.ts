@@ -1,6 +1,6 @@
-import { Accessor, createEffect, on, onMount } from 'solid-js'
-import { darkScheme } from '@/theme/media'
+import { type Accessor, createEffect, on, onMount } from 'solid-js'
 import createMediaQuery from '@/hooks/createMediaQuery'
+import { darkScheme } from '@/theme/media'
 
 const RefreshKey = '__t__'
 

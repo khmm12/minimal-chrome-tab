@@ -1,4 +1,4 @@
-import { css, CSSProperties } from '@linaria/core'
+import { css, type CSSProperties } from '@linaria/core'
 import { darken, rgba } from 'polished'
 import { black, dark1, lightGrey, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'

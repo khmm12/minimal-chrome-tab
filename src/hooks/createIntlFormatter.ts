@@ -1,5 +1,5 @@
-import * as intl from '@/utils/intl'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import * as intl from '@/utils/intl'
 
 interface IntlFormatter {
   date: (date?: number | Date, options?: Intl.DateTimeFormatOptions) => string

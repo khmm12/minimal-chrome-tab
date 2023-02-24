@@ -1,5 +1,5 @@
+import { fireEvent, renderHook } from '@test/helpers/solid'
 import type { SpyInstance } from 'vitest'
-import { renderHook, fireEvent } from '@test/helpers/solid'
 import useTabActive from './useTabActive'
 
 let isHidden: SpyInstance<[], boolean>
@@ -14,13 +14,13 @@ afterEach(() => {
 
 describe('useTabActive', () => {
   it('returns tab state', async () => {
-    const isActive = renderHook(() => useTabActive())
+    const isActive = renderHook(() => useTabActive()).result
 
     expect(isActive()).toBeTruthy()
   })
 
   it('reflects to tab state', async () => {
-    const isActive = renderHook(() => useTabActive())
+    const isActive = renderHook(() => useTabActive()).result
 
     isHidden.mockReturnValue(true)
     fireEvent(document, new Event('visibilitychange'))

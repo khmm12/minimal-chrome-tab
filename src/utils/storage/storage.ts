@@ -12,14 +12,18 @@ export default class Storage<T> implements IStorage<T> {
   public readonly name: string
 
   constructor(Adapter: IStorageAdapterConstructor, name: string, defaultValue: T) {
-    this.adapter = new Adapter<T>(name, (value) => this.handleChanged(value))
+    this.adapter = new Adapter<T>(name, (value) => {
+      this.handleChanged(value)
+    })
 
     this.defaultValue = defaultValue
     this.currentValue = defaultValue
     this.name = name
 
     if (import.meta.env.TEST) {
-      afterEach(async () => await this.refresh())
+      afterEach(async () => {
+        await this.refresh()
+      })
     }
   }
 
@@ -58,7 +62,9 @@ export default class Storage<T> implements IStorage<T> {
 
   subscribe(subscriber: Subscriber<T>): Unsubscribe {
     this.subscription.subscribe(subscriber)
-    return () => this.subscription.unsubscribe(subscriber)
+    return () => {
+      this.subscription.unsubscribe(subscriber)
+    }
   }
 
   unsubscribe(subscriber: Subscriber<T>): void {

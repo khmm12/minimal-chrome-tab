@@ -1,4 +1,4 @@
-import { JSX, For, mergeProps, createMemo } from 'solid-js'
+import { createMemo, For, type JSX, mergeProps } from 'solid-js'
 import { round } from '@/utils/rounds'
 import times from '@/utils/times'
 import * as css from './styles'

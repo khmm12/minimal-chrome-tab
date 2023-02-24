@@ -1,7 +1,7 @@
-import { JSX, Suspense } from 'solid-js'
-import createSettingsStorage, { Settings } from '@/hooks/createSettingsStorage'
-import Modal from '@/components/Modal'
+import { type JSX, Suspense } from 'solid-js'
 import { SettingsIcon } from '@/components/Icon'
+import Modal from '@/components/Modal'
+import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
 import SettingsForm from './components/SettingsForm'
 
 export interface SettingsDialogProps {

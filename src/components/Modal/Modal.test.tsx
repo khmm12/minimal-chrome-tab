@@ -1,5 +1,5 @@
-import { createSignal } from 'solid-js'
 import { fireEvent, render, renderHook, screen } from '@test/helpers/solid'
+import { createSignal } from 'solid-js'
 import ShowWithTransition from '@/components/ShowWithTransition'
 import Modal from '.'
 
@@ -51,7 +51,7 @@ describe('Modal', () => {
   })
 
   it('supports `ShowWithTransition` component', async () => {
-    const [shouldOpen, setShouldOpen] = renderHook(() => createSignal(false))
+    const [shouldOpen, setShouldOpen] = renderHook(() => createSignal(false)).result
     render(() => (
       <ShowWithTransition when={shouldOpen()}>
         <Modal title="">Modal content</Modal>

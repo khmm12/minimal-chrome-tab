@@ -1,6 +1,6 @@
 import type { JSX } from 'solid-js'
-import { round } from '@/utils/rounds'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
+import { round } from '@/utils/rounds'
 import Bar from './components/Bar'
 import * as css from './styles'
 

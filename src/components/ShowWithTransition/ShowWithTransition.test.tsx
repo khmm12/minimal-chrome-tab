@@ -1,5 +1,5 @@
-import { Accessor, createSignal, JSX, useContext } from 'solid-js'
 import { render } from '@test/helpers/solid'
+import { type Accessor, createSignal, type JSX, useContext } from 'solid-js'
 import ShowWithTransition, { ShowWithTransitionContext } from '.'
 
 describe('ShowWithTransition', () => {
@@ -50,7 +50,7 @@ describe('ShowWithTransition', () => {
   })
 
   it('creates a context', () => {
-    let context: typeof ShowWithTransitionContext['defaultValue'] = ShowWithTransitionContext.defaultValue
+    let context: (typeof ShowWithTransitionContext)['defaultValue'] = ShowWithTransitionContext.defaultValue
     const [value, setValue] = createSignal(true)
     const child = (): null => {
       context = useContext(ShowWithTransitionContext)
@@ -67,7 +67,7 @@ describe('ShowWithTransition', () => {
   })
 
   it('removes child after transiton end only', () => {
-    let context: typeof ShowWithTransitionContext['defaultValue'] = ShowWithTransitionContext.defaultValue
+    let context: (typeof ShowWithTransitionContext)['defaultValue'] = ShowWithTransitionContext.defaultValue
     const [value, setValue] = createSignal(true)
     const child = (): JSX.Element => {
       context = useContext(ShowWithTransitionContext)

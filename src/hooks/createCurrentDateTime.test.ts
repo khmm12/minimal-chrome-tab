@@ -1,6 +1,6 @@
-import { createSignal } from 'solid-js'
-import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { renderHook } from '@test/helpers/solid'
+import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
+import { createSignal } from 'solid-js'
 import createCurrentDateTime from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 
@@ -18,17 +18,18 @@ afterEach(() => {
 
 describe('createCurrentDateTime', () => {
   it('returns current date time', () => {
-    const currentDateTime = renderHook(() => createCurrentDateTime())
+    const currentDateTime = renderHook(() => createCurrentDateTime()).result
 
     expect(currentDateTime()).toEqual(new Date())
   })
 
   it('pauses when browser tab is not active', () => {
     const [currentDateTime, setIsActive] = renderHook(() => {
-      const [isActive, setIsActive] = renderHook(() => createSignal(true))
+      const [isActive, setIsActive] = renderHook(() => createSignal(true)).result
+
       vi.mocked(useTabActive).mockImplementation(() => isActive)
-      return [createCurrentDateTime(), setIsActive]
-    })
+      return [createCurrentDateTime(), setIsActive] as const
+    }).result
 
     const initial = currentDateTime()
 
@@ -47,7 +48,7 @@ describe('createCurrentDateTime', () => {
     it('can update every second', () => {
       const date = startOfSecond(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'second' }))
+      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'second' })).result
 
       vi.advanceTimersByTime(990)
 
@@ -61,7 +62,7 @@ describe('createCurrentDateTime', () => {
     it('can update every minute', () => {
       const date = startOfMinute(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'minute' }))
+      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'minute' })).result
 
       vi.advanceTimersByTime(1000 * 59)
 

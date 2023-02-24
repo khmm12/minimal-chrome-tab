@@ -1,5 +1,5 @@
-import { createMemo, Accessor } from 'solid-js'
-import createSettingsStorage, { Settings } from '@/hooks/createSettingsStorage'
+import { type Accessor, createMemo } from 'solid-js'
+import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
 
 type BirthDateAccessor = Accessor<Date | null> & {
   loading: boolean

@@ -1,5 +1,10 @@
-import { createResource, onCleanup, onMount, InitializedResource } from 'solid-js'
-import { IWritableStorage, IDisposableStorage, IMemorableStorage, ISubscribableStorage } from '@/utils/storage'
+import { createResource, type InitializedResource, onCleanup, onMount } from 'solid-js'
+import {
+  type IDisposableStorage,
+  type IMemorableStorage,
+  type ISubscribableStorage,
+  type IWritableStorage,
+} from '@/utils/storage'
 
 type Storage<T> = IWritableStorage<T> & IMemorableStorage<T> & ISubscribableStorage<T> & IDisposableStorage
 type Mutator<T> = (previousState: T) => T

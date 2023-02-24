@@ -8,7 +8,9 @@ export default function useTabActive(): Accessor<boolean> {
     getCurrentValue: getTabState,
     subscribe(fn) {
       document.addEventListener('visibilitychange', fn)
-      return () => document.removeEventListener('visibilitychange', fn)
+      return () => {
+        document.removeEventListener('visibilitychange', fn)
+      }
     },
   })
 

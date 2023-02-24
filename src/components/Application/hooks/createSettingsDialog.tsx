@@ -1,4 +1,4 @@
-import { JSX, Suspense, createSignal, lazy } from 'solid-js'
+import { createSignal, type JSX, lazy, Suspense } from 'solid-js'
 import ShowWithTransition from '@/components/ShowWithTransition'
 
 const SettingsDialog = lazy(async () => await import('@/components/SettingsDialog'))

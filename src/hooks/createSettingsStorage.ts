@@ -1,4 +1,4 @@
-import createStorage, { StorageReturn } from '@/hooks/createStorage'
+import createStorage, { type StorageReturn } from '@/hooks/createStorage'
 import Storage, { getLazyStorageAdapter } from '@/utils/storage'
 
 export interface Settings {

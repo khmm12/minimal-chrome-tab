@@ -1,8 +1,8 @@
-import { createComputed, createEffect, JSX, on } from 'solid-js'
+import { createComputed, createEffect, type JSX, on } from 'solid-js'
 import { createForm } from '@felte/solid'
-import toISODate from '@/utils/to-iso-date'
-import createUniqueIds from '@/hooks/createUniqueIds'
 import type { Settings } from '@/hooks/createSettingsStorage'
+import createUniqueIds from '@/hooks/createUniqueIds'
+import toISODate from '@/utils/to-iso-date'
 import * as css from './styles'
 
 interface SettingsFormProps {

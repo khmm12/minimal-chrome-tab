@@ -1,4 +1,4 @@
-import { JSX, onCleanup } from 'solid-js'
+import { type JSX, onCleanup } from 'solid-js'
 import { SettingsIcon } from '@/components/Icon'
 import * as css from './styles'
 

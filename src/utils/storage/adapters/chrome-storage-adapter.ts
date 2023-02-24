@@ -1,10 +1,13 @@
 import type { IStorageAdapter, Subscriber } from '../types'
 
-const read = async (key: string): Promise<Record<string, any>> =>
-  await new Promise<Record<string, any>>((resolve) => chrome.storage.local.get(key, (items) => resolve(items[key])))
+const read = async (key: string): Promise<Record<string, any>> => {
+  const items = await chrome.storage.local.get(key)
+  return items[key]
+}
 
-const write = async (key: string, value: any): Promise<void> =>
-  await new Promise((resolve) => chrome.storage.local.set({ [key]: value }, resolve))
+const write = async (key: string, value: any): Promise<void> => {
+  await chrome.storage.local.set({ [key]: value })
+}
 
 export default class ChromeStorageAdapter<T> implements IStorageAdapter<T> {
   constructor(protected readonly name: string, protected readonly subscriber: Subscriber<T | null>) {

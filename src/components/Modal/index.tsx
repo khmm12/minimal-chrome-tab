@@ -1,4 +1,4 @@
-import { JSX, Show, createEffect, useContext } from 'solid-js'
+import { createEffect, type JSX, Show, useContext } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'

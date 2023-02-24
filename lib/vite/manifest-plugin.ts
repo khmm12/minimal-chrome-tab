@@ -1,6 +1,6 @@
-import { resolve as resolvePath } from 'path'
-import { Plugin } from 'vite'
-import fs from 'fs/promises'
+import fs from 'node:fs/promises'
+import { resolve as resolvePath } from 'node:path'
+import { type Plugin } from 'vite'
 
 interface ManifestPluginOptions {
   sourcePath: string
@@ -9,7 +9,7 @@ interface ManifestPluginOptions {
 
 export default function manifestPlugin(options: ManifestPluginOptions): Plugin {
   return {
-    name: 'wirteExrensionManifest',
+    name: 'writeExtensionManifest',
     async generateBundle() {
       const source = await generateManifest(options)
 

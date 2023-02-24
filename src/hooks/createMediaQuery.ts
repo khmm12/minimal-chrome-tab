@@ -1,4 +1,4 @@
-import { Accessor, createMemo } from 'solid-js'
+import { type Accessor, createMemo } from 'solid-js'
 import createSubscription from './createSubscription'
 
 type MediaQuery = Accessor<boolean> & {
@@ -13,7 +13,9 @@ export default function createMediaQuery(query: string): MediaQuery {
     subscribe(fn) {
       const mq = mediaQueryList()
       mq.addEventListener('change', fn)
-      return () => mq.removeEventListener('change', fn)
+      return () => {
+        mq.removeEventListener('change', fn)
+      }
     },
   })
 

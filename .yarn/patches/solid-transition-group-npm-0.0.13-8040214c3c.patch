@@ -1,0 +1,16 @@
+diff --git a/package.json b/package.json
+index 3e122c5009bc6fd6b803a9c6abe0a26cb1682d51..bac274df8192e09dd5d1f16cd1bb7596319e19af 100644
+--- a/package.json
++++ b/package.json
+@@ -13,6 +13,11 @@
+   "main": "dist/solid-transition-group.cjs",
+   "module": "dist/solid-transition-group.js",
+   "types": "types/index.d.ts",
++  "exports": {
++    "types": "./types/index.d.ts",
++    "import": "./dist/solid-transition-group.js",
++    "require": "./dist/solid-transition-group.cjs"
++  },
+   "files": [
+     "dist",
+     "types"
