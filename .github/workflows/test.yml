@@ -2,36 +2,16 @@ name: Test
 on:
   push: {}
 jobs:
-  lint:
-    name: Linting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install --immutable
-      - name: Run linters
-        run: yarn lint
-  typecheck:
-    name: Type checking
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-          cache: 'yarn'
-      - name: Install dependencies
-        run: yarn install --immutable
-      - name: Check types
-        run: yarn typecheck
   tests:
-    name: Tests
+    strategy:
+      matrix:
+        step:
+          - name: Lint
+            command: yarn lint
+          - name: Typecheck
+            command: yarn typecheck
+          - name: Unit tests
+            command: yarn unit-tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -39,8 +19,16 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'yarn'
+      - name: Get Yarn cache directory
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - name: Use Yarn Cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-cache-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
+          restore-keys: yarn-cache-
       - name: Install dependencies
         run: yarn install --immutable
-      - name: Run tests
-        run: yarn unit-tests
+      - name: ${{ matrix.step.name }}
+        run: ${{ matrix.step.command }}
