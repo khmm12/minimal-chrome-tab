@@ -1,5 +1,5 @@
-import { JSX, Accessor, createSignal } from 'solid-js'
 import { render } from '@test/helpers/solid'
+import { type Accessor, createSignal, type JSX } from 'solid-js'
 import ReactiveShow from '.'
 
 describe('ReactiveShow', () => {

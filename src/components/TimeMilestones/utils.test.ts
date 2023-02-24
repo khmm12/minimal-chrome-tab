@@ -1,5 +1,5 @@
-import * as R from 'remeda'
 import * as D from 'date-fns/fp'
+import * as R from 'remeda'
 import { getBirthDayMilestone, getDayMilestone, getMonthMilestone, getWeekMilestone, getYearMilestone } from './utils'
 
 describe('getDayMilestone', () => {

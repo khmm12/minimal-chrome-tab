@@ -1,7 +1,7 @@
 import { css } from '@linaria/core'
-import { white, dark1 } from '@/theme/colors'
+import { dark1, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'
-import './fonts/Digital7Mono'
+import './fonts/Digital7Mono/index.css'
 
 css`
   :global() {

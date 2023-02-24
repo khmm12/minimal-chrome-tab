@@ -4,7 +4,9 @@ export default class StorageSubscribtion<T> {
   protected subscribers: Array<Subscriber<T>> = []
 
   notify(value: T): void {
-    this.subscribers.forEach((subscriber) => subscriber(value))
+    this.subscribers.forEach((subscriber) => {
+      subscriber(value)
+    })
   }
 
   subscribe(subscriber: Subscriber<T>): void {

@@ -1,5 +1,5 @@
-import getDocumentLanguage from './get-document-language'
 import getCurrentLocale from './get-current-locale'
+import getDocumentLanguage from './get-document-language'
 
 vi.mock('@/utils/get-current-locale')
 

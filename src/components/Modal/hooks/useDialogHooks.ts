@@ -1,5 +1,5 @@
-import { createEffect, onCleanup } from 'solid-js'
 import { createFocusTrap } from 'focus-trap'
+import { createEffect, onCleanup } from 'solid-js'
 
 interface OverlayHooksConfig {
   readonly $overlay: HTMLElement | undefined
@@ -20,7 +20,9 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
     }
 
     $overlay.addEventListener('keydown', handleKeyDown)
-    onCleanup(() => $overlay.removeEventListener('keydown', handleKeyDown))
+    onCleanup(() => {
+      $overlay.removeEventListener('keydown', handleKeyDown)
+    })
   })
 
   createEffect(() => {
@@ -32,7 +34,9 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
     }
 
     document.addEventListener('click', handleDocumentClick, true)
-    onCleanup(() => document.removeEventListener('click', handleDocumentClick, true))
+    onCleanup(() => {
+      document.removeEventListener('click', handleDocumentClick, true)
+    })
   })
 
   createEffect(() => {

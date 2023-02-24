@@ -1,10 +1,10 @@
 import type { JSX } from 'solid-js'
-import asGetters from '@/utils/as-getters'
-import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import ReactiveShow from '@/components/ReactiveShow'
+import createCurrentDateTime from '@/hooks/createCurrentDateTime'
+import asGetters from '@/utils/as-getters'
+import Milestone from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
 import useBirthDate from './hooks/useBirthDate'
-import Milestone from './components/Milestone'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {

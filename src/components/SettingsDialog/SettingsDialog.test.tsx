@@ -1,10 +1,10 @@
+import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
+import { format } from 'date-fns'
 import { Suspense } from 'solid-js'
 import userEvent from '@testing-library/user-event'
-import { format } from 'date-fns'
-import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
+import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
 import toISODate from '@/utils/to-iso-date'
-import createSettingsStorage, { Settings } from '@/hooks/createSettingsStorage'
-import SettingsDialog, { SettingsDialogProps } from '.'
+import SettingsDialog, { type SettingsDialogProps } from '.'
 
 afterEach(() => {
   vi.resetAllMocks()
@@ -35,7 +35,7 @@ describe('SettingsDialog', () => {
       await fillSettings({ birthDate })
       await createContainer()
 
-      await expect(screen.getByLabelText('Birth date')).toHaveValue(getInputDateValue(birthDate))
+      expect(screen.getByLabelText('Birth date')).toHaveValue(getInputDateValue(birthDate))
     })
 
     it('rejects invalid birth date', async () => {
@@ -43,7 +43,7 @@ describe('SettingsDialog', () => {
 
       await user.type(screen.getByLabelText('Birth date'), 'not birth date')
 
-      await expect(screen.getByLabelText('Birth date')).toHaveValue('')
+      expect(screen.getByLabelText('Birth date')).toHaveValue('')
     })
 
     it('accepts valid birth date', async () => {
@@ -52,7 +52,7 @@ describe('SettingsDialog', () => {
 
       await user.type(screen.getByLabelText('Birth date'), birthDate)
 
-      await expect(screen.getByLabelText('Birth date')).toHaveValue(birthDate)
+      expect(screen.getByLabelText('Birth date')).toHaveValue(birthDate)
     })
 
     it('allows to clear birth date', async () => {
@@ -61,19 +61,21 @@ describe('SettingsDialog', () => {
 
       await user.clear(screen.getByLabelText('Birth date'))
 
-      await expect(screen.getByLabelText('Birth date')).toHaveValue('')
+      expect(screen.getByLabelText('Birth date')).toHaveValue('')
     })
 
     it('saves values and notifies parent', async () => {
       const birthDate = toISODate(new Date())
       const handleSaved = vi.fn()
-      const [settings] = renderHook(() => createSettingsStorage())
+      const [settings] = renderHook(() => createSettingsStorage()).result
       const { user } = await createContainer({ onSaved: handleSaved })
 
       await user.type(screen.getByLabelText('Birth date'), getInputDateValue(birthDate))
 
       await user.click(screen.getByText(/Save/))
-      await waitFor(() => expect(screen.getByText(/Save/)).not.toBeDisabled())
+      await waitFor(() => {
+        expect(screen.getByText(/Save/)).not.toBeDisabled()
+      })
 
       expect(settings()).toEqual(
         expect.objectContaining({
@@ -94,15 +96,15 @@ async function createContainer(props?: SettingsDialogProps) {
     </Suspense>
   ))
 
-  if (container.queryByText(/loading/i) != null) {
-    await waitForElementToBeRemoved(() => container.queryByText(/loading/i))
+  if (screen.queryByText(/loading/i) != null) {
+    await waitForElementToBeRemoved(() => screen.queryByText(/loading/i))
   }
 
   return { ...container, user }
 }
 
 async function fillSettings(settings: Settings): Promise<void> {
-  const [, setSettings] = renderHook(() => createSettingsStorage())
+  const [, setSettings] = renderHook(() => createSettingsStorage()).result
   await setSettings(settings)
 }
 

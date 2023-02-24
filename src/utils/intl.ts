@@ -19,7 +19,7 @@ export const getNumberFormatter = /* @__PURE__ */ getFormatter<Intl.NumberFormat
   (locales, options) => new Intl.NumberFormat(locales, options)
 )
 
-function getFormatter<TFormatter extends Formatters, TFormatOptions extends {}>(
+function getFormatter<TFormatter extends Formatters, TFormatOptions extends Record<string, any>>(
   formatterProto: TFormatter,
   factory: CacheFactory<TFormatter, TFormatOptions>
 ): (locales?: Locales, options?: TFormatOptions) => TFormatter {
@@ -46,7 +46,10 @@ function getFormatterCache<T extends Formatters>(formatterProto: T): FormatterCa
   return cache
 }
 
-function getCacheKey<T extends {}>(locales: string | string[] | undefined = '', options: Partial<T> = {}): string {
+function getCacheKey<T extends Record<string, any>>(
+  locales: string | string[] | undefined = '',
+  options: Partial<T> = {}
+): string {
   const separator = '-'
   const localeKey = Array.isArray(locales) ? locales.slice().sort().join(separator) : locales
   const optionsKey = JSON.stringify(options)

@@ -1,11 +1,11 @@
-import { createSignal } from 'solid-js'
-import * as D from 'date-fns/fp'
 import { renderHook } from '@test/helpers/solid'
+import * as D from 'date-fns/fp'
+import { createSignal } from 'solid-js'
 import createTimeMilestones from './createTimeMilestones'
 
 describe('milestones.day', () => {
   it('is present', () => {
-    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() }))
+    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
     expect(milestones).to.haveOwnProperty('day').which.a('number')
   })
@@ -20,8 +20,8 @@ describe('milestones.day', () => {
         },
       })
 
-      return [milestones, setCurrentDateTime]
-    })
+      return [milestones, setCurrentDateTime] as const
+    }).result
 
     expect(() => setCurrentDateTime((value) => D.addHours(2, value))).to.change(() => milestones.day)
   })
@@ -29,7 +29,7 @@ describe('milestones.day', () => {
 
 describe('milestones.month', () => {
   it('is present', () => {
-    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() }))
+    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
     expect(milestones).to.haveOwnProperty('month').which.a('number')
   })
@@ -44,8 +44,8 @@ describe('milestones.month', () => {
         },
       })
 
-      return [milestones, setCurrentDateTime]
-    })
+      return [milestones, setCurrentDateTime] as const
+    }).result
 
     expect(() => setCurrentDateTime((value) => D.addDays(15, value))).to.change(() => milestones.month)
   })
@@ -53,7 +53,7 @@ describe('milestones.month', () => {
 
 describe('milestones.week', () => {
   it('is present', () => {
-    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() }))
+    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
     expect(milestones).to.haveOwnProperty('week').which.a('number')
   })
@@ -68,8 +68,8 @@ describe('milestones.week', () => {
         },
       })
 
-      return [milestones, setCurrentDateTime]
-    })
+      return [milestones, setCurrentDateTime] as const
+    }).result
 
     expect(() => setCurrentDateTime((value) => D.addDays(2, value))).to.change(() => milestones.week)
   })
@@ -77,7 +77,7 @@ describe('milestones.week', () => {
 
 describe('milestones.year', () => {
   it('is present', () => {
-    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() }))
+    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
     expect(milestones).to.haveOwnProperty('year').which.a('number')
   })
@@ -92,8 +92,8 @@ describe('milestones.year', () => {
         },
       })
 
-      return [milestones, setCurrentDateTime]
-    })
+      return [milestones, setCurrentDateTime] as const
+    }).result
 
     expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.year)
   })
@@ -101,7 +101,7 @@ describe('milestones.year', () => {
 
 describe('milestones.birthDate', () => {
   it('is not present when birthDate is not provided', () => {
-    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() }))
+    const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
     expect(milestones).to.haveOwnProperty('birthDate').which.an('undefined')
   })
@@ -109,7 +109,7 @@ describe('milestones.birthDate', () => {
   it('is present when birthDate is provided', () => {
     const milestones = renderHook(() =>
       createTimeMilestones({ currentDateTime: new Date(), birthDate: new Date('1970-01-01') })
-    )
+    ).result
 
     expect(milestones).to.haveOwnProperty('birthDate').which.a('number')
   })
@@ -127,8 +127,8 @@ describe('milestones.birthDate', () => {
         },
       })
 
-      return [milestones, setCurrentDateTime]
-    })
+      return [milestones, setCurrentDateTime] as const
+    }).result
 
     expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.birthDate)
   })

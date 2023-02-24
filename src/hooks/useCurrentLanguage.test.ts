@@ -11,7 +11,7 @@ afterEach(() => {
 describe('useCurrentLanguage', () => {
   it('returns current language', () => {
     vi.mocked(getCurrentLocale).mockReturnValue('en-US')
-    const currentLanguage = renderHook(() => useCurrentLanguage())
+    const currentLanguage = renderHook(() => useCurrentLanguage()).result
 
     expect(currentLanguage()).toBe('en-US')
 

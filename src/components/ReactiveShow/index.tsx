@@ -1,4 +1,4 @@
-import { Accessor, JSX, createMemo, untrack } from 'solid-js'
+import { type Accessor, createMemo, type JSX, untrack } from 'solid-js'
 
 interface ReactiveShowProps<T> {
   when: T | undefined | null | false
@@ -9,7 +9,7 @@ interface ReactiveShowProps<T> {
 export default function ReactiveShow<T>(props: ReactiveShowProps<T>): JSX.Element {
   let strictEqual = false
 
-  const equals = <T extends any>(a: T, b: T): boolean => (strictEqual ? a === b : Boolean(a) === Boolean(b))
+  const equals = <T,>(a: T, b: T): boolean => (strictEqual ? a === b : Boolean(a) === Boolean(b))
 
   const condition = createMemo(() => props.when, undefined, { equals })
   const shouldShow = createMemo(() => !isNegative(props.when), undefined, { equals })

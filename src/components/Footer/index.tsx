@@ -1,6 +1,6 @@
 import type { JSX } from 'solid-js'
-import SettingsButton from '@/components/SettingsButton'
 import Credits from '@/components/Credits'
+import SettingsButton from '@/components/SettingsButton'
 import * as css from './styles'
 
 interface FooterProps {

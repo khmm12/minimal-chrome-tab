@@ -1,5 +1,5 @@
-import { createEffect, createSignal } from 'solid-js'
 import { renderHook, withRoot } from '@test/helpers/solid'
+import { createEffect, createSignal } from 'solid-js'
 import createSubscription from './createSubscription'
 
 describe('createSubscription', () => {
@@ -16,7 +16,7 @@ describe('createSubscription', () => {
   it('reads value on mount to avoid stale state', () => {
     let currentValue = 1
 
-    const { value } = renderHook(() => createContainer({ getCurrentValue: () => currentValue++ }))
+    const { value } = renderHook(() => createContainer({ getCurrentValue: () => currentValue++ })).result
 
     expect(value()).toBe(2)
   })
@@ -28,7 +28,7 @@ describe('createSubscription', () => {
       createContainer({
         getCurrentValue: () => currentValue,
       })
-    )
+    ).result
 
     trigger(() => {
       currentValue = 2
@@ -50,10 +50,12 @@ describe('createSubscription', () => {
         getCurrentValue: () => currentValue,
         identity: () => true,
       })
-    )
+    ).result
 
     const onUpdate = vi.fn()
-    withRoot(() => createEffect(() => onUpdate(value())))
+    withRoot(() => {
+      createEffect(() => onUpdate(value()))
+    })
 
     trigger(() => {
       currentValue += 1
@@ -73,12 +75,12 @@ describe('createSubscription', () => {
 
   describe('when `getCurrentValue` is changing', () => {
     it('updates value', () => {
-      const [dep, setDep] = renderHook(() => createSignal(1))
+      const [dep, setDep] = renderHook(() => createSignal(1)).result
       const { getCurrentValue } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
         })
-      )
+      ).result
 
       setDep(2)
       setDep(3)
@@ -87,12 +89,12 @@ describe('createSubscription', () => {
     })
 
     it("doesn't resubscribe", () => {
-      const [dep, setDep] = renderHook(() => createSignal(1))
+      const [dep, setDep] = renderHook(() => createSignal(1)).result
       const { subscribe } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
         })
-      )
+      ).result
 
       setDep(2)
 
@@ -102,14 +104,14 @@ describe('createSubscription', () => {
 
   describe('when `subscription` is changing', () => {
     it("doesn't update value", () => {
-      const [dep, setDep] = renderHook(() => createSignal(1))
+      const [dep, setDep] = renderHook(() => createSignal(1)).result
       const { getCurrentValue } = renderHook(() =>
         createContainer({
           subscribe() {
             dep()
           },
         })
-      )
+      ).result
 
       setDep(2)
 
@@ -117,14 +119,14 @@ describe('createSubscription', () => {
     })
 
     it('resubscribes', () => {
-      const [dep, setDep] = renderHook(() => createSignal(1))
+      const [dep, setDep] = renderHook(() => createSignal(1)).result
       const { subscribe, unsubscribe } = renderHook(() =>
         createContainer({
           subscribe() {
             dep()
           },
         })
-      )
+      ).result
 
       setDep(2)
 

@@ -1,4 +1,4 @@
-import { Accessor, createEffect, createSignal, mergeProps, onCleanup, untrack } from 'solid-js'
+import { type Accessor, createEffect, createSignal, mergeProps, onCleanup, untrack } from 'solid-js'
 
 type Unsubscribe = () => void
 
@@ -28,7 +28,9 @@ export default function createSubscription<T>(subscription: Subscription<T>): Ac
       const nextValue = untrack(() => resolved.getCurrentValue())
       setValue(() => nextValue)
     })
-    onCleanup(() => unsubscribe())
+    onCleanup(() => {
+      unsubscribe()
+    })
   })
 
   return value

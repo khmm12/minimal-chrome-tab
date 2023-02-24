@@ -1,7 +1,7 @@
 import { css } from '@linaria/core'
-import { white, black } from '@/theme/colors'
-import { darkScheme } from '@/theme/media'
+import { black, white } from '@/theme/colors'
 import { Digital7Mono } from '@/theme/fonts'
+import { darkScheme } from '@/theme/media'
 
 export const container = css`
   height: 100%;

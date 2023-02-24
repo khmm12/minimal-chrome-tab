@@ -1,11 +1,8 @@
-import { render, cleanup as cleanupElements } from './testing-library'
-import { renderHook, withRoot, cleanup as cleanupHooks } from './hooks'
+import { renderHook } from '@solidjs/testing-library'
 
-export { renderHook, withRoot, render }
+export * from '@solidjs/testing-library'
 
-export function cleanup(): void {
-  cleanupHooks()
-  cleanupElements()
+export function withRoot<T>(fn: () => T): [value: T, dispose: () => void] {
+  const a = renderHook(fn)
+  return [a.result, a.cleanup]
 }
-
-export * from '@testing-library/dom'

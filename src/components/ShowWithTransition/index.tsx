@@ -1,4 +1,4 @@
-import { Accessor, JSX, createContext, createSignal, createComputed, createMemo, untrack } from 'solid-js'
+import { type Accessor, createComputed, createContext, createMemo, createSignal, type JSX, untrack } from 'solid-js'
 
 interface ShowWithTransitionProps<T> {
   when: T | undefined | null | false
@@ -23,13 +23,15 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
     if (!isNegative(props.when) || isNegative(when())) setWhen(() => props.when)
   })
 
-  const handleAfterExit = (): void => setWhen(undefined)
+  const handleAfterExit = (): void => {
+    setWhen(undefined)
+  }
 
   const isOpened = createMemo(() => !isNegative(props.when))
 
   let strictEqual = false
 
-  const equals = <T extends any>(a: T, b: T): boolean => (strictEqual ? a === b : Boolean(a) === Boolean(b))
+  const equals = <T,>(a: T, b: T): boolean => (strictEqual ? a === b : Boolean(a) === Boolean(b))
 
   const condition = createMemo(() => when(), undefined, { equals })
   const shouldShow = createMemo(() => !isNegative(when()), undefined, { equals })

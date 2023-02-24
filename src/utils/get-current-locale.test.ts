@@ -9,12 +9,12 @@ describe('getCurrentLocale', () => {
     if (globalThis.chrome == null) {
       globalThis.chrome = null as any
       vi.spyOn(globalThis, 'chrome', 'get').mockReturnValue({
-        // @ts-expect-error
+        // @ts-expect-error: mock
         i18n: { getUILanguage: vi.fn() },
       })
     }
     const getUILanguage = vi.fn().mockReturnValue('en-US')
-    // @ts-expect-error
+    // @ts-expect-error: mock
     vi.spyOn(chrome.i18n, 'getUILanguage', 'get').mockReturnValue(getUILanguage)
 
     expect(getCurrentLocale()).toBe('en-US')

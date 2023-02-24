@@ -1,5 +1,5 @@
-import { Accessor, createSignal, mergeProps } from 'solid-js'
-import createPolled, { Every } from '@/hooks/createPolled'
+import { type Accessor, createSignal, mergeProps } from 'solid-js'
+import createPolled, { type Every } from '@/hooks/createPolled'
 import useTabActive from '@/hooks/useTabActive'
 
 interface CurrentDateTimeConfig {
