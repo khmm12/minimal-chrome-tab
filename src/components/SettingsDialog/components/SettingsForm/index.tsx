@@ -14,7 +14,9 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const { form, isSubmitting, isDirty, setInitialValues, reset } = createForm<Settings>({
     initialValues: props.initialValues,
     transform: (values) => transformValues(values as Settings),
-    onSubmit: (values) => props.onSubmit(values),
+    async onSubmit(values) {
+      await props.onSubmit(values)
+    },
   })
 
   createComputed(() => props.initialValues) // Trigger suspense
