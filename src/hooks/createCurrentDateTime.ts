@@ -1,21 +1,17 @@
-import { type Accessor, createSignal, mergeProps } from 'solid-js'
-import createPolled, { type Every } from '@/hooks/createPolled'
+import { type Accessor, createSignal } from 'solid-js'
+import createPolled, { EveryMinute, EverySecond, type PolledStrategy } from '@/hooks/createPolled'
 import useTabActive from '@/hooks/useTabActive'
 
 interface CurrentDateTimeConfig {
-  updateEvery?: Every
+  update: PolledStrategy
 }
-
-const Defaults = {
-  updateEvery: 'second',
-} satisfies CurrentDateTimeConfig
 
 const getDate = (): Date => new Date()
 const isDateEqual = (a: Date, b: Date): boolean => a.valueOf() === b.valueOf()
 
-export default function createCurrentDateTime(config?: CurrentDateTimeConfig): Accessor<Date> {
-  const resolved = mergeProps(Defaults, config)
+export { EveryMinute, EverySecond }
 
+export default function createCurrentDateTime(config: CurrentDateTimeConfig): Accessor<Date> {
   const [dateTime, setDateTime] = createSignal(getDate(), { equals: isDateEqual })
   const update = (): Date => setDateTime(getDate())
 
@@ -26,7 +22,7 @@ export default function createCurrentDateTime(config?: CurrentDateTimeConfig): A
       return isTabActive()
     },
     get every() {
-      return resolved.updateEvery
+      return config.update
     },
     onTick: update,
   })

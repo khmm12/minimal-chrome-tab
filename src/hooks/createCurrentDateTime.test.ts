@@ -1,7 +1,7 @@
 import { renderHook } from '@test/helpers/solid'
 import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { createSignal } from 'solid-js'
-import createCurrentDateTime from './createCurrentDateTime'
+import createCurrentDateTime, { EveryMinute, EverySecond } from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 
 vi.mock('@/hooks/useTabActive')
@@ -18,7 +18,7 @@ afterEach(() => {
 
 describe('createCurrentDateTime', () => {
   it('returns current date time', () => {
-    const currentDateTime = renderHook(() => createCurrentDateTime()).result
+    const currentDateTime = renderHook(() => createCurrentDateTime({ update: EverySecond })).result
 
     expect(currentDateTime()).toEqual(new Date())
   })
@@ -28,7 +28,7 @@ describe('createCurrentDateTime', () => {
       const [isActive, setIsActive] = renderHook(() => createSignal(true)).result
 
       vi.mocked(useTabActive).mockImplementation(() => isActive)
-      return [createCurrentDateTime(), setIsActive] as const
+      return [createCurrentDateTime({ update: EverySecond }), setIsActive] as const
     }).result
 
     const initial = currentDateTime()
@@ -48,7 +48,7 @@ describe('createCurrentDateTime', () => {
     it('can update every second', () => {
       const date = startOfSecond(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'second' })).result
+      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EverySecond })).result
 
       vi.advanceTimersByTime(990)
 
@@ -62,7 +62,7 @@ describe('createCurrentDateTime', () => {
     it('can update every minute', () => {
       const date = startOfMinute(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ updateEvery: 'minute' })).result
+      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryMinute })).result
 
       vi.advanceTimersByTime(1000 * 59)
 

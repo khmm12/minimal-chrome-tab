@@ -1,12 +1,12 @@
 import type { JSX } from 'solid-js'
-import createCurrentDateTime from '@/hooks/createCurrentDateTime'
+import createCurrentDateTime, { EverySecond } from '@/hooks/createCurrentDateTime'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
 import * as css from './styles'
 
 export default function Time(): JSX.Element {
   const format = createIntlFormatter()
 
-  const dateTime = createCurrentDateTime({ updateEvery: 'second' })
+  const dateTime = createCurrentDateTime({ update: EverySecond })
 
   return (
     <div class={css.container}>

@@ -1,6 +1,6 @@
 import type { JSX } from 'solid-js'
 import ReactiveShow from '@/components/ReactiveShow'
-import createCurrentDateTime from '@/hooks/createCurrentDateTime'
+import createCurrentDateTime, { EveryMinute } from '@/hooks/createCurrentDateTime'
 import asGetters from '@/utils/as-getters'
 import Milestone from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
@@ -8,7 +8,7 @@ import useBirthDate from './hooks/useBirthDate'
 import * as css from './styles'
 
 export default function TimeMilestones(): JSX.Element {
-  const currentDateTime = createCurrentDateTime({ updateEvery: 'minute' })
+  const currentDateTime = createCurrentDateTime({ update: EveryMinute })
   const birthDate = useBirthDate()
 
   const milestones = createTimeMilestones(
