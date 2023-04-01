@@ -57,14 +57,14 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
                 strictEqual = false
                 return child
               }
-            }) as () => JSX.Element
+            }) as unknown as JSX.Element
           }
         </ShowWithTransitionContext.Provider>
       )
     } else {
       return props.fallback
     }
-  })
+  }) as unknown as JSX.Element
 }
 
 function isNegative<T>(value: T | undefined | null | false): boolean {

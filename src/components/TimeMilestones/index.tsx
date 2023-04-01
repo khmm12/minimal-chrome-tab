@@ -1,5 +1,4 @@
-import type { JSX } from 'solid-js'
-import ReactiveShow from '@/components/ReactiveShow'
+import { type JSX, Show } from 'solid-js'
 import createCurrentDateTime, { EveryMinute } from '@/hooks/createCurrentDateTime'
 import asGetters from '@/utils/as-getters'
 import Milestone from './components/Milestone'
@@ -26,7 +25,7 @@ export default function TimeMilestones(): JSX.Element {
         <Milestone value={milestones.week} description="of week" />
         <Milestone value={milestones.month} description="of month" />
         <Milestone value={milestones.year} description="of year" />
-        <ReactiveShow when={milestones.birthDate}>{(v) => <Milestone value={v()} description="of dob" />}</ReactiveShow>
+        <Show when={milestones.birthDate}>{(v) => <Milestone value={v()} description="of dob" />}</Show>
       </div>
     </div>
   )
