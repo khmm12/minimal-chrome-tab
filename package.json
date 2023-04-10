@@ -27,8 +27,8 @@
     "date-fns": "^2.29.3",
     "focus-trap": "^7.4.0",
     "polished": "^4.2.2",
-    "remeda": "^1.9.4",
-    "solid-js": "1.7.0",
+    "remeda": "^1.12.0",
+    "solid-js": "1.7.3",
     "solid-transition-group": "0.2.2"
   },
   "devDependencies": {
@@ -37,15 +37,15 @@
     "@testing-library/dom": "9.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/user-event": "^14.4.3",
-    "@types/chrome": "^0.0.227",
+    "@types/chrome": "^0.0.228",
     "@types/node": "^18.15.11",
     "@types/testing-library__jest-dom": "^5.14.5",
     "@types/testing-library__user-event": "^4.2.0",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
-    "@vitest/coverage-c8": "^0.29.8",
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "@vitest/coverage-c8": "^0.30.0",
     "browserslist-to-esbuild": "^1.2.0",
-    "eslint": "^8.37.0",
+    "eslint": "^8.38.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-config-standard-with-typescript": "^34.0.1",
@@ -58,14 +58,14 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.7",
     "stylis": "^3",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "^4.2.1",
     "vite-plugin-html": "^3.2.0",
-    "vite-plugin-solid": "^2.6.1",
+    "vite-plugin-solid": "^2.7.0",
     "vite-plugin-static-copy": "^0.13.1",
-    "vitest": "^0.29.8"
+    "vitest": "^0.30.0"
   },
   "resolutions": {
-    "solid-transition-group@^0.0.13": "patch:solid-transition-group@npm%3A0.0.13#./.yarn/patches/solid-transition-group-npm-0.0.13-8040214c3c.patch"
+    "solid-transition-group@0.2.2": "patch:solid-transition-group@npm%3A0.2.2#./.yarn/patches/solid-transition-group-npm-0.2.2-a3612433c4.patch"
   }
 }

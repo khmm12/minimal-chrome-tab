@@ -53,7 +53,7 @@ export default defineConfig((config) => ({
     },
     deps: {
       // We need browser variants
-      inline: [/solid-js/, /@solidjs\/testing-library/, /@felte\/solid/, /solid-transition-group/],
+      inline: [/solid-js/, /@solidjs\/testing-library/, /@felte\/solid/, /solid-transition-group/, /@solid-primitives/],
     },
     coverage: {
       exclude: ['.pnp.cjs', '.pnp.loader.mjs', 'test-support/**', ...(configDefaults.coverage.exclude ?? [])],

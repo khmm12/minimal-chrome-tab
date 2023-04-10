@@ -39,18 +39,21 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
     })
   })
 
-  createEffect(() => {
-    const { $overlay, $dialog } = config
+  if (!import.meta.env.TEST) {
+    // JSDOM doesn't support inert attribute
+    createEffect(() => {
+      const { $overlay, $dialog } = config
 
-    if ($overlay != null && $dialog != null) {
-      const focusTrap = createFocusTrap($overlay, {
-        escapeDeactivates: false,
-        fallbackFocus: $dialog,
-      })
-      focusTrap.activate()
-      onCleanup(() => focusTrap.deactivate())
-    }
-  })
+      if ($overlay != null && $dialog != null) {
+        const focusTrap = createFocusTrap($overlay, {
+          escapeDeactivates: false,
+          fallbackFocus: $dialog,
+        })
+        focusTrap.activate()
+        onCleanup(() => focusTrap.deactivate())
+      }
+    })
+  }
 }
 
 function shouldClose(e: MouseEvent, $dialog: HTMLElement | undefined): boolean {
