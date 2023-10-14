@@ -27,7 +27,7 @@ describe('createSubscription', () => {
     const { value, trigger } = renderHook(() =>
       createContainer({
         getCurrentValue: () => currentValue,
-      })
+      }),
     ).result
 
     trigger(() => {
@@ -49,7 +49,7 @@ describe('createSubscription', () => {
       createContainer({
         getCurrentValue: () => currentValue,
         identity: () => true,
-      })
+      }),
     ).result
 
     const onUpdate = vi.fn()
@@ -79,7 +79,7 @@ describe('createSubscription', () => {
       const { getCurrentValue } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
-        })
+        }),
       ).result
 
       setDep(2)
@@ -93,7 +93,7 @@ describe('createSubscription', () => {
       const { subscribe } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
-        })
+        }),
       ).result
 
       setDep(2)
@@ -110,7 +110,7 @@ describe('createSubscription', () => {
           subscribe() {
             dep()
           },
-        })
+        }),
       ).result
 
       setDep(2)
@@ -125,7 +125,7 @@ describe('createSubscription', () => {
           subscribe() {
             dep()
           },
-        })
+        }),
       ).result
 
       setDep(2)

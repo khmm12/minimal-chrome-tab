@@ -4,11 +4,12 @@ import { createSignal } from 'solid-js'
 import createCurrentDateTime, { EveryMinute, EverySecond } from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 
-vi.mock('@/hooks/useTabActive')
+vi.mock('./useTabActive')
 
 beforeEach(() => {
   vi.useFakeTimers()
   vi.restoreAllMocks()
+  vi.mocked(useTabActive).mockReturnValue(() => true)
 })
 
 afterEach(() => {
@@ -27,7 +28,7 @@ describe('createCurrentDateTime', () => {
     const [currentDateTime, setIsActive] = renderHook(() => {
       const [isActive, setIsActive] = renderHook(() => createSignal(true)).result
 
-      vi.mocked(useTabActive).mockImplementation(() => isActive)
+      vi.mocked(useTabActive).mockReturnValue(isActive)
       return [createCurrentDateTime({ update: EverySecond }), setIsActive] as const
     }).result
 

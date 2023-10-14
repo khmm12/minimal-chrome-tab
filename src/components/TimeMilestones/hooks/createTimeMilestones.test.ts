@@ -108,7 +108,7 @@ describe('milestones.birthDate', () => {
 
   it('is present when birthDate is provided', () => {
     const milestones = renderHook(() =>
-      createTimeMilestones({ currentDateTime: new Date(), birthDate: new Date('1970-01-01') })
+      createTimeMilestones({ currentDateTime: new Date(), birthDate: new Date('1970-01-01') }),
     ).result
 
     expect(milestones).to.haveOwnProperty('birthDate').which.a('number')

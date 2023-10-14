@@ -2,7 +2,10 @@ import getPackageName from '@/utils/get-package-name'
 import type { IStorageAdapter, Subscriber } from '../types'
 
 export default class LocalStorageAdapter<T> implements IStorageAdapter<T> {
-  constructor(protected readonly name: string, protected readonly subscriber: Subscriber<T | null>) {
+  constructor(
+    protected readonly name: string,
+    protected readonly subscriber: Subscriber<T | null>,
+  ) {
     this.handleChanged = this.handleChanged.bind(this)
     window.addEventListener('storage', this.handleChanged)
   }

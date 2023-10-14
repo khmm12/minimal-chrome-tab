@@ -14,7 +14,7 @@ export default function TimeMilestones(): JSX.Element {
     asGetters({
       currentDateTime,
       birthDate,
-    })
+    }),
   )
 
   return (

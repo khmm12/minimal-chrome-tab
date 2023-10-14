@@ -80,7 +80,7 @@ describe('SettingsDialog', () => {
       expect(settings()).toEqual(
         expect.objectContaining({
           birthDate,
-        })
+        }),
       )
       expect(handleSaved).toBeCalled()
     })

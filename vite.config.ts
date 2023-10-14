@@ -9,8 +9,6 @@ import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import manifestPlugin from './lib/vite/manifest-plugin'
 
-const stylis = new Stylis({ prefix: false })
-
 export default defineConfig((config) => ({
   build: {
     target: browserslistToEsbuild(),
@@ -24,7 +22,7 @@ export default defineConfig((config) => ({
   plugins: [
     solidPlugin({ hot: config.mode === 'development' }),
     linaria({
-      preprocessor: stylis,
+      preprocessor: new Stylis({ prefix: false }),
       include: ['**/*.{ts,tsx}'],
       evaluate: true,
       displayName: config.mode !== 'production',

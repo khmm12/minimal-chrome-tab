@@ -30,7 +30,7 @@ describe('getMonthMilestone', () => {
       D.setDate(day),
       D.setHours(hours),
       D.setMinutes(minutes),
-      D.setSeconds(seconds)
+      D.setSeconds(seconds),
     )
 
     expect(getMonthMilestone(currentDateTime)).toBe(expected)
@@ -50,7 +50,7 @@ describe('getWeekMilestone', () => {
       D.setDay(dayOfWeek),
       D.setHours(hours),
       D.setMinutes(minutes),
-      D.setSeconds(seconds)
+      D.setSeconds(seconds),
     )
 
     expect(getWeekMilestone(currentDateTime)).toBe(expected)
@@ -70,7 +70,7 @@ describe('getYearMilestone', () => {
       D.setDate(day),
       D.setHours(hours),
       D.setMinutes(minutes),
-      D.setSeconds(seconds)
+      D.setSeconds(seconds),
     )
 
     expect(getYearMilestone(currentDateTime)).toBe(expected)

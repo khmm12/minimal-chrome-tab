@@ -10,7 +10,10 @@ const write = async (key: string, value: any): Promise<void> => {
 }
 
 export default class ChromeStorageAdapter<T> implements IStorageAdapter<T> {
-  constructor(protected readonly name: string, protected readonly subscriber: Subscriber<T | null>) {
+  constructor(
+    protected readonly name: string,
+    protected readonly subscriber: Subscriber<T | null>,
+  ) {
     this.handleChanged = this.handleChanged.bind(this)
     chrome.storage.onChanged.addListener(this.handleChanged)
   }

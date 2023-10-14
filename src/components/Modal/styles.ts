@@ -66,7 +66,9 @@ export const dialog = css`
   .overlay-enter-to > & {
     transform: scale(1);
     opacity: 1;
-    transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+    transition:
+      transform 0.15s ease-out,
+      opacity 0.15s ease-out;
   }
 
   .overlay-exit-active > & {
@@ -77,7 +79,9 @@ export const dialog = css`
   .overlay-exit-to > & {
     transform: scale(0.6);
     opacity: 0.3;
-    transition: transform 0.15s ease-in, opacity 0.15s ease-in;
+    transition:
+      transform 0.15s ease-in,
+      opacity 0.15s ease-in;
   }
 `
 

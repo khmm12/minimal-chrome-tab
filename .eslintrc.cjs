@@ -1,7 +1,15 @@
+// @ts-check
+
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
   extends: ['standard', 'standard-with-typescript', 'plugin:prettier/recommended'],
   env: {
     webextensions: true,
+  },
+  parserOptions: {
+    project: ['./tsconfig.json', './tsconfig.node.json'],
+    sourceType: 'module',
+    createDefaultProgram: true,
   },
   rules: {
     'import/order': [
@@ -28,14 +36,4 @@ module.exports = {
       },
     ],
   },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'],
-      parserOptions: {
-        project: './tsconfig.json',
-        sourceType: 'module',
-        createDefaultProgram: true,
-      },
-    },
-  ],
 }

@@ -1,23 +1,27 @@
+import chrome from '@/utils/chrome'
 import getDocumentLanguage from '@/utils/get-document-language'
 
-const DataAttribute = 'localize'
+const DataAttribute = 'l'
 
 setDocumentLanguage()
-if (typeof chrome !== 'undefined' && typeof chrome.i18n !== 'undefined') localizeContent()
+localizeContent()
 
 function setDocumentLanguage(): void {
   document.documentElement.lang = getDocumentLanguage()
 }
 
 function localizeContent(): void {
+  const cr = chrome()
+
+  if (typeof cr?.i18n === 'undefined') return
+
+  const localizeElement = ($el: HTMLElement): void => {
+    const key = $el.dataset[DataAttribute]
+    if (key != null && key !== '') $el.innerHTML = cr.i18n.getMessage(key)
+  }
+
   const $els = document.querySelectorAll(`[data-${DataAttribute}]`)
-
-  $els.forEach(($el) => {
+  for (const $el of $els) {
     if ($el instanceof HTMLElement) localizeElement($el)
-  })
-}
-
-function localizeElement($el: HTMLElement): void {
-  const { [DataAttribute]: key } = $el.dataset
-  if (key != null && key !== '') $el.innerHTML = chrome.i18n.getMessage(key)
+  }
 }

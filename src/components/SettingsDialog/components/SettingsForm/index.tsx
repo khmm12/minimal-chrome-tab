@@ -26,8 +26,8 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
       (initialValues) => {
         setInitialValues(initialValues)
         if (!isDirty()) reset()
-      }
-    )
+      },
+    ),
   )
 
   const ids = createUniqueIds(['birthDate'])
