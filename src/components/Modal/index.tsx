@@ -20,8 +20,11 @@ export default function Modal(props: ModalProps): JSX.Element {
   const transition = useContext(ShowWithTransitionContext)
 
   createEffect(() => {
-    // Manually call if by some reasons animations are not supported
-    if (typeof AnimationEvent === 'undefined' && !transition.isOpened) transition.onAfterExit()
+    // Emulate transition end event in test environment
+    if (import.meta.env.TEST && !transition.isOpened)
+      setTimeout(() => {
+        transition.onAfterExit()
+      }, 0)
   }, transition.isOpened)
 
   useDialogHooks({

@@ -1,12 +1,12 @@
 import { fileURLToPath } from 'node:url'
+import linaria from '@linaria/vite'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
 import Stylis from 'stylis'
-import { configDefaults } from 'vitest/config'
-import linaria from '@linaria/vite'
 import { defineConfig } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { configDefaults } from 'vitest/config'
 import manifestPlugin from './lib/vite/manifest-plugin'
 
 export default defineConfig((config) => ({
@@ -45,10 +45,7 @@ export default defineConfig((config) => ({
     setupFiles: ['test-support/setup.ts'],
     watch: false,
     globals: true,
-    environment: 'jsdom',
-    transformMode: {
-      ssr: [],
-    },
+    environment: 'happy-dom',
     deps: {
       // We need browser variants
       inline: [/solid-js/, /@solidjs\/testing-library/, /@felte\/solid/, /solid-transition-group/, /@solid-primitives/],

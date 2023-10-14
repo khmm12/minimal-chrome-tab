@@ -1,5 +1,5 @@
-import { createComputed, createEffect, type JSX, on } from 'solid-js'
 import { createForm } from '@felte/solid'
+import { createComputed, createEffect, type JSX, on } from 'solid-js'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import toISODate from '@/utils/to-iso-date'

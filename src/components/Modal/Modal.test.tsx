@@ -1,4 +1,4 @@
-import { fireEvent, render, renderHook, screen } from '@test/helpers/solid'
+import { fireEvent, render, renderHook, screen, waitForElementToBeRemoved } from '@test/helpers/solid'
 import { createSignal } from 'solid-js'
 import ShowWithTransition from '@/components/ShowWithTransition'
 import Modal from '.'
@@ -66,7 +66,7 @@ describe('Modal', () => {
 
     setShouldOpen(false)
 
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    await waitForElementToBeRemoved(() => screen.queryByRole('dialog'))
   })
 
   it('closes on outside click', () => {

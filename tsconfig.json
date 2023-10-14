@@ -21,7 +21,7 @@
     },
     "types": ["chrome", "vite/client"]
   },
-  "include": ["typings", "src", "test-support/env.d.ts"],
+  "include": ["typings", "src", "test-support"],
   "exclude": ["./dist"],
   "references": [
     { "path": "./tsconfig.node.json" }
