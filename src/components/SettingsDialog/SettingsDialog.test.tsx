@@ -1,7 +1,7 @@
 import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
+import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import { Suspense } from 'solid-js'
-import userEvent from '@testing-library/user-event'
 import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
 import toISODate from '@/utils/to-iso-date'
 import SettingsDialog, { type SettingsDialogProps } from '.'
