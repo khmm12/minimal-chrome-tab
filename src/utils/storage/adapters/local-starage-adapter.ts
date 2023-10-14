@@ -28,7 +28,7 @@ export default class LocalStorageAdapter<T> implements IStorageAdapter<T> {
 
   protected parse(val: any): T | null {
     try {
-      return JSON.parse(val) ?? null
+      return (JSON.parse(val) as T | null) ?? null
     } catch {
       return null
     }

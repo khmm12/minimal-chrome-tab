@@ -1,5 +1,6 @@
-import { createForm } from '@felte/solid'
-import { createComputed, createEffect, type JSX, on } from 'solid-js'
+import { createForm, reset } from '@modular-forms/solid'
+import { createEffect, type JSX, on } from 'solid-js'
+import { type Simplify } from 'type-fest'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import toISODate from '@/utils/to-iso-date'
@@ -11,21 +12,15 @@ interface SettingsFormProps {
 }
 
 export default function SettingsForm(props: SettingsFormProps): JSX.Element {
-  const { form, isSubmitting, isDirty, setInitialValues, reset } = createForm<Settings>({
+  const [form, { Form, Field }] = createForm<Simplify<Settings>>({
     initialValues: props.initialValues,
-    transform: (values) => transformValues(values as Settings),
-    async onSubmit(values) {
-      await props.onSubmit(values)
-    },
   })
 
-  createComputed(() => props.initialValues) // Trigger suspense
   createEffect(
     on(
-      () => props.initialValues,
+      () => props.initialValues as Simplify<Settings>,
       (initialValues) => {
-        setInitialValues(initialValues)
-        if (!isDirty()) reset()
+        if (!form.dirty) reset(form, { initialValues })
       },
     ),
   )
@@ -33,25 +28,22 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const ids = createUniqueIds(['birthDate'])
 
   return (
-    <form ref={form} class={css.container} role="form">
-      <div class={css.formGroup}>
-        <label for={ids.birthDate} class={css.label}>
-          Birth date
-        </label>
-        <input id={ids.birthDate} class={css.input} name="birthDate" type="date" />
-      </div>
-      <button class={css.button} disabled={isSubmitting()} type="submit">
+    <Form class={css.container} role="form" onSubmit={props.onSubmit}>
+      <Field name="birthDate" transform={parseDateValue}>
+        {(field, input) => (
+          <div class={css.formGroup}>
+            <label for={ids.birthDate} class={css.label}>
+              Birth date
+            </label>
+            <input {...input} id={ids.birthDate} class={css.input} type="date" value={field.value ?? ''} />
+          </div>
+        )}
+      </Field>
+      <button class={css.button} disabled={form.submitting} type="submit">
         Save
       </button>
-    </form>
+    </Form>
   )
-}
-
-function transformValues(values: Settings): Settings {
-  return {
-    ...values,
-    birthDate: parseDateValue(values.birthDate),
-  }
 }
 
 function parseDateValue(value: string | undefined): string {

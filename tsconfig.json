@@ -19,7 +19,7 @@
       "@/*": ["src/*"],
       "@test/*": ["test-support/*"]
     },
-    "types": ["chrome", "vite/client"]
+    "types": ["chrome", "vite/client", "@total-typescript/ts-reset"]
   },
   "include": ["typings", "src", "test-support"],
   "exclude": ["./dist"],

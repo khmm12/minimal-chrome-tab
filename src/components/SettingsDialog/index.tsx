@@ -18,7 +18,7 @@ export default function SettingsDialog(props: SettingsDialogProps): JSX.Element 
   }
 
   return (
-    <Modal icon={<SettingsIcon />} title="Settings" onClose={/* @once */ () => props.onClose?.()}>
+    <Modal icon={<SettingsIcon />} title="Settings" onClose={props.onClose}>
       <Suspense fallback={<span aria-busy>Loading</span>}>
         <SettingsForm initialValues={settings()} onSubmit={handleSubmit} />
       </Suspense>
