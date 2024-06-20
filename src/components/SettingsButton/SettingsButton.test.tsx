@@ -4,9 +4,9 @@ import SettingsButton from '.'
 describe('SettingsButton', () => {
   it('renders a button', () => {
     const handleClick = vi.fn()
-    const { getByRole } = render(() => <SettingsButton onClick={handleClick} />)
+    const r = render(() => <SettingsButton onClick={handleClick} />)
 
-    const button = getByRole('button')
+    const button = r.getByRole('button')
 
     expect(button).toBeInTheDocument()
     expect(button).toMatchSnapshot()

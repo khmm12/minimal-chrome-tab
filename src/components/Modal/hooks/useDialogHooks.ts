@@ -1,5 +1,5 @@
-import { createFocusTrap } from 'focus-trap'
 import { createEffect, onCleanup } from 'solid-js'
+import { createFocusTrap } from 'focus-trap'
 
 interface OverlayHooksConfig {
   readonly $overlay: HTMLElement | undefined

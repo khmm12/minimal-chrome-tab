@@ -12,7 +12,7 @@ exports[`colors 1`] = `
 exports[`fonts 1`] = `
 {
   "Digital7Mono": "Digital-7Mono",
-  "HelveticaNeue": "\\"Helvetica Neue\\", Helvetica",
+  "HelveticaNeue": ""Helvetica Neue", Helvetica",
 }
 `;
 

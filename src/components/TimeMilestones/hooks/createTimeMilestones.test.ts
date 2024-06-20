@@ -1,6 +1,6 @@
-import { renderHook } from '@test/helpers/solid'
-import * as D from 'date-fns/fp'
 import { createSignal } from 'solid-js'
+import * as D from 'date-fns/fp'
+import { renderHook } from '@test/helpers/solid'
 import createTimeMilestones from './createTimeMilestones'
 
 describe('milestones.day', () => {

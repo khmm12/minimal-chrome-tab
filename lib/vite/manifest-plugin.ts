@@ -31,14 +31,14 @@ async function generateManifest(options: ManifestPluginOptions): Promise<string>
   const version = options.version ?? packageVersion
 
   return JSON.stringify({
-    ...JSON.parse(originalSource),
+    ...(JSON.parse(originalSource) as Record<string, any>),
     version,
   })
 }
 
 async function getPackageVersion(): Promise<string> {
   const content = await fs.readFile(resolvePath(process.cwd(), './package.json'), 'utf-8')
-  const { version } = JSON.parse(content)
+  const { version } = JSON.parse(content) as Record<string, any>
 
   return version
 }

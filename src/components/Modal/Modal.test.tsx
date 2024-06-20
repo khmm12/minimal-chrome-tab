@@ -1,5 +1,5 @@
-import { fireEvent, render, renderHook, screen, waitForElementToBeRemoved } from '@test/helpers/solid'
 import { createSignal } from 'solid-js'
+import { fireEvent, render, renderHook, screen, waitForElementToBeRemoved } from '@test/helpers/solid'
 import ShowWithTransition from '@/components/ShowWithTransition'
 import Modal from '.'
 
