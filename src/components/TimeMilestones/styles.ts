@@ -19,6 +19,8 @@ export const title = css`
 
   @media ${beforeSmall} {
     font-size: 3.2rem;
+    text-align: center;
+    margin: 0 0 1.6rem;
   }
 `
 
@@ -31,5 +33,6 @@ export const items = css`
 
   @media ${beforeSmall} {
     justify-content: center;
+    grid-gap: 1.6rem;
   }
 `
