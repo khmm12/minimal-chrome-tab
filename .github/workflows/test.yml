@@ -7,28 +7,21 @@ jobs:
       matrix:
         step:
           - name: Lint
-            command: yarn lint
+            command: pnpm lint
           - name: Typecheck
-            command: yarn typecheck
+            command: pnpm typecheck
           - name: Unit tests
-            command: yarn unit-tests
+            command: pnpm unit-tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
-      - name: Get Yarn cache directory
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-      - name: Use Yarn Cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: yarn-cache-${{ hashFiles('yarn.lock', '.yarnrc.yml') }}
-          restore-keys: yarn-cache-
+          node-version: 20
+          cache: 'pnpm'
       - name: Install dependencies
-        run: yarn install --immutable
+        run: pnpm install --frozen-lockfile
       - name: ${{ matrix.step.name }}
         run: ${{ matrix.step.command }}
