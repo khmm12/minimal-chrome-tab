@@ -1,5 +1,5 @@
-import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { createEffect, onCleanup, untrack } from 'solid-js'
+import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 
 type Tick = () => void
 

@@ -1,5 +1,5 @@
-import { fireEvent, renderHook } from '@test/helpers/solid'
 import type { SpyInstance } from 'vitest'
+import { fireEvent, renderHook } from '@test/helpers/solid'
 import useTabActive from './useTabActive'
 
 let isHidden: SpyInstance<[], boolean>

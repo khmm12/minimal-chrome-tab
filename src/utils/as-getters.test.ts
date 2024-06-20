@@ -5,7 +5,8 @@ describe('asGetters', () => {
     const accessors = { a: vi.fn().mockReturnValue(1), b: vi.fn().mockReturnValue(2) }
     const getters = asGetters(accessors)
 
-    expect(getters).toMatchObject({ a: 1, b: 2 }) // read
+    expect(getters.a).toBe(1) // read
+    expect(getters.b).toBe(2) // read
     expect(accessors.a).toBeCalledTimes(1)
     expect(accessors.b).toBeCalledTimes(1)
 

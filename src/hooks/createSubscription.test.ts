@@ -1,5 +1,5 @@
-import { renderHook, withRoot } from '@test/helpers/solid'
 import { createEffect, createSignal } from 'solid-js'
+import { renderHook, withRoot } from '@test/helpers/solid'
 import createSubscription from './createSubscription'
 
 describe('createSubscription', () => {
@@ -149,7 +149,7 @@ function createContainer(config?: CreateContainerConfig) {
   const unsubscribe = vi.fn()
   let update: () => void
   const subscribe = vi.fn().mockImplementation((fn) => {
-    config?.subscribe?.(fn)
+    config?.subscribe?.(fn as () => void)
     update = fn
     return unsubscribe
   })

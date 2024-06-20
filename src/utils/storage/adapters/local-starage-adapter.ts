@@ -2,12 +2,15 @@ import getPackageName from '@/utils/get-package-name'
 import type { IStorageAdapter, Subscriber } from '../types'
 
 export default class LocalStorageAdapter<T> implements IStorageAdapter<T> {
+  readonly #listener = (e: StorageEvent): void => {
+    this.handleChanged(e)
+  }
+
   constructor(
     protected readonly name: string,
     protected readonly subscriber: Subscriber<T | null>,
   ) {
-    this.handleChanged = this.handleChanged.bind(this)
-    window.addEventListener('storage', this.handleChanged)
+    window.addEventListener('storage', this.#listener)
   }
 
   read(): T | null {
@@ -19,16 +22,16 @@ export default class LocalStorageAdapter<T> implements IStorageAdapter<T> {
   }
 
   dispose(): void {
-    window.removeEventListener('storage', this.handleChanged)
+    window.removeEventListener('storage', this.#listener)
   }
 
   protected get storageKey(): string {
     return `${getPackageName()}:${this.name}`
   }
 
-  protected parse(val: any): T | null {
+  protected parse(val: unknown): T | null {
     try {
-      return (JSON.parse(val) as T | null) ?? null
+      return (JSON.parse(val as string) as T | null) ?? null
     } catch {
       return null
     }

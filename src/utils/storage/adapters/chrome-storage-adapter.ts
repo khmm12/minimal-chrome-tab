@@ -10,12 +10,15 @@ const write = async (key: string, value: any): Promise<void> => {
 }
 
 export default class ChromeStorageAdapter<T> implements IStorageAdapter<T> {
+  readonly #listener = (changes: Partial<Record<string, chrome.storage.StorageChange>>): void => {
+    this.handleChanged(changes)
+  }
+
   constructor(
     protected readonly name: string,
     protected readonly subscriber: Subscriber<T | null>,
   ) {
-    this.handleChanged = this.handleChanged.bind(this)
-    chrome.storage.onChanged.addListener(this.handleChanged)
+    chrome.storage.onChanged.addListener(this.#listener)
   }
 
   async read(): Promise<T | null> {
@@ -27,7 +30,7 @@ export default class ChromeStorageAdapter<T> implements IStorageAdapter<T> {
   }
 
   dispose(): void {
-    chrome.storage.onChanged.removeListener(this.handleChanged)
+    chrome.storage.onChanged.removeListener(this.#listener)
   }
 
   protected parse(val: any): T | null {

@@ -1,6 +1,6 @@
-import { renderHook } from '@test/helpers/solid'
-import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { createSignal } from 'solid-js'
+import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
+import { renderHook } from '@test/helpers/solid'
 import createCurrentDateTime, { EveryMinute, EverySecond } from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 

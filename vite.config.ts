@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import linaria from '@linaria/vite'
+import linaria from '@wyw-in-js/vite'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
 import Stylis from 'stylis'
 import { defineConfig } from 'vite'
@@ -46,12 +46,8 @@ export default defineConfig((config) => ({
     watch: false,
     globals: true,
     environment: 'happy-dom',
-    deps: {
-      // We need browser variants
-      inline: [/solid-js/, /@solidjs\/testing-library/, /@felte\/solid/, /solid-transition-group/, /@solid-primitives/],
-    },
     coverage: {
-      exclude: ['.pnp.cjs', '.pnp.loader.mjs', 'test-support/**', ...(configDefaults.coverage.exclude ?? [])],
+      exclude: ['test-support/**', ...(configDefaults.coverage.exclude ?? [])],
     },
   },
 }))
