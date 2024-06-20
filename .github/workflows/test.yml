@@ -20,8 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'pnpm'
-
       - name: Get pnpm store directory
         id: pnpm-store-dir-path
         run: echo "dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
