@@ -157,10 +157,6 @@ export const closeButton = css`
   & > svg {
     width: 1.6rem;
     height: 1.6rem;
-
-    & > path {
-      fill: currentColor;
-    }
   }
 `
 

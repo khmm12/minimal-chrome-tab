@@ -1,6 +1,7 @@
 import { createEffect, type JSX, Show, useContext } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
+import { CloseIcon } from '@/components/Icon'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import useDialogHooks from './hooks/useDialogHooks'
@@ -62,9 +63,7 @@ export default function Modal(props: ModalProps): JSX.Element {
                   </h1>
                 </div>
                 <button class={css.closeButton} type="button" title="Close" onClick={handleCloseButtonClick}>
-                  <svg aria-hidden xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14">
-                    <path d="M14 1.41L12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7z" />
-                  </svg>
+                  <CloseIcon />
                 </button>
               </div>
               <div class={css.body}>{props.children}</div>
