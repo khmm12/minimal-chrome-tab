@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import linaria from '@wyw-in-js/vite'
+import autoprefixer from 'autoprefixer'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
 import Stylis from 'stylis'
 import { defineConfig } from 'vite'
@@ -17,6 +18,11 @@ export default defineConfig((config) => ({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       '@test': fileURLToPath(new URL('./test-support', import.meta.url)),
+    },
+  },
+  css: {
+    postcss: {
+      plugins: [autoprefixer()],
     },
   },
   plugins: [
