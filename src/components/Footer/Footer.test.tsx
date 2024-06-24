@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@test/helpers/solid'
+import { fireEvent, render, screen, waitFor } from '@test/helpers/solid'
 import Footer from '.'
 
 vi.mock('@/components/Credits', () => ({
@@ -6,7 +6,7 @@ vi.mock('@/components/Credits', () => ({
 }))
 
 describe('Footer', () => {
-  it('renders a settings button', () => {
+  it('renders a settings button', async () => {
     const handleSettingsRequest = vi.fn()
     render(() => <Footer onSettingsRequest={handleSettingsRequest} />)
 
@@ -14,7 +14,9 @@ describe('Footer', () => {
 
     fireEvent.click(screen.getByTitle('Open settings'))
 
-    expect(handleSettingsRequest).toBeCalled()
+    await waitFor(() => {
+      expect(handleSettingsRequest).toBeCalled()
+    })
   })
 
   it('renders credits', () => {

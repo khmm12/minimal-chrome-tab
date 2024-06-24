@@ -13,8 +13,11 @@ export const button = css`
   background: none;
   border: none;
   cursor: pointer;
-  transform: rotate(0deg);
   transition: 0.1s color ease-out;
+
+  &[aria-disabled='true'] {
+    cursor: default;
+  }
 
   &:hover {
     color: ${black};
@@ -37,5 +40,19 @@ export const svg = css`
 
   .${button}:hover > & {
     transform: rotate(22.5deg);
+  }
+
+  &.is-animated {
+    animation: spin 0.3s ease-out infinite forwards;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
   }
 `

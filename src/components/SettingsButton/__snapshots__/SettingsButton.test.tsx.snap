@@ -2,6 +2,7 @@
 
 exports[`SettingsButton > renders a button 1`] = `
 <button
+  aria-disabled="false"
   class="button_b7837ym"
   title="Open settings"
   type="button"
