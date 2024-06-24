@@ -1,9 +1,9 @@
 import { css } from '@linaria/core'
 import { dark1, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'
-import './fonts/Digital7Mono/index.css'
+import './fonts/Digital7Mono'
 
-css`
+void css`
   :global() {
     html {
       -webkit-text-size-adjust: 100%;
