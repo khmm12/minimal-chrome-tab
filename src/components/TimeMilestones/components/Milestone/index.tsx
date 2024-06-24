@@ -9,7 +9,11 @@ interface MilestoneProps {
   description: string
 }
 
-const PercentFormatOptions = { style: 'percent', minimumFractionDigits: 0, maximumFractionDigits: 0 }
+const PercentFormatOptions = {
+  style: 'percent',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+} satisfies Intl.NumberFormatOptions
 
 export default function Milestone(props: MilestoneProps): JSX.Element {
   const format = createIntlFormatter()
