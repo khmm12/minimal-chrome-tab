@@ -1,4 +1,4 @@
-import { createEffect, type JSX, Show, useContext } from 'solid-js'
+import { createEffect, type JSX, on, Show, useContext } from 'solid-js'
 import { Portal } from 'solid-js/web'
 import { Transition } from 'solid-transition-group'
 import { CloseIcon } from '@/components/Icon'
@@ -20,13 +20,21 @@ export default function Modal(props: ModalProps): JSX.Element {
 
   const transition = useContext(ShowWithTransitionContext)
 
-  createEffect(() => {
-    // Emulate transition end event in test environment
-    if (import.meta.env.TEST && !transition.isOpened)
-      setTimeout(() => {
-        transition.onAfterExit()
-      }, 0)
-  }, transition.isOpened)
+  // Emulate transition end event in test environment
+  if (import.meta.env.TEST) {
+    createEffect(
+      on(
+        () => transition.isOpened,
+        (isOpened) => {
+          if (!isOpened)
+            setTimeout(() => {
+              transition.onAfterExit()
+            }, 0)
+        },
+        { defer: true },
+      ),
+    )
+  }
 
   useDialogHooks({
     get $overlay() {
