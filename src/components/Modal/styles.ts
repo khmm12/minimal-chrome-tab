@@ -1,6 +1,6 @@
 import { css, type CSSProperties } from '@linaria/core'
 import { darken, rgba } from 'polished'
-import { black, dark1, lightGrey, white } from '@/theme/colors'
+import { black, dark2, lightGrey, white } from '@/theme/colors'
 import { darkScheme } from '@/theme/media'
 
 const overlayBackground = (opacity = 1): CSSProperties => ({
@@ -53,8 +53,8 @@ export const dialog = css`
   color: ${black};
 
   @media ${darkScheme} {
-    background: ${dark1};
-    box-shadow: 0 0 0.8rem 0 ${rgba(white, 0.48)};
+    background: ${dark2};
+    box-shadow: 0 0 0.8rem 0 ${rgba(black, 0.6)};
     color: ${white};
   }
 

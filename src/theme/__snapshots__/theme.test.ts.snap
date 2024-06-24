@@ -4,6 +4,7 @@ exports[`colors 1`] = `
 {
   "black": "#000000",
   "dark1": "#202124",
+  "dark2": "#2c2c2c",
   "lightGrey": "#eeeeee",
   "white": "#ffffff",
 }

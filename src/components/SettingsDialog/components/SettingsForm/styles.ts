@@ -33,6 +33,14 @@ export const input = css`
     background: ${darken(0.85, white)};
     border-color: ${white};
   }
+
+  &[type='date'] {
+    color-scheme: light;
+
+    @media ${darkScheme} {
+      color-scheme: dark;
+    }
+  }
 `
 
 export const button = css`
