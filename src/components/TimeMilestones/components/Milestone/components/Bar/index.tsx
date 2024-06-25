@@ -15,7 +15,13 @@ export default function Bar(_props: BarProps): JSX.Element {
   const props = mergeProps(_props, { width: 20, height: 5 })
 
   return (
-    <svg class={css.svg} aria-hidden preserveAspectRatio="none" viewBox={`0 0 ${props.width} ${props.height}`}>
+    <svg
+      class={css.svg}
+      role="figure"
+      aria-hidden="true"
+      preserveAspectRatio="none"
+      viewBox={`0 0 ${props.width} ${props.height}`}
+    >
       <For each={Bars}>
         {(index) => {
           const d = createMemo((): string => {

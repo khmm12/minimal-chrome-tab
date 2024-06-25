@@ -62,7 +62,7 @@ export default function Modal(props: ModalProps): JSX.Element {
               <div class={css.header}>
                 <div class={css.titleWrapper}>
                   <Show when={props.icon}>
-                    <div aria-hidden class={css.icon}>
+                    <div aria-hidden="true" class={css.icon}>
                       {props.icon}
                     </div>
                   </Show>
@@ -71,7 +71,7 @@ export default function Modal(props: ModalProps): JSX.Element {
                   </h1>
                 </div>
                 <button class={css.closeButton} type="button" title="Close" onClick={handleCloseButtonClick}>
-                  <CloseIcon />
+                  <CloseIcon aria-hidden="true" />
                 </button>
               </div>
               <div class={css.body}>{props.children}</div>

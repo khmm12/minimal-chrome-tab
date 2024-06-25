@@ -19,7 +19,7 @@ describe('Time', () => {
   it('renders current date', () => {
     render(() => <Time />)
 
-    const date = screen.getByRole('timer', { current: 'date' })
+    const date = screen.getByLabelText('Date')
     expect(date).toBeDefined()
     expect(date).toHaveTextContent('05.03.2022')
   })
@@ -27,7 +27,7 @@ describe('Time', () => {
   it('renders current time', () => {
     render(() => <Time />)
 
-    const time = screen.getByRole('timer', { current: 'time' })
+    const time = screen.getByLabelText('Time')
     expect(time).toBeDefined()
     expect(time).toHaveTextContent('16:05:30')
   })
@@ -37,6 +37,6 @@ describe('Time', () => {
 
     vi.advanceTimersByTime(1000)
 
-    expect(screen.getByRole('timer', { current: 'time' })).toHaveTextContent('16:05:31')
+    expect(screen.getByLabelText('Time')).toHaveTextContent('16:05:31')
   })
 })

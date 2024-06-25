@@ -39,7 +39,7 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
       title={isLoading() ? 'Opening settings' : 'Open settings'}
       onClick={handleClick}
     >
-      <SettingsIcon ref={$svg} aria-hidden class={css.svg} />
+      <SettingsIcon ref={$svg} aria-hidden="true" class={css.svg} />
     </button>
   )
 }

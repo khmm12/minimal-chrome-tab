@@ -28,7 +28,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const ids = createUniqueIds(['birthDate'])
 
   return (
-    <Form class={css.container} role="form" onSubmit={props.onSubmit}>
+    <Form class={css.container} role="form" aria-label="Settings" onSubmit={props.onSubmit}>
       <Field name="birthDate" transform={parseDateValue}>
         {(field, input) => (
           <div class={css.formGroup}>

@@ -1,5 +1,6 @@
 import { type JSX, Show } from 'solid-js'
 import createCurrentDateTime, { EveryMinute } from '@/hooks/createCurrentDateTime'
+import createUniqueIds from '@/hooks/createUniqueIds'
 import asGetters from '@/utils/as-getters'
 import Milestone from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
@@ -17,9 +18,13 @@ export default function TimeMilestones(): JSX.Element {
     }),
   )
 
+  const ids = createUniqueIds(['heading'])
+
   return (
-    <div class={css.container}>
-      <h1 class={css.title}>We're now through...</h1>
+    <div role="group" aria-describedby={ids.heading} aria-label="Time milestones" class={css.container}>
+      <h1 id={ids.heading} class={css.title}>
+        We're now through...
+      </h1>
       <div class={css.items}>
         <Milestone value={milestones.day} description="of day" />
         <Milestone value={milestones.week} description="of week" />

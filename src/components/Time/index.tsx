@@ -9,17 +9,17 @@ export default function Time(): JSX.Element {
   const dateTime = createCurrentDateTime({ update: EverySecond })
 
   return (
-    <div class={css.container}>
-      <span aria-current="date" aria-live="polite" role="timer">
+    <time aria-live="polite" aria-atomic="true" aria-label="Current date time" class={css.container}>
+      <span aria-current="date" aria-label="Date">
         {format.date(dateTime())}
       </span>
-      <span aria-current="time" aria-live="polite" role="timer">
+      <span aria-current="time" aria-label="Time">
         {format.date(dateTime(), {
           hour: 'numeric',
           minute: 'numeric',
           second: 'numeric',
         })}
       </span>
-    </div>
+    </time>
   )
 }

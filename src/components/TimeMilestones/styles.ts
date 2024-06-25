@@ -15,6 +15,7 @@ export const container = css`
 
 export const title = css`
   font-size: 3.6rem;
+  font-weight: bold;
   margin: 0 0 2.4rem;
 
   @media ${beforeSmall} {
