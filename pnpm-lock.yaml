@@ -43,6 +43,9 @@ importers:
       type-fest:
         specifier: ^4.20.1
         version: 4.20.1
+      valibot:
+        specifier: ^0.34.0
+        version: 0.34.0
     devDependencies:
       '@linaria/vite':
         specifier: ^5.0.4
@@ -3045,8 +3048,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  valibot@0.33.3:
-    resolution: {integrity: sha512-/fuY1DlX8uiQ7aphlzrrI2DbG0YJk84JMgvz2qKpUIdXRNsS53varfo4voPjSrjUr5BSV2K0miSEJUOlA5fQFg==}
+  valibot@0.34.0:
+    resolution: {integrity: sha512-TELvxO0hEB1/6XjTS5Jfi4dS0oyawA5flxs4/sK/tSUXnlLMiKTMYE6Atuu0a7kvtP3eqPv3yZ80msfM+qMDHA==}
 
   validate-html-nesting@1.2.2:
     resolution: {integrity: sha512-hGdgQozCsQJMyfK5urgFcWEqsSSrK63Awe0t/IMR0bZ0QMtnuaiHzThW81guu3qx9abLi99NEuiaN6P9gVYsNg==}
@@ -4209,7 +4212,7 @@ snapshots:
   '@modular-forms/solid@0.21.0(solid-js@1.8.17)':
     dependencies:
       solid-js: 1.8.17
-      valibot: 0.33.3
+      valibot: 0.34.0
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -6499,7 +6502,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  valibot@0.33.3: {}
+  valibot@0.34.0: {}
 
   validate-html-nesting@1.2.2: {}
 

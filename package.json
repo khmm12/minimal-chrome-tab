@@ -30,7 +30,8 @@
     "remeda": "^2.2.0",
     "solid-js": "1.8.17",
     "solid-transition-group": "^0.2.3",
-    "type-fest": "^4.20.1"
+    "type-fest": "^4.20.1",
+    "valibot": "^0.34.0"
   },
   "devDependencies": {
     "@linaria/vite": "^5.0.4",

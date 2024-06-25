@@ -25,7 +25,9 @@ export default function createStorage<T>(storage: Storage<T>): StorageReturn<T> 
   }
 
   onMount(() => {
-    const unsubscribe = storage.subscribe((nextValue) => mutate(() => nextValue))
+    const unsubscribe = storage.subscribe((nextValue) => {
+      mutate(() => nextValue)
+    })
     onCleanup(unsubscribe)
   })
 

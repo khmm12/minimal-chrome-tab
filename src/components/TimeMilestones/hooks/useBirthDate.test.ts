@@ -1,5 +1,6 @@
 import { renderHook } from '@test/helpers/solid'
 import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
+import { type ISODate } from '@/utils/brands'
 import useBirthDate from './useBirthDate'
 
 afterEach(() => {
@@ -27,7 +28,7 @@ describe('useBirthDate', () => {
   })
 
   it('returns Date when birthdate is defined', async () => {
-    await fillSettings({ birthDate: '1970-06-05' })
+    await fillSettings({ birthDate: '1970-06-05' as ISODate })
     const birthDate = renderHook(() => useBirthDate()).result
     await runNextTick()
 

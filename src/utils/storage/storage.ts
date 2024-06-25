@@ -1,24 +1,24 @@
-import StorageSubscribtion from './subscription'
-import type { IStorage, IStorageAdapter, IStorageAdapterConstructor, Subscriber, Unsubscribe } from './types'
+import StorageSubscription from './subscription'
+import type { ISerializer, IStorage, IStorageAdapter, Subscriber, Unsubscribe } from './types'
+
+type DeferredValue<T> = { value: T; loaded: true } | { loaded: false }
 
 export default class Storage<T> implements IStorage<T> {
-  protected readonly adapter: IStorageAdapter<T>
-  protected readonly subscription = new StorageSubscribtion<T>()
+  static async create<T>(adapter: IStorageAdapter, serializer: ISerializer<T>): Promise<Storage<T>> {
+    const storage = new Storage<T>(adapter, serializer)
+    await storage.init()
+    return storage
+  }
 
-  protected isLoaded = false
-  protected currentValue: T
+  protected readonly adapter: IStorageAdapter
+  protected readonly serializer: ISerializer<T>
+  protected readonly subscription = new StorageSubscription<T>()
 
-  public readonly defaultValue: T
-  public readonly name: string
+  protected currentValue: DeferredValue<T> = { loaded: false }
 
-  constructor(Adapter: IStorageAdapterConstructor, name: string, defaultValue: T) {
-    this.adapter = new Adapter<T>(name, (value) => {
-      this.handleChanged(value)
-    })
-
-    this.defaultValue = defaultValue
-    this.currentValue = defaultValue
-    this.name = name
+  protected constructor(adapter: IStorageAdapter, serializer: ISerializer<T>) {
+    this.adapter = adapter
+    this.serializer = serializer
 
     if (import.meta.env.TEST) {
       afterEach(async () => {
@@ -27,37 +27,43 @@ export default class Storage<T> implements IStorage<T> {
     }
   }
 
-  get loaded(): boolean {
-    return this.isLoaded
+  protected async init(): Promise<void> {
+    if (!this.currentValue.loaded) {
+      this.adapter.subscribe(this.handleChanged.bind(this))
+      await this.refresh()
+    }
   }
 
-  async load(): Promise<void> {
-    if (this.isLoaded) return
-    await this.refresh()
-    this.isLoaded = true
+  get loaded(): boolean {
+    return this.currentValue.loaded
   }
 
   async refresh(): Promise<void> {
-    this.value = (await this.adapter.read()) ?? this.defaultValue
+    this.value = this.serializer.deserialize(await this.adapter.read())
   }
 
   async read(): Promise<T> {
-    await this.load()
+    await this.refresh()
     return this.value
   }
 
   async write(value: T): Promise<void> {
-    await this.adapter.write(value)
+    await this.adapter.write(this.serializer.serialize(value))
     this.value = value
   }
 
   get value(): T {
-    return this.currentValue
+    if (!this.currentValue.loaded) throw new Error('Storage is not loaded. Please call `init` method first.')
+    return this.currentValue.value
   }
 
   protected set value(nextValue: T) {
-    this.currentValue = nextValue
-    this.subscription.notify(nextValue)
+    if (this.currentValue.loaded) {
+      this.currentValue.value = nextValue
+      this.subscription.notify(nextValue)
+    } else {
+      this.currentValue = { value: nextValue, loaded: true }
+    }
   }
 
   subscribe(subscriber: Subscriber<T>): Unsubscribe {
@@ -76,7 +82,7 @@ export default class Storage<T> implements IStorage<T> {
     this.subscription.dispose()
   }
 
-  protected handleChanged(nextValue: T | null): void {
-    this.value = nextValue ?? this.defaultValue
+  protected handleChanged(nextValue: unknown): void {
+    this.value = this.serializer.deserialize(nextValue)
   }
 }

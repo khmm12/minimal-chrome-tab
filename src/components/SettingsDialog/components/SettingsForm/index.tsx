@@ -3,6 +3,7 @@ import { createForm, reset } from '@modular-forms/solid'
 import { type Simplify } from 'type-fest'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
+import { type ISODate } from '@/utils/brands'
 import toISODate from '@/utils/to-iso-date'
 import * as css from './styles'
 
@@ -46,7 +47,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   )
 }
 
-function parseDateValue(value: string | undefined): string {
+function parseDateValue(value: string | undefined): ISODate | undefined {
   const parsed = value != null && value !== '' ? new Date(value) : null
-  return parsed != null && !Number.isNaN(parsed.valueOf()) ? toISODate(parsed) : ''
+  return parsed != null && !Number.isNaN(parsed.valueOf()) ? toISODate(parsed) : undefined
 }

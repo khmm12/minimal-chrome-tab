@@ -1,6 +1,6 @@
 import type { Subscriber } from './types'
 
-export default class StorageSubscribtion<T> {
+export default class StorageSubscription<T> {
   protected subscribers: Array<Subscriber<T>> = []
 
   notify(value: T): void {

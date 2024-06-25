@@ -1,9 +1,11 @@
 export type Subscriber<T> = (value: T) => void
 export type Unsubscribe = () => void
 
-export interface IStorageAdapter<T> {
-  read: () => T | null | Promise<T | null>
-  write: (value: T) => void | Promise<void>
+type Promisable<T> = T | Promise<T>
+
+export interface IStorageAdapter extends ISubscribable<unknown> {
+  read: () => Promisable<unknown>
+  write: (value: unknown) => Promisable<void>
   dispose?: () => void
 }
 
@@ -20,9 +22,6 @@ export interface IWritableStorage<T> {
 
 export interface IMemorableStorage<T> {
   readonly value: T
-  readonly loaded: boolean
-
-  load: () => Promise<void>
   refresh: () => Promise<void>
 }
 
@@ -30,9 +29,14 @@ export interface IDisposableStorage {
   dispose?: () => void
 }
 
-export interface ISubscribableStorage<T> {
+export interface ISubscribableStorage<T> extends ISubscribable<T> {}
+
+export interface ISerializer<T> {
+  deserialize: (value: unknown) => T
+  serialize: (value: T) => unknown
+}
+
+interface ISubscribable<T> {
   subscribe: (subscriber: Subscriber<T>) => Unsubscribe
   unsubscribe: (subscriber: Subscriber<T>) => void
 }
-
-export type IStorageAdapterConstructor = new <T>(name: string, subscriber: Subscriber<T | null>) => IStorageAdapter<T>
