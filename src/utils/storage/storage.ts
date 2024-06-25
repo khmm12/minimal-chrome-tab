@@ -1,7 +1,10 @@
-import StorageSubscription from './subscription'
 import type { ISerializer, IStorage, IStorageAdapter, Subscriber, Unsubscribe } from './types'
 
 type DeferredValue<T> = { value: T; loaded: true } | { loaded: false }
+
+// Extracts subscription to a separate chunk.
+// Fixes the issue with circular chunks caused by top-level await.
+const { default: Subscription } = await import('./subscription')
 
 export default class Storage<T> implements IStorage<T> {
   static async create<T>(adapter: IStorageAdapter, serializer: ISerializer<T>): Promise<Storage<T>> {
@@ -12,7 +15,8 @@ export default class Storage<T> implements IStorage<T> {
 
   protected readonly adapter: IStorageAdapter
   protected readonly serializer: ISerializer<T>
-  protected readonly subscription = new StorageSubscription<T>()
+  // eslint-disable-next-line new-cap
+  protected readonly subscription = new Subscription<T>()
 
   protected currentValue: DeferredValue<T> = { loaded: false }
 
