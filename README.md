@@ -1,10 +1,17 @@
 > When the default new tab already pissed you off
 
+# Motivation 
+
+One day I noticed that the default new tab consumes resources even it's not active. Rediciolous! 
+
 # Advantages
 
 - Lightweight 🪶
-- Light/dark mode support 💅
-- Nice look 😻
+- Light/dark mode support 🌓
+- Nice look 💅
+- It doesn't do anything when is not active 🔋
+- Blazing fast ⚡️
+- No analytics and spyware 🕵️‍♂️
 
 # Screenshots
 ## Light mode
@@ -35,4 +42,4 @@ To build the extension, use the following command:
 pnpm build
 ```
 
-After that, you can install the extension by loading the unpacked extension from the `dist` folder.
+After that, you can install the extension by loading the unpacked extension from the `dist` folder. [More information](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world#load-unpacked).
