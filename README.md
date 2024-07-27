@@ -34,7 +34,7 @@ pnpm i
 pnpm dev
 ```
 
-# Production Build
+# How to build and install the extension
 
 To build the extension, use the following command:
 
