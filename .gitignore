@@ -13,3 +13,6 @@ dist
 
 # Tests
 coverage
+
+# Temp files
+.tmp

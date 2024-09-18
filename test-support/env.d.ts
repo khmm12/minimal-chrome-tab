@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-empty-object-type, @typescript-eslint/no-unused-vars */
 import 'vitest/globals'
 import type { TestingLibraryMatchers } from '@testing-library/jest-dom/matchers'
 

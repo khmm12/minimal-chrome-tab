@@ -1,5 +1,5 @@
 import { fileURLToPath } from 'node:url'
-import linaria from '@wyw-in-js/vite'
+import linariaPkg from '@wyw-in-js/vite'
 import autoprefixer from 'autoprefixer'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
 import Stylis from 'stylis'
@@ -8,7 +8,9 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import { configDefaults } from 'vitest/config'
-import manifestPlugin from './lib/vite/manifest-plugin'
+import manifestPlugin from './lib/vite/manifest-plugin.js'
+
+const linaria = 'default' in linariaPkg ? linariaPkg.default : linariaPkg
 
 export default defineConfig((config) => ({
   build: {

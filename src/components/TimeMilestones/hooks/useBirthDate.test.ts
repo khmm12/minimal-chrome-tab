@@ -1,6 +1,6 @@
 import { renderHook } from '@test/helpers/solid'
 import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
-import { type ISODate } from '@/utils/brands'
+import type { ISODate } from '@/utils/brands'
 import useBirthDate from './useBirthDate'
 
 afterEach(() => {

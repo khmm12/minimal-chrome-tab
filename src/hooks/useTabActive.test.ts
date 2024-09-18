@@ -1,8 +1,8 @@
-import type { SpyInstance } from 'vitest'
+import type { MockInstance } from 'vitest'
 import { fireEvent, renderHook } from '@test/helpers/solid'
 import useTabActive from './useTabActive'
 
-let isHidden: SpyInstance<[], boolean>
+let isHidden: MockInstance<() => boolean>
 
 beforeEach(() => {
   isHidden = vi.spyOn(document, 'hidden', 'get').mockReturnValue(false)

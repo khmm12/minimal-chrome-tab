@@ -1,11 +1,12 @@
 import StorageSubscription from '../subscription'
 import type { IStorageAdapter, Subscriber, Unsubscribe } from '../types'
 
-const read = async (key: string): Promise<Record<string, any>> => {
+const read = async (key: string): Promise<unknown> => {
   const items = await chrome.storage.local.get(key)
   return items[key]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const write = async (key: string, value: any): Promise<void> => {
   await chrome.storage.local.set({ [key]: value })
 }
