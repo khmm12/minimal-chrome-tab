@@ -1,5 +1,7 @@
 type Locales = string | string[]
 type Formatters = Intl.DateTimeFormat | Intl.NumberFormat
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyOptions = Record<string, any>
 
 type CacheFactory<TFormatter extends Formatters, TFormatOptions> = (
   locales?: Locales,
@@ -19,7 +21,7 @@ export const getNumberFormatter = /* @__PURE__ */ getFormatter<Intl.NumberFormat
   (locales, options) => new Intl.NumberFormat(locales, options),
 )
 
-function getFormatter<TFormatter extends Formatters, TFormatOptions extends Record<string, any>>(
+function getFormatter<TFormatter extends Formatters, TFormatOptions extends AnyOptions>(
   formatterProto: TFormatter,
   factory: CacheFactory<TFormatter, TFormatOptions>,
 ): (locales?: Locales, options?: TFormatOptions) => TFormatter {
@@ -46,7 +48,7 @@ function getFormatterCache<T extends Formatters>(formatterProto: T): FormatterCa
   return cache
 }
 
-function getCacheKey<T extends Record<string, any>>(
+function getCacheKey<T extends AnyOptions>(
   locales: string | string[] | undefined = '',
   options: Partial<T> = {},
 ): string {

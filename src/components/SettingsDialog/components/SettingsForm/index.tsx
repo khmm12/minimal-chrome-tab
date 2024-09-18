@@ -1,9 +1,9 @@
 import { createEffect, type JSX, on } from 'solid-js'
 import { createForm, reset } from '@modular-forms/solid'
-import { type Simplify } from 'type-fest'
+import type { Simplify } from 'type-fest'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
-import { type ISODate } from '@/utils/brands'
+import type { ISODate } from '@/utils/brands'
 import toISODate from '@/utils/to-iso-date'
 import * as css from './styles'
 

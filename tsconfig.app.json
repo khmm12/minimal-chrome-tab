@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "composite": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "jsxImportSource": "solid-js",
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "esnext",
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "@test/*": ["test-support/*"]
+    },
+    "types": ["chrome", "vite/client", "@total-typescript/ts-reset"],
+    "tsBuildInfoFile": ".tmp/app.tsbuildinfo"
+  },
+  "include": ["typings", "src", "test-support"],
+  "exclude": ["./dist"],
+}

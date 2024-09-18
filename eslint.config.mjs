@@ -4,10 +4,12 @@ import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
+// @ts-expect-error: the package doesn't have type definitions, nice to have, but not critical.
 const importPlugin = await import('eslint-plugin-import')
 
 export default tseslint.config(
   lovePreset,
+
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   prettier,
   {
@@ -19,18 +21,19 @@ export default tseslint.config(
   {
     languageOptions: {
       globals: globals.webextensions,
-      parserOptions: {
-        project: ['./tsconfig.json', './tsconfig.node.json'],
-        sourceType: 'module',
-        createDefaultProgram: true,
-      },
     },
     settings: {
-      ...importPlugin.configs.typescript.settings,
+      ...importPlugin.configs?.typescript.settings,
     },
   },
   {
     rules: {
+      '@typescript-eslint/no-magic-numbers': 'off', // too many false positives
+      '@typescript-eslint/init-declarations': 'off', // too many false positives
+      '@typescript-eslint/no-empty-function': 'off', // useless,
+      '@typescript-eslint/class-methods-use-this': 'off', // useless,
+      '@typescript-eslint/no-deprecated': 'off', // false positives, example: chrome namespace
+
       'import/order': [
         'error',
         {
