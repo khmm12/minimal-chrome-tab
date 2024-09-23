@@ -18,6 +18,12 @@
     "vite.config.ts",
     "eslint.config.mjs",
     "prettier.config.mjs",
-    "lib"
+    "postcss.config.mjs",
+    "panda.config.ts",
+    "lib",
+    "src/theme",
+  ],
+  "exclude": [
+    "**/*.test.ts"
   ]
 }

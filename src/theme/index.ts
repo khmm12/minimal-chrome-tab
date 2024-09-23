@@ -1,3 +1,3 @@
-export * as colors from './colors'
-export * as fonts from './fonts'
-export * as media from './media'
+export * as colors from './colors.js'
+export * as fonts from './fonts.js'
+export * as media from './media.js'

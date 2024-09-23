@@ -1,39 +1,23 @@
-import { css } from '@linaria/core'
-import { beforeSmall } from '@/theme/media'
+import { css } from 'styled-system/css'
+import * as p from 'styled-system/patterns'
 
-export const container = css`
-  align-self: flex-start;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
+export const container = p.vstack.raw({
+  alignSelf: 'flex-start',
+  alignItems: { base: 'flex-end', smDown: 'center' },
+  justifyContent: 'center',
+  gap: 0,
+})
 
-  @media ${beforeSmall} {
-    align-items: center;
-  }
-`
+export const title = css.raw({
+  fontSize: { base: '3.6rem', smDown: '3.2rem' },
+  fontWeight: 'bold',
+  textAlign: 'center',
+  margin: { base: '0 0 2.4rem', smDown: '0 0 1.6rem' },
+})
 
-export const title = css`
-  font-size: 3.6rem;
-  font-weight: bold;
-  margin: 0 0 2.4rem;
-
-  @media ${beforeSmall} {
-    font-size: 3.2rem;
-    text-align: center;
-    margin: 0 0 1.6rem;
-  }
-`
-
-export const items = css`
-  display: grid;
-  width: 100%;
-  grid-gap: 3.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(12rem, auto));
-  justify-content: flex-end;
-
-  @media ${beforeSmall} {
-    justify-content: center;
-    grid-gap: 1.6rem;
-  }
-`
+export const items = p.grid.raw({
+  width: 'full',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(12rem, auto))',
+  gap: { base: '3.5rem', smDown: '1.6rem' },
+  justifyContent: { base: 'flex-end', smDown: 'center' },
+})

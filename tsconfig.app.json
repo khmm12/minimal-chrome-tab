@@ -19,11 +19,12 @@
     "verbatimModuleSyntax": true,
     "paths": {
       "@/*": ["src/*"],
+      "styled-system": ["styled-system"],
       "@test/*": ["test-support/*"]
     },
     "types": ["chrome", "vite/client", "@total-typescript/ts-reset"],
     "tsBuildInfoFile": ".tmp/app.tsbuildinfo"
   },
-  "include": ["typings", "src", "test-support"],
+  "include": ["typings", "src", "styled-system", "test-support"],
   "exclude": ["./dist"],
 }

@@ -1,4 +1,4 @@
-import { colors, fonts, media } from '.'
+import { colors, fonts, media } from './index.js'
 
 test('colors', () => {
   expect(colors).toMatchSnapshot()

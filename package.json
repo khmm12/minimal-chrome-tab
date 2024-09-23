@@ -7,6 +7,7 @@
     "node": "^18 || ^20"
   },
   "scripts": {
+    "prepare": "panda codegen --clean",
     "dev": "vite",
     "build": "vite build",
     "test": "run-p --aggregate-output lint typecheck:* \"unit-tests --run --silent\"",
@@ -23,7 +24,6 @@
     "*.css"
   ],
   "dependencies": {
-    "@linaria/core": "^6.2.0",
     "@modular-forms/solid": "^0.23.0",
     "@total-typescript/ts-reset": "^0.6.1",
     "date-fns": "^4.1.0",
@@ -36,7 +36,7 @@
     "valibot": "^0.42.0"
   },
   "devDependencies": {
-    "@linaria/vite": "^5.0.4",
+    "@pandacss/dev": "^0.46.1",
     "@solidjs/testing-library": "0.8.9",
     "@testing-library/dom": "10.4.0",
     "@testing-library/jest-dom": "^6.5.0",
@@ -45,7 +45,6 @@
     "@types/chrome": "^0.0.271",
     "@types/node": "^20.16.5",
     "@vitest/coverage-v8": "^2.1.1",
-    "@wyw-in-js/vite": "^0.5.4",
     "autoprefixer": "^10.4.20",
     "browserslist": "^4.23.3",
     "browserslist-to-esbuild": "^2.1.1",
@@ -58,8 +57,8 @@
     "globals": "^15.9.0",
     "happy-dom": "^15.7.4",
     "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.47",
     "prettier": "^3.3.3",
-    "stylis": "^3.5.4",
     "typescript": "~5.5.4",
     "typescript-eslint": "^8.6.0",
     "vite": "^5.4.6",

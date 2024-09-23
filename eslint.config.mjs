@@ -9,14 +9,13 @@ const importPlugin = await import('eslint-plugin-import')
 
 export default tseslint.config(
   lovePreset,
-
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   prettier,
   {
     files: ['**/*.{js,mjs,cjs}', '**/*.{ts,tsx,mts,cts}'],
   },
   {
-    ignores: ['dist/', 'vite.config.ts.timestamp-*.mjs'],
+    ignores: ['dist', 'styled-system', 'vite.config.ts.timestamp-*.mjs'],
   },
   {
     languageOptions: {
@@ -44,7 +43,9 @@ export default tseslint.config(
           groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
           pathGroups: [
             { pattern: 'solid-js', group: 'external', position: 'before' },
-            { pattern: '@linaria/core', group: 'external', position: 'before' },
+            { pattern: 'solid-js/**', group: 'external', position: 'before' },
+            { pattern: 'styled-system', group: 'external', position: 'before' },
+            { pattern: 'styled-system/**', group: 'external', position: 'before' },
             { pattern: '@test/**', group: 'internal', position: 'after' },
             { pattern: '@/**', group: 'internal', position: 'after' },
           ],

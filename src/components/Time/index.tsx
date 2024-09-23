@@ -1,7 +1,8 @@
 import type { JSX } from 'solid-js'
+import { css } from 'styled-system/css'
 import createCurrentDateTime, { EverySecond } from '@/hooks/createCurrentDateTime'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
-import * as css from './styles'
+import * as s from './styles'
 
 export default function Time(): JSX.Element {
   const format = createIntlFormatter()
@@ -9,7 +10,7 @@ export default function Time(): JSX.Element {
   const dateTime = createCurrentDateTime({ update: EverySecond })
 
   return (
-    <time aria-live="polite" aria-atomic="true" aria-label="Current date time" class={css.container}>
+    <time aria-live="polite" aria-atomic="true" aria-label="Current date time" class={css(s.container)}>
       <span aria-current="date" aria-label="Date">
         {format.date(dateTime())}
       </span>

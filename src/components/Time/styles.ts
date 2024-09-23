@@ -1,19 +1,7 @@
-import { css } from '@linaria/core'
-import { beforeSmall } from '@/theme/media'
+import * as p from 'styled-system/patterns'
 
-export const container = css`
-  font-size: 8rem;
-  text-align: center;
-
-  & > span {
-    display: block;
-  }
-
-  & > span + span {
-    margin: 0.1em 0 0;
-  }
-
-  @media ${beforeSmall} {
-    font-size: 6rem;
-  }
-`
+export const container = p.vstack.raw({
+  alignItems: 'center',
+  gap: '0.1em 0',
+  fontSize: { base: '8rem', smDown: '6rem' },
+})
