@@ -1,20 +1,12 @@
-import { css } from '@linaria/core'
-import { black, white } from '@/theme/colors'
-import { Digital7Mono } from '@/theme/fonts'
-import { darkScheme } from '@/theme/media'
+import * as p from 'styled-system/patterns'
 
-export const container = css`
-  height: 100%;
-  width: 100%;
-  display: grid;
-  grid-template-rows: 1fr auto 1fr;
-  grid-gap: 4rem;
-  padding: 4rem;
-  font-family: ${Digital7Mono};
-  line-height: 0.8;
-  color: ${black};
-
-  @media ${darkScheme} {
-    color: ${white};
-  }
-`
+export const container = p.grid.raw({
+  height: 'full',
+  width: 'full',
+  gridTemplateRows: '1fr auto 1fr',
+  gap: '4rem',
+  padding: '4rem',
+  lineHeight: 0.8,
+  fontFamily: 'Digital7Mono',
+  color: { base: 'black', _dark: 'white' },
+})

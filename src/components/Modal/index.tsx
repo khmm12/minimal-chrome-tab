@@ -1,11 +1,13 @@
-import { createEffect, type JSX, on, Show, useContext } from 'solid-js'
+import { type JSX, Show, useContext } from 'solid-js'
 import { Portal } from 'solid-js/web'
+import { css } from 'styled-system/css'
 import { Transition } from 'solid-transition-group'
 import { CloseIcon } from '@/components/Icon'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'
 import createUniqueIds from '@/hooks/createUniqueIds'
+import buildModalAnimation from './animation'
 import useDialogHooks from './hooks/useDialogHooks'
-import * as css from './styles'
+import * as s from './styles'
 
 interface ModalProps {
   icon?: JSX.Element
@@ -19,22 +21,6 @@ export default function Modal(props: ModalProps): JSX.Element {
   let $dialog: HTMLDivElement | undefined
 
   const transition = useContext(ShowWithTransitionContext)
-
-  // Emulate transition end event in test environment
-  if (import.meta.env.TEST) {
-    createEffect(
-      on(
-        () => transition.isOpened,
-        (isOpened) => {
-          if (!isOpened)
-            setTimeout(() => {
-              transition.onAfterExit()
-            }, 0)
-        },
-        { defer: true },
-      ),
-    )
-  }
 
   useDialogHooks({
     get $overlay() {
@@ -53,28 +39,30 @@ export default function Modal(props: ModalProps): JSX.Element {
 
   const ids = createUniqueIds(['title'])
 
+  const animation = buildModalAnimation(() => $dialog)
+
   return (
     <Portal>
-      <Transition name="overlay" appear onAfterExit={transition.onAfterExit}>
+      <Transition appear onEnter={animation.onEnter} onExit={animation.onExit} onAfterExit={transition.onAfterExit}>
         <Show when={transition.isOpened}>
-          <div ref={$overlay} class={css.overlay} tabIndex={-1}>
-            <div ref={$dialog} class={css.dialog} aria-labelledby={ids.title} role="dialog" tabIndex={-1}>
-              <div class={css.header}>
-                <div class={css.titleWrapper}>
+          <div ref={$overlay} class={css(s.overlay)} tabIndex={-1}>
+            <div ref={$dialog} class={css(s.dialog)} aria-labelledby={ids.title} role="dialog" tabIndex={-1}>
+              <div class={css(s.header)}>
+                <div class={css(s.titleWrapper)}>
                   <Show when={props.icon}>
-                    <div aria-hidden="true" class={css.icon}>
+                    <div aria-hidden="true" class={css(s.icon)}>
                       {props.icon}
                     </div>
                   </Show>
-                  <h1 id={ids.title} class={css.title}>
+                  <h1 id={ids.title} class={css(s.title)}>
                     {props.title}
                   </h1>
                 </div>
-                <button class={css.closeButton} type="button" title="Close" onClick={handleCloseButtonClick}>
+                <button class={css(s.closeButton)} type="button" title="Close" onClick={handleCloseButtonClick}>
                   <CloseIcon aria-hidden="true" />
                 </button>
               </div>
-              <div class={css.body}>{props.children}</div>
+              <div class={css(s.body)}>{props.children}</div>
             </div>
           </div>
         </Show>

@@ -8,8 +8,9 @@ import {
   startTransition,
   untrack,
 } from 'solid-js'
+import { css, cx } from 'styled-system/css'
 import { SettingsIcon } from '@/components/Icon'
-import * as css from './styles'
+import * as s from './styles'
 
 interface SettingsButtonProps {
   onClick?: () => void
@@ -33,13 +34,13 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
 
   return (
     <button
-      class={css.button}
+      class={cx(css(s.button), 'group')}
       type="button"
       aria-disabled={isLoading()}
       title={isLoading() ? 'Opening settings' : 'Open settings'}
       onClick={handleClick}
     >
-      <SettingsIcon ref={$svg} aria-hidden="true" class={css.svg} />
+      <SettingsIcon ref={$svg} aria-hidden="true" css={s.svg} />
     </button>
   )
 }
@@ -53,21 +54,33 @@ function createIconAnimation(svg: Accessor<SVGSVGElement | undefined>, when: Acc
 
   // Wait for animation iteration to finish, then stop
   createEffect(() => {
-    if (typeof AnimationEvent === 'undefined') return
+    if (typeof Element.prototype.animate === 'undefined') {
+      setIsRunning(false)
+      return
+    }
 
     const $el = untrack(svg)
     if ($el == null || !isRunning()) return
 
-    const handleAnimationIteration = (): void => {
-      if (!untrack(when)) setIsRunning(false)
+    const animation = $el.animate(
+      { easing: 'ease-out', transform: ['rotate(360deg)'] },
+      { duration: 300, fill: 'both' },
+    )
+
+    const handleAnimationFinish = (): void => {
+      if (!untrack(when)) {
+        setIsRunning(false)
+      } else {
+        animation.play()
+      }
     }
 
-    $el.addEventListener('animationiteration', handleAnimationIteration)
-    $el.classList.add('is-animated')
+    animation.addEventListener('finish', handleAnimationFinish)
 
     onCleanup(() => {
-      $el.classList.remove('is-animated')
-      $el.removeEventListener('animationiteration', handleAnimationIteration)
+      animation.removeEventListener('finish', handleAnimationFinish)
+      animation.finish()
+      animation.cancel()
     })
   })
 }

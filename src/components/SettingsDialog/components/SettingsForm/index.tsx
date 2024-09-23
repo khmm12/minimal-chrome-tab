@@ -1,11 +1,12 @@
 import { createEffect, type JSX, on } from 'solid-js'
+import { css } from 'styled-system/css'
 import { createForm, reset } from '@modular-forms/solid'
 import type { Simplify } from 'type-fest'
 import type { Settings } from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import type { ISODate } from '@/utils/brands'
 import toISODate from '@/utils/to-iso-date'
-import * as css from './styles'
+import * as s from './styles'
 
 interface SettingsFormProps {
   initialValues: Settings
@@ -29,18 +30,18 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const ids = createUniqueIds(['birthDate'])
 
   return (
-    <Form class={css.container} role="form" aria-label="Settings" onSubmit={props.onSubmit}>
+    <Form class={css(s.container)} role="form" aria-label="Settings" onSubmit={props.onSubmit}>
       <Field name="birthDate" transform={parseDateValue}>
         {(field, input) => (
-          <div class={css.formGroup}>
-            <label for={ids.birthDate} class={css.label}>
+          <div class={css(s.formGroup)}>
+            <label for={ids.birthDate} class={css(s.label)}>
               Birth date
             </label>
-            <input {...input} id={ids.birthDate} class={css.input} type="date" value={field.value ?? ''} />
+            <input {...input} id={ids.birthDate} class={css(s.input)} type="date" value={field.value ?? ''} />
           </div>
         )}
       </Field>
-      <button class={css.button} disabled={form.submitting} type="submit">
+      <button class={css(s.button)} disabled={form.submitting} type="submit">
         Save
       </button>
     </Form>

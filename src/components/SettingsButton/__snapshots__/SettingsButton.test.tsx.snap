@@ -3,13 +3,13 @@
 exports[`SettingsButton > renders a button 1`] = `
 <button
   aria-disabled="false"
-  class="button_b7837ym"
+  class="w_3.2rem h_3.2rem flex_0_0_auto c_black/60 dark:c_white/60 hover:c_black hover:dark:c_white ap_none p_0.4rem bg_transparent bd_none cursor_pointer disabled:cursor_default trs_0.1s_color_ease-out fs_2.4rem group"
   title="Open settings"
   type="button"
 >
   <svg
     aria-hidden="true"
-    class="svg_s1y7swdn"
+    class="w_1em h_1em trf_rotate(0deg) groupHover:trf_rotate(22.5deg) trs_0.1s_transform_ease-out"
     viewBox="0 0 128 128"
     xmlns="http://www.w3.org/2000/svg"
   >

@@ -1,45 +1,54 @@
-import { createMemo, For, type JSX, mergeProps } from 'solid-js'
+import { For, type JSX, mergeProps } from 'solid-js'
 import { round } from '@/utils/rounds'
 import times from '@/utils/times'
-import * as css from './styles'
 
 interface BarProps {
   progress: number
   width?: number
   height?: number
+  bars?: number
+  barWidth?: number
 }
 
-const Bars = times(10)
-
 export default function Bar(_props: BarProps): JSX.Element {
-  const props = mergeProps(_props, { width: 20, height: 5 })
+  const props = mergeProps({ width: 25, height: 5, bars: 10, barWidth: 1.2 }, _props)
+
+  const d = buildPathCalculator(props)
 
   return (
     <svg
-      class={css.svg}
       role="figure"
       aria-hidden="true"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMinYMin"
+      height="1.6rem"
       viewBox={`0 0 ${props.width} ${props.height}`}
     >
-      <For each={Bars}>
-        {(index) => {
-          const d = createMemo((): string => {
-            const { progress, width, height } = props
-            const bars = Bars.length
-
-            const left = index / bars
-            const lineProgress = Math.min((progress - left) * bars, 1)
-
-            const x = (width / bars) * index + 1
-            const y = Math.min(height - 0.5, round(height * (1 - lineProgress), 2))
-
-            return `M${x} ${y} L${x} ${height} Z`
-          })
-
-          return <path class={css.path} d={d()} />
-        }}
+      <For each={times(props.bars)}>
+        {(index) => <path stroke-width={props.barWidth} stroke="currentColor" d={d(index)} />}
       </For>
     </svg>
   )
+}
+
+function buildPathCalculator(p: {
+  bars: number
+  barWidth: number
+  progress: number
+  width: number
+  height: number
+}): (index: number) => string {
+  const precision = 10
+  const minHeight = 0.25
+
+  return (index) => {
+    const lineProgress = Math.min(Math.max(p.progress * p.bars - index, 0), 1)
+
+    const barSpacing = (p.width - p.barWidth) / (p.bars - 1)
+    const barHeight = minHeight + (p.height - minHeight) * lineProgress
+
+    const x = round(barSpacing * index + p.barWidth / 2, precision)
+    const y = round(p.height - barHeight, precision)
+
+    return `M${x} ${y} L${x} ${p.height} Z`
+  }
 }

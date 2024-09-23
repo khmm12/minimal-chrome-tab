@@ -1,8 +1,9 @@
 import type { JSX } from 'solid-js'
+import { css } from 'styled-system/css'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
 import { round } from '@/utils/rounds'
 import Bar from './components/Bar'
-import * as css from './styles'
+import * as s from './styles'
 
 interface MilestoneProps {
   value: number
@@ -22,10 +23,10 @@ export default function Milestone(props: MilestoneProps): JSX.Element {
   const formatValue = (value: number): string => formatPercent(round(value, 2)).replaceAll(/\s/g, '')
 
   return (
-    <div role="group" class={css.container}>
-      <span class={css.value}>{formatValue(props.value)}</span>
+    <div role="group" class={css(s.container)}>
+      <span class={css(s.value)}>{formatValue(props.value)}</span>
       <Bar progress={props.value} />
-      <span class={css.description}>
+      <span class={css(s.description)}>
         <span aria-hidden="true">...</span>
         {props.description}
       </span>

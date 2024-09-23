@@ -1,8 +1,8 @@
-import { css } from '@linaria/core'
+import * as p from 'styled-system/patterns'
 
-export const footer = css`
-  align-self: flex-end;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
+export const footer = p.hstack.raw({
+  alignSelf: 'flex-end',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  gap: '1.6rem',
+})
