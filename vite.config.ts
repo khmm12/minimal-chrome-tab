@@ -5,7 +5,6 @@ import { defineConfig } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
-import { configDefaults } from 'vitest/config'
 import manifestPlugin from './lib/vite/manifest-plugin.js'
 
 export default defineConfig((config) => ({
@@ -41,7 +40,7 @@ export default defineConfig((config) => ({
     globals: true,
     environment: 'happy-dom',
     coverage: {
-      exclude: ['test-support/**', ...(configDefaults.coverage.exclude ?? [])],
+      include: ['src'],
     },
   },
 }))
