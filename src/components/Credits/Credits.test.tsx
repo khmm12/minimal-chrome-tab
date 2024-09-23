@@ -5,6 +5,9 @@ describe('Credits', () => {
   it('renders correctly', async () => {
     render(() => <Credits />)
 
-    expect(screen.getByText('Made by khmm12')).toBeInTheDocument()
+    const $credits = screen.getByText('Made by khmm12')
+
+    expect($credits).toBeInTheDocument()
+    expect($credits).toMatchSnapshot()
   })
 })

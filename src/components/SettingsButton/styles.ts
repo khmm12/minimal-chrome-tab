@@ -4,7 +4,7 @@ export const button = css.raw({
   width: '3.2rem',
   height: '3.2rem',
   flex: '0 0 auto',
-  color: { base: 'black/60', _dark: 'white/60', _hover: { base: 'black', _dark: 'white' } },
+  color: { base: 'slate.700', _dark: 'slate.300', _hover: { base: 'black', _dark: 'white' } },
   appearance: 'none',
   padding: '0.4rem',
   background: 'transparent',
