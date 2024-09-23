@@ -16,7 +16,7 @@ export const overlay = css.raw({
 
 export const dialog = css.raw({
   flex: '0 1 48rem',
-  background: { base: 'white', _dark: 'dark2' },
+  background: { base: 'white', _dark: 'neutral.700' },
   borderRadius: '0.4rem',
   boxShadow: { base: '0 0 0.8rem 0 {colors.black/48}', _dark: '0 0 0.8rem 0 {colors.black/60}' },
   color: { base: 'black', _dark: 'white' },
@@ -32,7 +32,7 @@ export const header = css.raw({
   gridTemplateColumns: 'auto 1fr auto',
   padding: '1.6rem 2.4rem',
   borderBottom: '1px solid',
-  borderBottomColor: { base: 'lightGrey', _dark: 'gray' },
+  borderBottomColor: { base: 'neutral.200', _dark: 'neutral.500' },
 })
 
 export const titleWrapper = css.raw({
@@ -71,7 +71,7 @@ export const closeButton = css.raw({
   justifyContent: 'center',
   cursor: 'pointer',
   fontSize: '1.6rem',
-  color: { base: 'black/54', _dark: 'white/54', _hover: { base: 'black', _dark: 'white' } },
+  color: { base: 'neutral.500', _dark: 'neutral.400', _hover: { base: 'black', _dark: 'white' } },
 })
 
 export const body = css.raw({

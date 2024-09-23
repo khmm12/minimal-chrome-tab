@@ -2,7 +2,8 @@ import { Suspense } from 'solid-js'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
-import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
+import createSettingsStorage from '@/hooks/createSettingsStorage'
+import { ColorTheme, MilestoneProgressStyle, type Settings } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import SettingsDialog, { type SettingsDialogProps } from '.'
 
@@ -32,10 +33,16 @@ describe('SettingsDialog', () => {
   describe('form', () => {
     it('is prefilled with default values', async () => {
       const birthDate = toISODate(new Date())
-      await fillSettings({ birthDate })
+      await fillSettings({
+        birthDate,
+        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+        colorTheme: ColorTheme.Auto,
+      })
       await createContainer()
 
       expect(screen.getByLabelText('Birth date')).toHaveValue(getInputDateValue(birthDate))
+      expect(screen.getByLabelText('Milestone progress style')).toHaveValue(MilestoneProgressStyle.BarsCompact)
+      expect(screen.getByLabelText('Color theme')).toHaveValue(ColorTheme.Auto)
     })
 
     it('rejects invalid birth date', async () => {
@@ -56,7 +63,11 @@ describe('SettingsDialog', () => {
     })
 
     it('allows to clear birth date', async () => {
-      await fillSettings({ birthDate: toISODate(new Date()) })
+      await fillSettings({
+        birthDate: toISODate(new Date()),
+        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+        colorTheme: ColorTheme.Auto,
+      })
       const { user } = await createContainer()
 
       await user.clear(screen.getByLabelText('Birth date'))
