@@ -1,0 +1,39 @@
+name: Nightly
+on:
+  push:
+    branches: ['main']
+jobs:
+  nighly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Get pnpm store directory
+        id: pnpm-store-dir-path
+        run: echo "dir=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+      - name: Use pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-store-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build
+        run: pnpm build
+      - name: Pack Chrome extension
+        run: cd ./dist && zip -r ../minimal-chrome-tab.zip ./
+      - name: Publish nightly release
+        uses: andelf/nightly-release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly
+          name: 'Nightly Release $$'
+          prerelease: true
+          files: |
+            ./minimal-chrome-tab.zip
