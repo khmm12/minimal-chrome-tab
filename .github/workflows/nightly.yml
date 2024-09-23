@@ -35,7 +35,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          name: 'Nightly Release $$'
+          name: 'Nightly'
+          body: |
+            Nightly release $$.
           prerelease: true
           files: |
             ./minimal-chrome-tab.zip
