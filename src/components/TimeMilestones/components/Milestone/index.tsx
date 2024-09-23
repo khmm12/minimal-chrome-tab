@@ -23,7 +23,7 @@ export default function Milestone(props: MilestoneProps): JSX.Element {
   const formatValue = (value: number): string => formatPercent(round(value, 2)).replaceAll(/\s/g, '')
 
   return (
-    <div role="group" class={css(s.container)}>
+    <div role="group" aria-label={props.description} class={css(s.container)}>
       <span class={css(s.value)}>{formatValue(props.value)}</span>
       <Bar progress={props.value} />
       <span class={css(s.description)}>

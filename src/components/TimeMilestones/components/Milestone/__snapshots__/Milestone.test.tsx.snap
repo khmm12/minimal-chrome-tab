@@ -1,0 +1,83 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Milestone > renders correctly 1`] = `
+<div
+  aria-label="test milestone"
+  class="d_flex ai_center gap_0 flex-d_column"
+  role="group"
+>
+  <span
+    class="fs_6.4rem smDown:fs_5.4rem"
+  >
+    25%
+  </span>
+  <svg
+    aria-hidden="true"
+    height="1.6rem"
+    preserveAspectRatio="xMinYMin"
+    role="figure"
+    viewBox="0 0 25 5"
+  >
+    <path
+      d="M0.6 0 L0.6 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M3.2444444444 0 L3.2444444444 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M5.8888888889 2.375 L5.8888888889 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M8.5333333333 4.75 L8.5333333333 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M11.1777777778 4.75 L11.1777777778 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M13.8222222222 4.75 L13.8222222222 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M16.4666666667 4.75 L16.4666666667 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M19.1111111111 4.75 L19.1111111111 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M21.7555555556 4.75 L21.7555555556 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+    <path
+      d="M24.4 4.75 L24.4 5 Z"
+      stroke="currentColor"
+      stroke-width="1.2"
+    />
+  </svg>
+  <span
+    class="m_1rem_0_0 fs_2.4rem smDown:fs_1.6rem tt_lowercase"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ...
+    </span>
+    test milestone
+  </span>
+</div>
+`;

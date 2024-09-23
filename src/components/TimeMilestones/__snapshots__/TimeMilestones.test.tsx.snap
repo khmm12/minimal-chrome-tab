@@ -1,0 +1,50 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`TimeMilestones > renders correctly 1`] = `
+<div
+  aria-describedby="cl-0"
+  aria-label="Time milestones"
+  class="d_flex ai_flex-end smDown:ai_center jc_center gap_0 flex-d_column as_flex-start"
+  role="group"
+>
+  <h1
+    class="fs_3.6rem smDown:fs_3.2rem fw_bold ta_center m_0_0_2.4rem smDown:m_0_0_1.6rem"
+    id="cl-0"
+  >
+    We're now through...
+  </h1>
+  <div
+    class="d_grid grid-tc_repeat(auto-fit,_minmax(12rem,_auto)) gap_3.5rem smDown:gap_1.6rem w_full jc_flex-end smDown:jc_center"
+  >
+    <div
+      aria-label="of day"
+    >
+      of day
+       
+      0.67
+    </div>
+    <div
+      aria-label="of week"
+    >
+      of week
+       
+      0.81
+    </div>
+    <div
+      aria-label="of month"
+    >
+      of month
+       
+      0.15
+    </div>
+    <div
+      aria-label="of year"
+    >
+      of year
+       
+      0.17
+    </div>
+    
+  </div>
+</div>
+`;
