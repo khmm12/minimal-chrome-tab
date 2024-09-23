@@ -38,8 +38,6 @@ function iconProps(props: IconProps): JSX.SvgSVGAttributes<SVGSVGElement> {
   const [sProps, rest] = splitProps(props, ['css', 'class'])
   return mergeProps(rest, {
     xmlns: 'http://www.w3.org/2000/svg',
-    get class() {
-      return cx(css(iconStyles, sProps.css), sProps.class)
-    },
+    class: cx(css(iconStyles, sProps.css), sProps.class),
   })
 }
