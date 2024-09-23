@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
+import solidDevTools from 'solid-devtools/vite'
 import { defineConfig } from 'vite'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import solidPlugin from 'vite-plugin-solid'
@@ -19,6 +20,7 @@ export default defineConfig((config) => ({
     },
   },
   plugins: [
+    solidDevTools({ autoname: true }),
     solidPlugin({ hot: config.mode === 'development' }),
     createHtmlPlugin({ minify: true }),
     viteStaticCopy({
