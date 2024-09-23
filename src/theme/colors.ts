@@ -1,5 +1,0 @@
-export const black = '#000000'
-export const dark1 = '#202124'
-export const dark2 = '#2c2c2c'
-export const lightGrey = '#eeeeee'
-export const white = '#ffffff'

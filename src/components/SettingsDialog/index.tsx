@@ -1,7 +1,8 @@
 import { type Accessor, type JSX, Suspense } from 'solid-js'
 import { SettingsIcon } from '@/components/Icon'
 import Modal from '@/components/Modal'
-import createSettingsStorage, { type Settings } from '@/hooks/createSettingsStorage'
+import createSettingsStorage from '@/hooks/createSettingsStorage'
+import type { Settings } from '@/shared/settings'
 import SettingsForm from './components/SettingsForm'
 
 export interface SettingsDialogProps {

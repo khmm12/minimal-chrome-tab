@@ -3,7 +3,7 @@
 exports[`SettingsButton > renders a button 1`] = `
 <button
   aria-disabled="false"
-  class="w_3.2rem h_3.2rem flex_0_0_auto c_slate.700 dark:c_slate.300 hover:c_black hover:dark:c_white ap_none p_0.4rem bg_transparent bd_none cursor_pointer disabled:cursor_default trs_0.1s_color_ease-out fs_2.4rem group"
+  class="w_3.2rem h_3.2rem flex_0_0_auto c_neutral.700 dark:c_neutral.300 hover:c_black hover:dark:c_white ap_none p_0.4rem bg_transparent bd_none cursor_pointer disabled:cursor_default trs_0.1s_color_ease-out fs_2.4rem group"
   title="Open settings"
   type="button"
 >

@@ -10,7 +10,7 @@ export const link = css.raw({
   textDecoration: 'none',
   fontStyle: 'italic',
   textTransform: 'uppercase',
-  color: { base: 'slate.700', _dark: 'slate.300', _hover: { base: 'black', _dark: 'white' } },
+  color: { base: 'neutral.700', _dark: 'neutral.300', _hover: { base: 'black', _dark: 'white' } },
   transform: { base: 'scale(1)', _hover: 'scale(1.05)' },
   transition: '0.1s transform ease-out, 0.1s color ease-out',
 })

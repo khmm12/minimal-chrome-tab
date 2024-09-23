@@ -2,7 +2,7 @@ import { css } from 'styled-system/css'
 import * as p from 'styled-system/patterns'
 
 export const container = p.vstack.raw({
-  gap: 0,
+  gap: '1.6rem',
 })
 
 export const formGroup = p.vstack.raw({
@@ -20,8 +20,9 @@ export const input = css.raw({
   fontFamily: 'inherit',
   fontSize: '1.6rem',
   padding: '0.8rem 1.2rem',
+  height: '4rem',
   color: { base: 'black', _dark: 'white' },
-  background: { base: 'white', _dark: 'dark2' },
+  background: 'transparent',
   border: '1px solid',
   borderColor: { base: 'black', _dark: 'white' },
   borderRadius: '0.4rem',
@@ -39,7 +40,7 @@ export const button = css.raw({
   borderColor: { base: 'black', _dark: 'white' },
   color: { base: 'black', _dark: 'white' },
   cursor: 'pointer',
-  fontSize: '1.4rem',
-  margin: '2.4rem 0 0',
+  fontSize: '1.6rem',
+  margin: '0.8rem 0 0',
   padding: '0.8rem 2.4rem',
 })

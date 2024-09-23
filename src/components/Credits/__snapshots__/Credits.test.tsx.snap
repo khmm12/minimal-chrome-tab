@@ -2,7 +2,7 @@
 
 exports[`Credits > renders correctly 1`] = `
 <a
-  class="d_inline-block td_none font-style_italic tt_uppercase c_slate.700 dark:c_slate.300 hover:c_black hover:dark:c_white trf_scale(1) hover:trf_scale(1.05) trs_0.1s_transform_ease-out,_0.1s_color_ease-out"
+  class="d_inline-block td_none font-style_italic tt_uppercase c_neutral.700 dark:c_neutral.300 hover:c_black hover:dark:c_white trf_scale(1) hover:trf_scale(1.05) trs_0.1s_transform_ease-out,_0.1s_color_ease-out"
   href="https://github.com/khmm12/minimal-chrome-tab"
   rel="noreferrer"
   target="_blank"

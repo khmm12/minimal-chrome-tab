@@ -1,6 +1,5 @@
 import { defineConfig, defineGlobalStyles } from '@pandacss/dev'
 import removeUnusedCSS from './lib/panda/remove-unused-css.js'
-import * as theme from './src/theme/index.js'
 
 export default defineConfig({
   preflight: false,
@@ -9,7 +8,7 @@ export default defineConfig({
   exclude: [],
   conditions: {
     extend: {
-      dark: '@media (prefers-color-scheme: dark)',
+      dark: '&[data-theme="dark"], [data-theme="dark"] &',
       typeDate: '&[type="date"]',
     },
   },
@@ -17,9 +16,8 @@ export default defineConfig({
     extend: {
       tokens: {
         fonts: {
-          Digital7Mono: { value: theme.fonts.Digital7Mono },
+          Digital7Mono: { value: 'Digital-7Mono' },
         },
-        colors: buildPallete(theme.colors),
       },
     },
   },
@@ -33,7 +31,7 @@ export default defineConfig({
       fontWeight: 400,
       fontSize: '10px',
       boxSizing: 'border-box',
-      background: { base: 'white', _dark: 'dark1' },
+      background: { base: 'white', _dark: 'neutral.800' },
     },
     body: {
       margin: 0,
@@ -56,10 +54,3 @@ export default defineConfig({
     },
   },
 })
-
-function buildPallete<T extends Record<string, string>>(colors: T): Record<keyof T, { value: string }> {
-  return Object.fromEntries(Object.entries(colors).map(([key, value]) => [key, { value }])) as Record<
-    keyof T,
-    { value: string }
-  >
-}

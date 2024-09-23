@@ -1,17 +1,25 @@
-import type { Accessor } from 'solid-js'
 import { render, screen } from '@test/helpers/solid'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
+import createSettingsStorage from '@/hooks/createSettingsStorage'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { ColorTheme, MilestoneProgressStyle, type Settings } from '@/shared/settings'
+import toISODate from '@/utils/to-iso-date'
 import Milestone from './components/Milestone'
-import useBirthDate from './hooks/useBirthDate'
 import TimeMilestones from '.'
 
 vi.mock('@/hooks/useCurrentLanguage')
 vi.mock('@/hooks/createCurrentDateTime')
-vi.mock('./hooks/useBirthDate.ts')
+vi.mock('@/hooks/createSettingsStorage')
 vi.mock('./components/Milestone')
 
 beforeEach(() => {
+  vi.mocked(createSettingsStorage).mockReturnValue(
+    settingsMockedValue({
+      colorTheme: ColorTheme.Auto,
+      milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+    }),
+  )
+
   vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-US')
   vi.mocked(createCurrentDateTime).mockReturnValue(() => new Date('2022-03-05T16:05:30'))
   vi.mocked(Milestone).mockImplementation((props) => (
@@ -56,24 +64,27 @@ describe('TimeMilestones', () => {
   })
 
   it('has optional birth date milestone if specified', () => {
-    vi.mocked(useBirthDate).mockReturnValue(birthDateMockedValue(null))
+    vi.mocked(createSettingsStorage).mockReturnValue(
+      settingsMockedValue({
+        colorTheme: ColorTheme.Auto,
+        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+        birthDate: toISODate('1970-01-01'),
+      }),
+    )
 
-    render(() => <TimeMilestones />)
-    const ofBirthdayMileStone = screen.queryByText(/of dob/)
-    expect(ofBirthdayMileStone).not.toBeInTheDocument()
-  })
-
-  it('has no birth date milestone if not specified', () => {
-    vi.mocked(useBirthDate).mockReturnValue(birthDateMockedValue(new Date('1970-01-01')))
     render(() => <TimeMilestones />)
 
     const ofBirthdayMileStone = screen.getByText(/of dob/)
     expect(ofBirthdayMileStone).toBeInTheDocument()
   })
+
+  it('has no birth date milestone if not specified', () => {
+    render(() => <TimeMilestones />)
+    const ofBirthdayMileStone = screen.queryByText(/of dob/)
+    expect(ofBirthdayMileStone).not.toBeInTheDocument()
+  })
 })
 
-function birthDateMockedValue(value: Date | null): Accessor<Date | null> & { loading: boolean } {
-  const a: Accessor<Date | null> = () => value
-  Object.defineProperty(a, 'loading', { value: false })
-  return a as Accessor<Date | null> & { loading: boolean }
+function settingsMockedValue(value: Settings): ReturnType<typeof createSettingsStorage> {
+  return [() => value, vi.fn()] as unknown as ReturnType<typeof createSettingsStorage>
 }

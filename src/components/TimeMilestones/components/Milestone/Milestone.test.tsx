@@ -1,6 +1,6 @@
 import { render, screen } from '@test/helpers/solid'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import Milestone from '.'
+import Milestone, { MilestoneVariant } from '.'
 
 vi.mock('@/hooks/useCurrentLanguage')
 
@@ -14,7 +14,7 @@ afterEach(() => {
 
 describe('Milestone', () => {
   it('renders correctly', () => {
-    render(() => <Milestone value={0.25} description="test milestone" />)
+    render(() => <Milestone variant={MilestoneVariant.BarsCompact} value={0.25} description="test milestone" />)
 
     const r = screen.getByLabelText('test milestone')
 
