@@ -1,14 +1,14 @@
 import { type Accessor, createEffect, createMemo, createRoot, on, onMount } from 'solid-js'
 import createMediaQuery from '@/hooks/createMediaQuery'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
-import { ColorTheme } from '@/shared/settings'
+import { ThemeColorMode } from '@/shared/settings'
 
 const disposeRoot = createRoot((dispose) => {
   const isOSDark = createMediaQuery('(prefers-color-scheme: dark)')
   const [settings] = createSettingsStorage()
 
   const theme = createMemo((): string =>
-    settings().colorTheme === ColorTheme.Auto ? (isOSDark() ? 'dark' : 'light') : settings().colorTheme,
+    settings().themeColorMode === ThemeColorMode.Auto ? (isOSDark() ? 'dark' : 'light') : settings().themeColorMode,
   )
 
   createEffect(

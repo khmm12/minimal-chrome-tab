@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
 import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
-import { ColorTheme, MilestoneProgressStyle, type Settings } from '@/shared/settings'
+import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import SettingsDialog, { type SettingsDialogProps } from '.'
 
@@ -36,13 +36,13 @@ describe('SettingsDialog', () => {
       await fillSettings({
         birthDate,
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-        colorTheme: ColorTheme.Auto,
+        themeColorMode: ThemeColorMode.Auto,
       })
       await createContainer()
 
       expect(screen.getByLabelText('Birth date')).toHaveValue(getInputDateValue(birthDate))
       expect(screen.getByLabelText('Milestone progress style')).toHaveValue(MilestoneProgressStyle.BarsCompact)
-      expect(screen.getByLabelText('Color theme')).toHaveValue(ColorTheme.Auto)
+      expect(screen.getByLabelText('Theme color mode')).toHaveValue(ThemeColorMode.Auto)
     })
 
     it('rejects invalid birth date', async () => {
@@ -66,7 +66,7 @@ describe('SettingsDialog', () => {
       await fillSettings({
         birthDate: toISODate(new Date()),
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-        colorTheme: ColorTheme.Auto,
+        themeColorMode: ThemeColorMode.Auto,
       })
       const { user } = await createContainer()
 

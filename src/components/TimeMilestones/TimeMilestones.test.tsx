@@ -2,7 +2,7 @@ import { render, screen } from '@test/helpers/solid'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { ColorTheme, MilestoneProgressStyle, type Settings } from '@/shared/settings'
+import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import Milestone from './components/Milestone'
 import TimeMilestones from '.'
@@ -15,7 +15,7 @@ vi.mock('./components/Milestone')
 beforeEach(() => {
   vi.mocked(createSettingsStorage).mockReturnValue(
     settingsMockedValue({
-      colorTheme: ColorTheme.Auto,
+      themeColorMode: ThemeColorMode.Auto,
       milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
     }),
   )
@@ -66,7 +66,7 @@ describe('TimeMilestones', () => {
   it('has optional birth date milestone if specified', () => {
     vi.mocked(createSettingsStorage).mockReturnValue(
       settingsMockedValue({
-        colorTheme: ColorTheme.Auto,
+        themeColorMode: ThemeColorMode.Auto,
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
         birthDate: toISODate('1970-01-01'),
       }),

@@ -4,11 +4,11 @@ import Storage, { buildStorageAdapter, type ISerializer } from '@/utils/storage'
 
 export interface Settings {
   birthDate?: ISODate
-  colorTheme: ColorTheme
+  themeColorMode: ThemeColorMode
   milestoneProgressStyle: MilestoneProgressStyle
 }
 
-export enum ColorTheme {
+export enum ThemeColorMode {
   Auto = 'auto',
   Light = 'light',
   Dark = 'dark',
@@ -26,7 +26,7 @@ const isoDateSchema = /* @__PURE__ */ v.custom<ISODate>(isISODate, 'is not a val
 
 const defaults = {
   milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-  colorTheme: ColorTheme.Auto,
+  themeColorMode: ThemeColorMode.Auto,
 } satisfies Settings
 
 const SettingsSchema = /* @__PURE__ */ v.fallback(
@@ -36,7 +36,7 @@ const SettingsSchema = /* @__PURE__ */ v.fallback(
       v.optional(v.enum(MilestoneProgressStyle), defaults.milestoneProgressStyle),
       defaults.milestoneProgressStyle,
     ),
-    colorTheme: v.fallback(v.optional(v.enum(ColorTheme), defaults.colorTheme), defaults.colorTheme),
+    themeColorMode: v.fallback(v.optional(v.enum(ThemeColorMode), defaults.themeColorMode), defaults.themeColorMode),
   }),
   defaults,
 )

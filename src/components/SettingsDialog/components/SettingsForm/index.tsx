@@ -3,7 +3,7 @@ import { css } from 'styled-system/css'
 import { createForm, reset } from '@modular-forms/solid'
 import type { Simplify } from 'type-fest'
 import createUniqueIds from '@/hooks/createUniqueIds'
-import { ColorTheme, MilestoneProgressStyle, type Settings } from '@/shared/settings'
+import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import type { ISODate } from '@/utils/brands'
 import toISODate from '@/utils/to-iso-date'
 import * as s from './styles'
@@ -13,10 +13,10 @@ interface SettingsFormProps {
   onSubmit: (values: Settings) => Promise<void> | void
 }
 
-const ThemeOptions = [
-  { label: 'Auto (follow OS)', value: ColorTheme.Auto },
-  { label: 'Light', value: ColorTheme.Light },
-  { label: 'Dark', value: ColorTheme.Dark },
+const ThemeColorModeOptions = [
+  { label: 'Auto (follow OS)', value: ThemeColorMode.Auto },
+  { label: 'Light', value: ThemeColorMode.Light },
+  { label: 'Dark', value: ThemeColorMode.Dark },
 ]
 
 const MilestoneProgressStyleOptions = [
@@ -40,18 +40,18 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
     ),
   )
 
-  const ids = createUniqueIds(['birthDate', 'milestoneProgressStyle', 'colorTheme'])
+  const ids = createUniqueIds(['birthDate', 'milestoneProgressStyle', 'themeColorMode'])
 
   return (
     <Form class={css(s.container)} role="form" aria-label="Settings" onSubmit={props.onSubmit}>
-      <Field name="colorTheme">
+      <Field name="themeColorMode">
         {(field, input) => (
           <div class={css(s.formGroup)}>
-            <label for={ids.colorTheme} class={css(s.label)}>
-              Color theme
+            <label for={ids.themeColorMode} class={css(s.label)}>
+              Theme color mode
             </label>
-            <select {...input} id={ids.colorTheme} class={css(s.input)}>
-              <For each={ThemeOptions}>
+            <select {...input} id={ids.themeColorMode} class={css(s.input)}>
+              <For each={ThemeColorModeOptions}>
                 {({ label, value }) => (
                   <option value={value} selected={field.value === value}>
                     {label}
