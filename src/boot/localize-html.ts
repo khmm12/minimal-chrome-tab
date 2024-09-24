@@ -11,13 +11,13 @@ function setDocumentLanguage(): void {
 }
 
 function localizeContent(): void {
-  const cr = chrome()
+  const i18n = chrome()?.i18n
 
-  if (typeof cr?.i18n === 'undefined') return
+  if (i18n == null) return
 
   const localizeElement = ($el: HTMLElement): void => {
     const key = $el.dataset[DataAttribute]
-    if (key != null && key !== '') $el.innerHTML = cr.i18n.getMessage(key)
+    if (key != null && key !== '') $el.innerHTML = i18n.getMessage(key)
   }
 
   const $els = document.querySelectorAll(`[data-${DataAttribute}]`)
