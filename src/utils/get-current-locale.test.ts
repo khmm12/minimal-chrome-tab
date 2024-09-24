@@ -6,13 +6,12 @@ afterEach(() => {
 
 describe('getCurrentLocale', () => {
   it('returns chrome.i18n.getUILanguage() when available', () => {
-    if (globalThis.chrome == null) {
-      globalThis.chrome = null as never
-      vi.spyOn(globalThis, 'chrome', 'get').mockReturnValue({
-        // @ts-expect-error: mock
-        i18n: { getUILanguage: vi.fn() },
-      })
-    }
+    globalThis.chrome = null as never
+    vi.spyOn(globalThis, 'chrome', 'get').mockReturnValue({
+      // @ts-expect-error: mock
+      i18n: { getUILanguage: vi.fn() },
+    })
+
     const getUILanguage = vi.fn().mockReturnValue('en-US')
     // @ts-expect-error: mock
     vi.spyOn(chrome.i18n, 'getUILanguage', 'get').mockReturnValue(getUILanguage)

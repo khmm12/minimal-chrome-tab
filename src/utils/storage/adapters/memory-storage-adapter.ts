@@ -1,7 +1,7 @@
 import type { IStorageAdapter, Subscriber, Unsubscribe } from '../types'
 
 export default class MemoryStorageAdapter implements IStorageAdapter {
-  protected value: unknown | null = null
+  protected value: unknown = null
 
   read(): unknown {
     return this.value

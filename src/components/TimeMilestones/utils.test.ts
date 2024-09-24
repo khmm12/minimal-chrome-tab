@@ -10,7 +10,7 @@ describe('getDayMilestone', () => {
     ['18:00', 0.75],
     ['23:59', 0.99],
   ])('at %s equals to %f', (time, expected) => {
-    const [hours, minutes, seconds = 0] = time.split(':').map(Number)
+    const [hours = 0, minutes = 0, seconds = 0] = time.split(':').map(Number)
     const currentDateTime = R.pipe(new Date(), D.setHours(hours), D.setMinutes(minutes), D.setSeconds(seconds))
 
     expect(getDayMilestone(currentDateTime)).toBe(expected)
@@ -23,7 +23,7 @@ describe('getMonthMilestone', () => {
     [16, '00:00', 0.5],
     [30, '23:59', 0.99],
   ])('on %s at %s equals %f', (day, time, expected) => {
-    const [hours, minutes, seconds = 0] = time.split(':').map(Number)
+    const [hours = 0, minutes = 0, seconds = 0] = time.split(':').map(Number)
     const currentDateTime = R.pipe(
       new Date(),
       D.setMonth(10),
@@ -43,7 +43,7 @@ describe('getWeekMilestone', () => {
     [4, '13:00', 0.5],
     [7, '23:59', 0.99],
   ])('on %s day at %s equals %f', (dayOfWeek, time, expected) => {
-    const [hours, minutes, seconds = 0] = time.split(':').map(Number)
+    const [hours = 0, minutes = 0, seconds = 0] = time.split(':').map(Number)
     const currentDateTime = R.pipe(
       new Date(),
       D.startOfWeek,
@@ -63,7 +63,7 @@ describe('getYearMilestone', () => {
     [7, 2, '23:59', 0.5],
     [12, 31, '23:59', 0.99],
   ])('in %d month %dst day at %s equals %f', (month, day, time, expected) => {
-    const [hours, minutes, seconds = 0] = time.split(':').map(Number)
+    const [hours = 0, minutes = 0, seconds = 0] = time.split(':').map(Number)
     const currentDateTime = R.pipe(
       new Date(),
       D.setMonth(month - 1),
