@@ -11,12 +11,13 @@ afterEach(() => {
 describe('useCurrentLanguage', () => {
   it('returns current language', () => {
     vi.mocked(getCurrentLocale).mockReturnValue('en-US')
-    const currentLanguage = renderHook(() => useCurrentLanguage()).result
+    const hook1 = renderHook(() => useCurrentLanguage())
 
-    expect(currentLanguage()).toBe('en-US')
+    expect(hook1.result()).toBe('en-US')
 
-    vi.mocked(getCurrentLocale).mockReturnValue('ru-RU')
+    vi.mocked(getCurrentLocale).mockReturnValue('en-GB')
+    const hook2 = renderHook(() => useCurrentLanguage())
 
-    expect(currentLanguage()).toBe('en-US')
+    expect(hook2.result()).toBe('en-GB')
   })
 })

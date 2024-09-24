@@ -7,7 +7,7 @@ vi.mock('@/hooks/useCurrentLanguage')
 beforeEach(() => {
   vi.useFakeTimers()
   vi.setSystemTime(new Date('2022-03-05T16:05:30'))
-  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'ru-RU')
+  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-GB')
 })
 
 afterEach(() => {
@@ -21,7 +21,7 @@ describe('Time', () => {
 
     const date = screen.getByLabelText('Date')
     expect(date).toBeDefined()
-    expect(date).toHaveTextContent('05.03.2022')
+    expect(date).toHaveTextContent('05/03/2022')
   })
 
   it('renders current time', () => {

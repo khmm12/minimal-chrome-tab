@@ -20,7 +20,7 @@ beforeEach(() => {
     }),
   )
 
-  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-US')
+  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-GB')
   vi.mocked(createCurrentDateTime).mockReturnValue(() => new Date('2022-03-05T16:05:30'))
   vi.mocked(Milestone).mockImplementation((props) => (
     <div aria-label={props.description}>

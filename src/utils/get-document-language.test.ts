@@ -31,8 +31,8 @@ describe('getDocumentLanguage', () => {
   })
 
   it('uses current locale when locale argument is not provided', () => {
-    vi.mocked(getCurrentLocale).mockReturnValue('ru-RU')
+    vi.mocked(getCurrentLocale).mockReturnValue('en-GB')
 
-    expect(getDocumentLanguage()).toBe('ru')
+    expect(getDocumentLanguage()).toBe('en')
   })
 })

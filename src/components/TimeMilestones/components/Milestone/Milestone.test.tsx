@@ -5,7 +5,7 @@ import Milestone, { MilestoneVariant } from '.'
 vi.mock('@/hooks/useCurrentLanguage')
 
 beforeEach(() => {
-  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-US')
+  vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-GB')
 })
 
 afterEach(() => {

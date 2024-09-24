@@ -19,9 +19,9 @@ describe('getCurrentLocale', () => {
 
     expect(getCurrentLocale()).toBe('en-US')
 
-    getUILanguage.mockReturnValue('ru-RU')
+    getUILanguage.mockReturnValue('en-GB')
 
-    expect(getCurrentLocale()).toBe('ru-RU')
+    expect(getCurrentLocale()).toBe('en-GB')
   })
 
   it('returns navigator language otherwise', () => {
@@ -29,8 +29,8 @@ describe('getCurrentLocale', () => {
 
     expect(getCurrentLocale()).toBe('en-US')
 
-    navigatorLanguage.mockReturnValue('ru-RU')
+    navigatorLanguage.mockReturnValue('en-GB')
 
-    expect(getCurrentLocale()).toBe('ru-RU')
+    expect(getCurrentLocale()).toBe('en-GB')
   })
 })
