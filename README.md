@@ -15,10 +15,10 @@ One day, I realized that the default new tab consumes resources even when it's n
 
 # Screenshots
 ## Light mode
-![Light mode](https://user-images.githubusercontent.com/4437249/172926328-1e98d455-bf6f-4462-ae62-49b9cf75e79e.png)
+![Light mode](https://github.com/user-attachments/assets/1686c070-5267-4c8d-8af7-628adca16eae)
 
 ## Dark mode
-![Dark mode](https://user-images.githubusercontent.com/4437249/172926315-99c183db-6c27-4c0b-9307-4af809f3c538.png)
+![Dark mode](https://github.com/user-attachments/assets/720058f1-2356-4c19-8f3a-33e5b76dba37)
 
 # How to install the extension
 
