@@ -9,7 +9,6 @@ export default defineConfig({
   conditions: {
     extend: {
       dark: '&[data-theme="dark"], [data-theme="dark"] &',
-      typeDate: '&[type="date"]',
     },
   },
   theme: {

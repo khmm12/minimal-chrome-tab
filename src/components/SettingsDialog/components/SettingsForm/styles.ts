@@ -22,14 +22,11 @@ export const input = css.raw({
   padding: '0.8rem 1.2rem',
   height: '4rem',
   color: { base: 'black', _dark: 'white' },
-  background: 'transparent',
+  background: { base: 'white', _dark: 'neutral.700' },
   border: '1px solid',
   borderColor: { base: 'black', _dark: 'white' },
   borderRadius: '0.4rem',
-
-  _typeDate: {
-    colorScheme: { base: 'light', _dark: 'dark' },
-  },
+  colorScheme: { base: 'light', _dark: 'dark' },
 })
 
 export const button = css.raw({
