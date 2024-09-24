@@ -21,7 +21,7 @@ exports[`TimeMilestones > renders correctly 1`] = `
     >
       of day
        
-      0.67
+      0.6704
     </div>
     <div
       aria-label="of week"
@@ -35,14 +35,14 @@ exports[`TimeMilestones > renders correctly 1`] = `
     >
       of month
        
-      0.15
+      0.1506
     </div>
     <div
       aria-label="of year"
     >
       of year
        
-      0.17
+      0.1744
     </div>
     
   </div>

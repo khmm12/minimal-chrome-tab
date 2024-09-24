@@ -11,7 +11,7 @@ import {
 } from 'date-fns'
 import { roundDown } from '@/utils/rounds'
 
-const PRECISION = 2
+const PRECISION = 4
 
 type CalculateRelative<T> = (now: Date) => T
 
