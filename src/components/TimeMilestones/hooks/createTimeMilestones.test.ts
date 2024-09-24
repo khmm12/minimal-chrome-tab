@@ -99,19 +99,19 @@ describe('milestones.year', () => {
   })
 })
 
-describe('milestones.birthDate', () => {
-  it('is not present when birthDate is not provided', () => {
+describe('milestones.birthday', () => {
+  it('is not present when birthdate is not provided', () => {
     const milestones = renderHook(() => createTimeMilestones({ currentDateTime: new Date() })).result
 
-    expect(milestones).to.haveOwnProperty('birthDate').which.an('undefined')
+    expect(milestones).to.haveOwnProperty('birthday').which.an('undefined')
   })
 
-  it('is present when birthDate is provided', () => {
+  it('is present when birthdate is provided', () => {
     const milestones = renderHook(() =>
       createTimeMilestones({ currentDateTime: new Date(), birthDate: new Date('1970-01-01') }),
     ).result
 
-    expect(milestones).to.haveOwnProperty('birthDate').which.a('number')
+    expect(milestones).to.haveOwnProperty('birthday').which.a('number')
   })
 
   it('reacts to date change', () => {
@@ -130,6 +130,6 @@ describe('milestones.birthDate', () => {
       return [milestones, setCurrentDateTime] as const
     }).result
 
-    expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.birthDate)
+    expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.birthday)
   })
 })

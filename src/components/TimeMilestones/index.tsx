@@ -32,8 +32,8 @@ export default function TimeMilestones(): JSX.Element {
         <Milestone variant={variant()} value={milestones.week} description="of week" />
         <Milestone variant={variant()} value={milestones.month} description="of month" />
         <Milestone variant={variant()} value={milestones.year} description="of year" />
-        <Show when={milestones.birthDate}>
-          {(v) => <Milestone variant={variant()} value={v()} description="of dob" />}
+        <Show when={milestones.birthday}>
+          {(v) => <Milestone variant={variant()} value={v()} description="of b'day" />}
         </Show>
       </div>
     </div>

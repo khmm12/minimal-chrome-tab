@@ -1,6 +1,6 @@
 import * as D from 'date-fns/fp'
 import * as R from 'remeda'
-import { getBirthDayMilestone, getDayMilestone, getMonthMilestone, getWeekMilestone, getYearMilestone } from './utils'
+import { getBirthdayMilestone, getDayMilestone, getMonthMilestone, getWeekMilestone, getYearMilestone } from './utils'
 
 describe('getDayMilestone', () => {
   it.each([
@@ -82,13 +82,13 @@ describe('getBirthDayMilestone', () => {
     const currentDateTime = new Date('2022-04-01')
     const birthDate = new Date('1970-06-31')
 
-    expect(getBirthDayMilestone(birthDate)(currentDateTime)).toBe(0.75)
+    expect(getBirthdayMilestone(birthDate)(currentDateTime)).toBe(0.75)
   })
 
   it('handles appeared birth date in this year', () => {
     const currentDateTime = new Date('2022-12-31')
     const birthDate = new Date('1970-06-31')
 
-    expect(getBirthDayMilestone(birthDate)(currentDateTime)).toBe(0.5)
+    expect(getBirthdayMilestone(birthDate)(currentDateTime)).toBe(0.5)
   })
 })

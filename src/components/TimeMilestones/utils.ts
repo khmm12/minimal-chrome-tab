@@ -36,7 +36,7 @@ export const getWeekMilestone = milestone(getSecondsInWeek, startOfISOWeek)
 export const getMonthMilestone = milestone(getSecondsInMonth, startOfMonth)
 export const getYearMilestone = milestone(getSecondsInYear, startOfYear)
 
-export const getBirthDayMilestone = (birthDate: Date): GetMilestone =>
+export const getBirthdayMilestone = (birthDate: Date): GetMilestone =>
   milestone(getSecondsFromLastToThisYearDate(birthDate), getLastYearDate(birthDate))
 
 function getSecondsFromLastToThisYearDate(date: Date): GetSecondsInEpoch {

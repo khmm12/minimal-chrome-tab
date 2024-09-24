@@ -63,7 +63,7 @@ describe('TimeMilestones', () => {
     expect(ofMonthMileStone).toBeInTheDocument()
   })
 
-  it('has optional birth date milestone if specified', () => {
+  it('has optional birthday milestone if specified', () => {
     vi.mocked(createSettingsStorage).mockReturnValue(
       settingsMockedValue({
         themeColorMode: ThemeColorMode.Auto,
@@ -74,13 +74,13 @@ describe('TimeMilestones', () => {
 
     render(() => <TimeMilestones />)
 
-    const ofBirthdayMileStone = screen.getByText(/of dob/)
+    const ofBirthdayMileStone = screen.getByText(/of b'day/)
     expect(ofBirthdayMileStone).toBeInTheDocument()
   })
 
-  it('has no birth date milestone if not specified', () => {
+  it('has no birthday milestone if not specified', () => {
     render(() => <TimeMilestones />)
-    const ofBirthdayMileStone = screen.queryByText(/of dob/)
+    const ofBirthdayMileStone = screen.queryByText(/of b'day/)
     expect(ofBirthdayMileStone).not.toBeInTheDocument()
   })
 })
