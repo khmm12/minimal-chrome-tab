@@ -67,6 +67,6 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
   }) as unknown as JSX.Element
 }
 
-function isNegative<T>(value: T | undefined | null | false): boolean {
+function isNegative(value: unknown): boolean {
   return value == null || value === false
 }

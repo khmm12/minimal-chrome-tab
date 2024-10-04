@@ -1,11 +1,9 @@
 // @ts-check
 import lovePreset from 'eslint-config-love'
+import importPlugin from 'eslint-plugin-import'
 import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
-
-// @ts-expect-error: the package doesn't have type definitions, nice to have, but not critical.
-const importPlugin = await import('eslint-plugin-import')
 
 export default tseslint.config(
   lovePreset,
@@ -60,6 +58,12 @@ export default tseslint.config(
           ignoreDeclarationSort: true,
         },
       ],
+    },
+  },
+  {
+    files: ['**/*.test.{js,mjs,cjs}', '**/*.test.{ts,tsx,mts,cts}'],
+    rules: {
+      '@typescript-eslint/no-unsafe-assignment': 'off',
     },
   },
 )

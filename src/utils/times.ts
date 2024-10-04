@@ -7,9 +7,9 @@ export default times
 function times(number: number): number[]
 function times<T>(number: number, factory: Factory<T>): T[]
 
-function times(number: number, factory?: unknown): unknown[] {
+function times(number: number, factory?: Factory<unknown>): unknown[] {
   const cb = typeof factory === 'function' ? factory : DefaultCallback
-  const result = new Array(number)
+  const result = new Array<unknown>(number)
   for (let i = 0; i < number; i++) result[i] = cb(i)
   return result
 }

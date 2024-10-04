@@ -6,8 +6,7 @@ const read = async (key: string): Promise<unknown> => {
   return items[key]
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const write = async (key: string, value: any): Promise<void> => {
+const write = async (key: string, value: unknown): Promise<void> => {
   await chrome.storage.local.set({ [key]: value })
 }
 

@@ -52,9 +52,11 @@ describe('createSubscription', () => {
       }),
     ).result
 
-    const onUpdate = vi.fn()
+    const onUpdate = vi.fn<(v: number) => void>()
     withRoot(() => {
-      createEffect(() => onUpdate(value()))
+      createEffect(() => {
+        onUpdate(value())
+      })
     })
 
     trigger(() => {
