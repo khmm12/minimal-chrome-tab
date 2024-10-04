@@ -1,13 +1,11 @@
 import { type Component, type JSX, mergeProps, splitProps } from 'solid-js'
 import { css, cx } from 'styled-system/css'
-import type { SystemStyleObject } from 'styled-system/types'
+import type { WithCss } from 'styled-system/types'
 
 type ForbiddenProps = 'xmlns' | 'viewBox' | 'preserveAspectRatio'
 
-type IconProps = Omit<JSX.SvgSVGAttributes<SVGSVGElement>, ForbiddenProps> & {
-  /* Panda's way to style elements */
-  css?: SystemStyleObject | SystemStyleObject[]
-}
+type SVGProps = JSX.SvgSVGAttributes<SVGSVGElement>
+type IconProps = Omit<SVGProps, ForbiddenProps> & WithCss
 
 type Icon = Component<IconProps>
 
@@ -34,7 +32,7 @@ export const CloseIcon: Icon = (props) => (
   </svg>
 )
 
-function iconProps(props: IconProps): JSX.SvgSVGAttributes<SVGSVGElement> {
+function iconProps(props: IconProps): SVGProps {
   const [sProps, rest] = splitProps(props, ['css', 'class'])
   return mergeProps(rest, {
     xmlns: 'http://www.w3.org/2000/svg',
