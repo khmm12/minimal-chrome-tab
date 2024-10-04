@@ -1,25 +1,16 @@
 import { render, screen } from '@test/helpers/solid'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
-import createSettingsStorage from '@/hooks/createSettingsStorage'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
+import { MilestoneProgressStyle } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import Milestone from './components/Milestone'
-import TimeMilestones from '.'
+import TimeMilestones, { type TimeMilestonesProps } from '.'
 
 vi.mock('@/hooks/useCurrentLanguage')
 vi.mock('@/hooks/createCurrentDateTime')
-vi.mock('@/hooks/createSettingsStorage')
 vi.mock('./components/Milestone')
 
 beforeEach(() => {
-  vi.mocked(createSettingsStorage).mockReturnValue(
-    settingsMockedValue({
-      themeColorMode: ThemeColorMode.Auto,
-      milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-    }),
-  )
-
   vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-GB')
   vi.mocked(createCurrentDateTime).mockReturnValue(() => new Date('2022-03-05T16:05:30'))
   vi.mocked(Milestone).mockImplementation((props) => (
@@ -35,7 +26,7 @@ afterEach(() => {
 
 describe('TimeMilestones', () => {
   it('renders correctly', () => {
-    render(() => <TimeMilestones />)
+    render(() => <TimeMilestones {...defaults()} />)
 
     const r = screen.getByLabelText('Time milestones')
 
@@ -44,14 +35,14 @@ describe('TimeMilestones', () => {
   })
 
   it('has heading', () => {
-    render(() => <TimeMilestones />)
+    render(() => <TimeMilestones progressStyle={MilestoneProgressStyle.BarsCompact} />)
 
     const heading = screen.getByText("We're now through...")
     expect(heading).toBeInTheDocument()
   })
 
   it('has main milestones', () => {
-    render(() => <TimeMilestones />)
+    render(() => <TimeMilestones progressStyle={MilestoneProgressStyle.BarsCompact} />)
 
     const ofDayMileStone = screen.getByText(/of day/)
     expect(ofDayMileStone).toBeInTheDocument()
@@ -64,27 +55,22 @@ describe('TimeMilestones', () => {
   })
 
   it('has optional birthday milestone if specified', () => {
-    vi.mocked(createSettingsStorage).mockReturnValue(
-      settingsMockedValue({
-        themeColorMode: ThemeColorMode.Auto,
-        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-        birthDate: toISODate('1970-01-01'),
-      }),
-    )
-
-    render(() => <TimeMilestones />)
+    render(() => <TimeMilestones {...defaults({ birthDate: toISODate('1970-01-01') })} />)
 
     const ofBirthdayMileStone = screen.getByText(/of b'day/)
     expect(ofBirthdayMileStone).toBeInTheDocument()
   })
 
   it('has no birthday milestone if not specified', () => {
-    render(() => <TimeMilestones />)
+    render(() => <TimeMilestones {...defaults({ birthDate: undefined })} />)
     const ofBirthdayMileStone = screen.queryByText(/of b'day/)
     expect(ofBirthdayMileStone).not.toBeInTheDocument()
   })
 })
 
-function settingsMockedValue(value: Settings): ReturnType<typeof createSettingsStorage> {
-  return [() => value, vi.fn()] as unknown as ReturnType<typeof createSettingsStorage>
+function defaults(opts?: Partial<TimeMilestonesProps>): TimeMilestonesProps {
+  return {
+    progressStyle: MilestoneProgressStyle.BarsCompact,
+    ...opts,
+  }
 }

@@ -1,8 +1,7 @@
-import { Suspense } from 'solid-js'
+import { mergeProps, Suspense } from 'solid-js'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
-import { render, renderHook, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
-import createSettingsStorage from '@/hooks/createSettingsStorage'
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
 import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import SettingsDialog, { type SettingsDialogProps } from '.'
@@ -33,12 +32,9 @@ describe('SettingsDialog', () => {
   describe('form', () => {
     it('is prefilled with default values', async () => {
       const birthDate = toISODate(new Date())
-      await fillSettings({
-        birthDate,
-        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-        themeColorMode: ThemeColorMode.Auto,
+      await createContainer({
+        settings: defaults({ birthDate }),
       })
-      await createContainer()
 
       expect(screen.getByLabelText('Birth date')).toHaveValue(getInputDateValue(birthDate))
       expect(screen.getByLabelText('Milestone progress style')).toHaveValue(MilestoneProgressStyle.BarsCompact)
@@ -63,47 +59,41 @@ describe('SettingsDialog', () => {
     })
 
     it('allows to clear birth date', async () => {
-      await fillSettings({
-        birthDate: toISODate(new Date()),
-        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
-        themeColorMode: ThemeColorMode.Auto,
+      const { user } = await createContainer({
+        settings: defaults({ birthDate: toISODate(new Date()) }),
       })
-      const { user } = await createContainer()
 
       await user.clear(screen.getByLabelText('Birth date'))
 
       expect(screen.getByLabelText('Birth date')).toHaveValue('')
     })
 
-    it('saves values and notifies parent', async () => {
+    it('notifies parent about the saved settings', async () => {
       const birthDate = toISODate(new Date())
-      const handleSaved = vi.fn()
-      const [settings] = renderHook(() => createSettingsStorage()).result
-      const { user } = await createContainer({ onSaved: handleSaved })
+      const handleSave = vi.fn()
+      const { user } = await createContainer({ onSave: handleSave })
 
       await user.type(screen.getByLabelText('Birth date'), getInputDateValue(birthDate))
-
       await user.click(screen.getByText(/Save/))
       await waitFor(() => {
         expect(screen.getByText(/Save/)).not.toBeDisabled()
       })
 
-      expect(settings()).toEqual(
+      expect(handleSave).toBeCalledWith(
         expect.objectContaining({
           birthDate,
         }),
       )
-      expect(handleSaved).toBeCalled()
     })
   })
 })
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-async function createContainer(props?: SettingsDialogProps) {
+async function createContainer(props?: Partial<SettingsDialogProps>) {
   const user = userEvent.setup()
   const container = render(() => (
     <Suspense fallback={<div>loading....</div>}>
-      <SettingsDialog {...props} />
+      <SettingsDialog {...mergeProps({ settings: defaults() }, props)} />
     </Suspense>
   ))
 
@@ -114,11 +104,14 @@ async function createContainer(props?: SettingsDialogProps) {
   return { ...container, user }
 }
 
-async function fillSettings(settings: Settings): Promise<void> {
-  const [, setSettings] = renderHook(() => createSettingsStorage()).result
-  await setSettings(settings)
-}
-
 function getInputDateValue(date: Date | string): string {
   return format(new Date(date), 'yyyy-MM-dd')
+}
+
+function defaults(opts?: Partial<Settings>): Settings {
+  return {
+    milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+    themeColorMode: ThemeColorMode.Auto,
+    ...opts,
+  }
 }

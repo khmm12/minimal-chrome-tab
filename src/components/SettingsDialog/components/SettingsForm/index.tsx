@@ -32,7 +32,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
 
   createEffect(
     on(
-      () => props.initialValues as Simplify<Settings>,
+      () => ({ ...props.initialValues }), // Subscribe to all fields
       (initialValues) => {
         if (!form.dirty) reset(form, { initialValues })
       },

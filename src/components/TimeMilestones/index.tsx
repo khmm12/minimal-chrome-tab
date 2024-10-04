@@ -1,7 +1,6 @@
 import { createMemo, type JSX, Show } from 'solid-js'
 import { css } from 'styled-system/css'
 import createCurrentDateTime, { EveryMinute } from '@/hooks/createCurrentDateTime'
-import createSettingsStorage from '@/hooks/createSettingsStorage'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import { MilestoneProgressStyle } from '@/shared/settings'
 import asGetters from '@/utils/as-getters'
@@ -10,13 +9,16 @@ import Milestone, { MilestoneVariant } from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
 import * as s from './styles'
 
-export default function TimeMilestones(): JSX.Element {
+export interface TimeMilestonesProps {
+  birthDate?: ISODate
+  progressStyle: MilestoneProgressStyle
+}
+
+export default function TimeMilestones(props: TimeMilestonesProps): JSX.Element {
   const currentDateTime = createCurrentDateTime({ update: EveryMinute })
 
-  const [settings] = createSettingsStorage()
-
-  const birthDate = createMemo(() => createDate(settings().birthDate), null, { equals: isDateEqual })
-  const variant = (): MilestoneVariant => mapSettingsStyleToVariant(settings().milestoneProgressStyle)
+  const birthDate = createMemo(() => createDate(props.birthDate), null, { equals: isDateEqual })
+  const variant = (): MilestoneVariant => mapSettingsStyleToVariant(props.progressStyle)
 
   const milestones = createTimeMilestones(asGetters({ currentDateTime, birthDate }))
 

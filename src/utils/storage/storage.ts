@@ -15,7 +15,6 @@ export default class Storage<T> implements IStorage<T> {
 
   protected readonly adapter: IStorageAdapter
   protected readonly serializer: ISerializer<T>
-  // eslint-disable-next-line new-cap
   protected readonly subscription = new Subscription<T>()
 
   protected currentValue: DeferredValue<T> = { loaded: false }

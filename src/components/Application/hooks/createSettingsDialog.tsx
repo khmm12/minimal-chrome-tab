@@ -1,5 +1,6 @@
 import { createSignal, type JSX, lazy, Suspense } from 'solid-js'
 import ShowWithTransition from '@/components/ShowWithTransition'
+import type { Settings } from '@/shared/settings'
 
 const SettingsDialog = lazy(async () => await import('@/components/SettingsDialog'))
 
@@ -8,7 +9,12 @@ interface CreateSettingsDialogReturnValue {
   open: () => void
 }
 
-export default function createSettingsDialog(): CreateSettingsDialogReturnValue {
+interface CreateSettingsDialogOptions {
+  settings: Settings
+  onSave: (settings: Settings) => void | Promise<void>
+}
+
+export default function createSettingsDialog(opts: CreateSettingsDialogOptions): CreateSettingsDialogReturnValue {
   const [showSettings, setShowSettings] = createSignal(false)
 
   const handleSettingsRequest = (): void => {
@@ -19,7 +25,8 @@ export default function createSettingsDialog(): CreateSettingsDialogReturnValue 
     setShowSettings(false)
   }
 
-  const handleSettingsSaved = (): void => {
+  const handleSettingsSave = async (values: Settings): Promise<void> => {
+    await opts.onSave(values)
     setShowSettings(false)
   }
 
@@ -27,7 +34,7 @@ export default function createSettingsDialog(): CreateSettingsDialogReturnValue 
     $el: (
       <Suspense>
         <ShowWithTransition when={showSettings()}>
-          <SettingsDialog onClose={handleSettingsClose} onSaved={handleSettingsSaved} />
+          <SettingsDialog settings={opts.settings} onSave={handleSettingsSave} onClose={handleSettingsClose} />
         </ShowWithTransition>
       </Suspense>
     ),
