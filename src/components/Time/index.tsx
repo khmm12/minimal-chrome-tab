@@ -1,13 +1,13 @@
 import type { JSX } from 'solid-js'
 import { css } from 'styled-system/css'
-import createCurrentDateTime, { EverySecond } from '@/hooks/createCurrentDateTime'
+import createCurrentDateTime, { EveryClockSecond } from '@/hooks/createCurrentDateTime'
 import createIntlFormatter from '@/hooks/createIntlFormatter'
 import * as s from './styles'
 
 export default function Time(): JSX.Element {
   const format = createIntlFormatter()
 
-  const dateTime = createCurrentDateTime({ update: EverySecond })
+  const dateTime = createCurrentDateTime({ update: EveryClockSecond })
 
   return (
     <time aria-live="polite" aria-atomic="true" aria-label="Current date time" class={css(s.container)}>

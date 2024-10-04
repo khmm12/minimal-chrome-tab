@@ -1,7 +1,7 @@
 import { createSignal } from 'solid-js'
 import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import { renderHook } from '@test/helpers/solid'
-import createCurrentDateTime, { EveryMinute, EverySecond } from './createCurrentDateTime'
+import createCurrentDateTime, { EveryClockMinute, EveryClockSecond } from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 
 vi.mock('./useTabActive')
@@ -19,7 +19,7 @@ afterEach(() => {
 
 describe('createCurrentDateTime', () => {
   it('returns current date time', () => {
-    const currentDateTime = renderHook(() => createCurrentDateTime({ update: EverySecond })).result
+    const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockSecond })).result
 
     expect(currentDateTime()).toEqual(new Date())
   })
@@ -29,7 +29,7 @@ describe('createCurrentDateTime', () => {
       const [isActive, setIsActive] = renderHook(() => createSignal(true)).result
 
       vi.mocked(useTabActive).mockReturnValue(isActive)
-      return [createCurrentDateTime({ update: EverySecond }), setIsActive] as const
+      return [createCurrentDateTime({ update: EveryClockSecond }), setIsActive] as const
     }).result
 
     const initial = currentDateTime()
@@ -49,7 +49,7 @@ describe('createCurrentDateTime', () => {
     it('can update every second', () => {
       const date = startOfSecond(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EverySecond })).result
+      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockSecond })).result
 
       vi.advanceTimersByTime(990)
 
@@ -63,7 +63,7 @@ describe('createCurrentDateTime', () => {
     it('can update every minute', () => {
       const date = startOfMinute(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryMinute })).result
+      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockMinute })).result
 
       vi.advanceTimersByTime(1000 * 59)
 

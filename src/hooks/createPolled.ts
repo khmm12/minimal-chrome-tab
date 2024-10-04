@@ -9,19 +9,28 @@ interface PolledConfig {
   onTick: Tick
 }
 
-export type PolledStrategy = (relative: number) => number
+export interface PolledStrategy {
+  scheduledAt: (relative: number) => number
+  now: () => number
+}
 
-export const EverySecond: PolledStrategy = (relative) => addSeconds(startOfSecond(relative), 1).valueOf()
-export const EveryMinute: PolledStrategy = (relative) => addMinutes(startOfMinute(relative), 1).valueOf()
+export const EveryClockSecond: PolledStrategy = {
+  scheduledAt: (relative) => addSeconds(startOfSecond(relative), 1).valueOf(),
+  now: () => Date.now(),
+}
+
+export const EveryClockMinute: PolledStrategy = {
+  scheduledAt: (relative) => addMinutes(startOfMinute(relative), 1).valueOf(),
+  now: () => Date.now(),
+}
 
 export default function createPolled(config: PolledConfig): void {
   let timeoutId: ReturnType<typeof setTimeout> | undefined
-  let lastTickedAt = Date.now()
-
-  const scheduledAt = (): number => config.every(lastTickedAt)
+  let lastTickedAt = config.every.now()
 
   const schedule = (): void => {
-    const delay = scheduledAt() - Date.now()
+    const delay = config.every.scheduledAt(lastTickedAt) - config.every.now()
+
     if (delay <= 0) {
       queueMicrotask(tick)
     } else {
@@ -33,8 +42,8 @@ export default function createPolled(config: PolledConfig): void {
     timeoutId = undefined
     untrack(() => {
       config.onTick()
+      lastTickedAt = config.every.now()
     })
-    lastTickedAt = Date.now()
     schedule()
   }
 
