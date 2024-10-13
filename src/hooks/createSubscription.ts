@@ -7,7 +7,7 @@ type Identity<T> = (previous: T, next: T) => boolean
 interface Subscription<T> {
   subscribe: (fn: () => void) => Unsubscribe
   getCurrentValue: () => T
-  identity?: Identity<T>
+  identity?: Identity<T> | undefined
 }
 
 const DefaultIdentity = <T>(a: T, b: T): boolean => Object.is(a, b)

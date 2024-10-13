@@ -13,7 +13,7 @@ interface ModalProps {
   icon?: JSX.Element
   title: JSX.Element
   children?: JSX.Element
-  onClose?: () => void
+  onClose?: (() => void) | undefined
 }
 
 export default function Modal(props: ModalProps): JSX.Element {

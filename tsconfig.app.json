@@ -1,23 +1,24 @@
 {
+  "extends": ["@tsconfig/recommended", "@tsconfig/strictest"],
   "compilerOptions": {
+    "checkJs": false,
     "allowJs": true,
     "baseUrl": ".",
     "composite": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
+    "lib": ["esnext", "dom", "dom.iterable"],
+    "module": "esnext",
+    "target": "esnext",
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "jsxImportSource": "solid-js",
-    "lib": ["esnext", "dom", "dom.iterable"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "noEmit": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "target": "esnext",
     "verbatimModuleSyntax": true,
+
     "paths": {
       "@/*": ["src/*"],
       "styled-system": ["styled-system"],
