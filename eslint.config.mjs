@@ -1,13 +1,11 @@
 // @ts-check
 import lovePreset from 'eslint-config-love'
-import importPlugin from 'eslint-plugin-import'
 import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   lovePreset,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   prettier,
   {
     files: ['**/*.{js,mjs,cjs}', '**/*.{ts,tsx,mts,cts}'],
@@ -19,18 +17,12 @@ export default tseslint.config(
     languageOptions: {
       globals: globals.webextensions,
     },
-    settings: {
-      ...importPlugin.configs?.typescript.settings,
-    },
-  },
-  {
     rules: {
       '@typescript-eslint/no-magic-numbers': 'off', // too many false positives
       '@typescript-eslint/init-declarations': 'off', // too many false positives
       '@typescript-eslint/no-empty-function': 'off', // useless,
       '@typescript-eslint/class-methods-use-this': 'off', // useless,
       '@typescript-eslint/no-deprecated': 'off', // false positives, example: chrome namespace
-
       'import/order': [
         'error',
         {
