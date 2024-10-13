@@ -10,7 +10,7 @@ import createTimeMilestones from './hooks/createTimeMilestones'
 import * as s from './styles'
 
 export interface TimeMilestonesProps {
-  birthDate?: ISODate
+  birthDate?: ISODate | undefined
   progressStyle: MilestoneProgressStyle
 }
 

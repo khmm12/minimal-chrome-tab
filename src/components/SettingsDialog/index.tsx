@@ -12,9 +12,10 @@ export interface SettingsDialogProps {
 
 export default function SettingsDialog(props: SettingsDialogProps): JSX.Element {
   const handleSubmit = async (values: Settings): Promise<void> => await props.onSave?.(values)
+  const handleClose = (): void => props.onClose?.()
 
   return (
-    <Modal icon={<SettingsIcon />} title="Settings" onClose={props.onClose}>
+    <Modal icon={<SettingsIcon />} title="Settings" onClose={handleClose}>
       <SettingsForm initialValues={props.settings} onSubmit={handleSubmit} />
     </Modal>
   )

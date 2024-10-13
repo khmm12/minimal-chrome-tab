@@ -1,17 +1,11 @@
 {
-  "extends": "@tsconfig/node20",
+  "extends": ["@tsconfig/recommended", "@tsconfig/strictest", "@tsconfig/node20"],
   "compilerOptions": {
+    "checkJs": true,
     "allowJs": true,
     "baseUrl": ".",
     "composite": true,
-    "isolatedModules": true,
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
     "noEmit": true,
-    "strict": true,
-    "target": "ES2022",
     "tsBuildInfoFile": ".tmp/node.tsbuildinfo"
   },
   "include": [

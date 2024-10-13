@@ -42,6 +42,8 @@
     "@testing-library/jest-dom": "^6.5.0",
     "@testing-library/user-event": "^14.5.2",
     "@tsconfig/node20": "^20.1.4",
+    "@tsconfig/recommended": "^1.0.7",
+    "@tsconfig/strictest": "^2.0.5",
     "@types/chrome": "^0.0.277",
     "@types/node": "^20.16.11",
     "@vitest/coverage-v8": "^2.1.2",

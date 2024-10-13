@@ -58,7 +58,7 @@ export default function removeUnusedCSS(css: string): string {
     if (!decl.value.includes('var(')) return
 
     for (const match of decl.value.matchAll(varRegex)) {
-      const variable = match.groups?.name.trim()
+      const variable = match.groups?.['name']?.trim()
       if (variable == null || variable === '') continue
 
       if (isVar) {
@@ -77,7 +77,11 @@ export default function removeUnusedCSS(css: string): string {
       const decl = node
       const animationName = decl.prop === 'animation' ? decl.value.split(' ')[0] : decl.value
 
-      if ((decl.prop === 'animation' || decl.prop === 'animation-name') && keyframes.has(animationName)) {
+      if (
+        (decl.prop === 'animation' || decl.prop === 'animation-name') &&
+        animationName != null &&
+        keyframes.has(animationName)
+      ) {
         // Mark the keyframe as used
         keyframes.set(animationName, true)
       }

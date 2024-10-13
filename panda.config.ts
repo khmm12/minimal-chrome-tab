@@ -50,6 +50,7 @@ export default defineConfig({
   hooks: {
     'cssgen:done': ({ artifact, content }) => {
       if (artifact === 'styles.css') return removeUnusedCSS(content)
+      return content
     },
   },
 })
