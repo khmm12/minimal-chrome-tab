@@ -18,6 +18,7 @@ export default tseslint.config(
       globals: globals.webextensions,
     },
     rules: {
+      '@typescript-eslint/prefer-destructuring': 'off', // false positives, less readable sometimes
       '@typescript-eslint/no-magic-numbers': 'off', // too many false positives
       '@typescript-eslint/init-declarations': 'off', // too many false positives
       '@typescript-eslint/no-empty-function': 'off', // useless,
