@@ -30,14 +30,8 @@ jobs:
       - name: Pack Chrome extension
         run: cd ./dist && zip -r ../minimal-chrome-tab.zip ./
       - name: Publish nightly release
-        uses: andelf/nightly-release@main
+        run: |
+          gh release delete nightly --cleanup-tag --yes
+          gh release create nightly --prerelease --title "Nightly" --notes "The bleeding edge release." ./minimal-chrome-tab.zip
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: nightly
-          name: 'Nightly'
-          body: |
-            The bleeding edge release.
-          prerelease: true
-          files: |
-            ./minimal-chrome-tab.zip
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
