@@ -36,7 +36,7 @@ function createDeepSignal<T>(value: T): Signal<T> {
   return [
     () => store.value,
     (v: T) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- safe
       if (typeof v === 'function') v = v(unwrap(store.value)) as T
       setStore('value', reconcile(v))
       return store.value

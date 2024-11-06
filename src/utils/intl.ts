@@ -1,7 +1,6 @@
 type Locales = string | string[]
 type Formatters = Intl.DateTimeFormat | Intl.NumberFormat
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyOptions = Record<string, any>
+type AnyOptions = Record<string, any> // eslint-disable-line @typescript-eslint/no-explicit-any -- used in generics
 
 type CacheFactory<TFormatter extends Formatters, TFormatOptions> = (
   locales?: Locales,

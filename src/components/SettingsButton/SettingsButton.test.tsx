@@ -60,6 +60,6 @@ function deferred<T>(): [p: Promise<T>, resolve: (val: T) => void] {
     r = resolve
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- safe
   return [p, r!]
 }

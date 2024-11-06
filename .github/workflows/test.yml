@@ -11,7 +11,7 @@ jobs:
           - name: Typecheck
             command: pnpm typecheck
           - name: Unit tests
-            command: pnpm unit-tests
+            command: pnpm test:unit
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

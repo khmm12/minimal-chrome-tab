@@ -1,6 +1,6 @@
 import type { Accessor } from 'solid-js'
 
-type AccesorsMap = { [key in string]: Accessor<unknown> }
+type AccesorsMap = Record<string, Accessor<unknown>>
 type Getters<T extends AccesorsMap> = { [key in keyof T]: ReturnType<T[key]> }
 
 export default function asGetters<T extends AccesorsMap>(map: T): Getters<T> {

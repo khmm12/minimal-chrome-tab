@@ -144,7 +144,7 @@ interface CreateContainerConfig {
   identity?: (a: number, b: number) => boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ok in tests
 function createContainer(config?: CreateContainerConfig) {
   const getCurrentValue = vi.fn().mockImplementation(config?.getCurrentValue ?? (() => 1))
 
