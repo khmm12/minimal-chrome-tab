@@ -1,4 +1,4 @@
-<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
   <style text="text/css">
     path {
       stroke: #000;
@@ -10,5 +10,6 @@
       }
     }
   </style>
-  <path fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="10" d="M108 70v50H76c0-.0592.1531-25.0069 0-25l-24-.0193c-.0882-.0245 0 24.684 0 25.0193H20V70M7 65 64 7l57 57.5504-16.625-17.9845.1484-25.628"/>
+
+  <path fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.875" d="M19.605 12.708V22h-5.894c0-.011.028-4.647 0-4.646l-4.422-.004c-.016-.004 0 4.588 0 4.65H3.395v-9.292M1 11.779 11.5 1 22 11.695l-3.063-3.342.028-4.763" />
 </svg>
