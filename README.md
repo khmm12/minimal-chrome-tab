@@ -4,6 +4,10 @@
 
 One day, I realized that the default new tab consumes resources even when it's not active. Ridiculous!
 
+# Demo
+
+Check out the [Demo page](https://khmm12.github.io/minimal-chrome-tab/) to see it in action!
+
 # Advantages
 
 - Lightweight 🪶
