@@ -24,6 +24,9 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build
         run: pnpm build --base=./
+      - name: Add robots.txt
+        run: |
+          echo -e "User-agent: *\nDisallow: /" > ./dist/robots.txt
       - name: Upload static files as artifact
         id: deployment
         uses: actions/upload-pages-artifact@v3
