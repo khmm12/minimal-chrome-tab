@@ -88,7 +88,7 @@ describe('SettingsDialog', () => {
   })
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ok in tests
 async function createContainer(props?: Partial<SettingsDialogProps>) {
   const user = userEvent.setup()
   const container = render(() => (

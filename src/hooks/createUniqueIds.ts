@@ -1,6 +1,6 @@
 import { createUniqueId } from 'solid-js'
 
-type UniqueIdsMap<T extends string> = { readonly [key in T]: string }
+type UniqueIdsMap<T extends string> = Readonly<Record<T, string>>
 
 export default function createUniqueIds<T extends string>(names: readonly T[]): UniqueIdsMap<T> {
   const uniqueIds: Partial<UniqueIdsMap<T>> = {}

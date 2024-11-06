@@ -52,6 +52,6 @@ function animate($el: HTMLElement, durationInSeconds: number): () => void {
 }
 
 function triggerReflow($el: HTMLElement): void {
-  // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+  // eslint-disable-next-line @typescript-eslint/no-unused-expressions -- side effect in the getter
   $el.scrollTop
 }
