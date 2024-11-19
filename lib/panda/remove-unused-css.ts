@@ -46,7 +46,7 @@ export default function removeUnusedCSS(css: string): string {
     const parent = decl.parent
     if (parent == null) return
 
-    if (parent.type === 'rule' && (parent as postcss.Rule).selector === ':root') {
+    if (isRule(parent) && parent.selector === ':root') {
       return
     }
 
@@ -104,4 +104,8 @@ export default function removeUnusedCSS(css: string): string {
   })
 
   return root.toString()
+}
+
+function isRule(n: postcss.Node): n is postcss.Rule {
+  return n.type === 'rule'
 }

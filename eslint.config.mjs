@@ -22,6 +22,7 @@ export default tseslint.config(
       '@typescript-eslint/no-magic-numbers': 'off', // too many false positives
       '@typescript-eslint/init-declarations': 'off', // too many false positives
       '@typescript-eslint/no-empty-function': 'off', // useless,
+      '@typescript-eslint/no-unsafe-type-assertion': 'off', // doesn't allow type assertions where they are necessary
       '@typescript-eslint/class-methods-use-this': 'off', // useless,
       '@typescript-eslint/no-deprecated': 'off', // false positives, example: chrome namespace
       'import/order': [
