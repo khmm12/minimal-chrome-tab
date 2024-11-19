@@ -22,12 +22,28 @@ export const input = css.raw({
   padding: '0.8rem 1.2rem',
   height: '4rem',
   color: { base: 'black', _dark: 'white' },
-  background: { base: 'white', _dark: 'neutral.700' },
+  bgColor: { base: 'white', _dark: 'neutral.700' },
   border: '1px solid',
   borderColor: { base: 'black', _dark: 'white' },
   borderRadius: '0.4rem',
   colorScheme: { base: 'light', _dark: 'dark' },
 })
+
+export const select = css.raw({
+  ...input,
+  appearance: 'none',
+  bgRepeat: 'no-repeat',
+  bgPosition: 'right 0.6rem center',
+  bgImage: { base: 'var(--img-b)', _dark: 'var(--img-w)' },
+  bgSize: '2.4rem 2.4rem',
+  paddingRight: '3.6rem',
+})
+
+// Runtime
+export const selectInline = {
+  '--img-w': `url("${new URL('./unfold-icon-white.svg', import.meta.url).toString()}")`,
+  '--img-b': `url("${new URL('./unfold-icon-black.svg', import.meta.url).toString()}")`,
+}
 
 export const button = css.raw({
   appearance: 'none',

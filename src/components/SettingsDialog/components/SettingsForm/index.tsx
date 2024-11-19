@@ -50,7 +50,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
             <label for={ids.themeColorMode} class={css(s.label)}>
               Theme color mode
             </label>
-            <select {...input} id={ids.themeColorMode} class={css(s.input)}>
+            <select {...input} id={ids.themeColorMode} class={css(s.select)} style={s.selectInline}>
               <For each={ThemeColorModeOptions}>
                 {({ label, value }) => (
                   <option value={value} selected={field.value === value}>
@@ -68,7 +68,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
             <label for={ids.milestoneProgressStyle} class={css(s.label)}>
               Milestone progress style
             </label>
-            <select {...input} id={ids.milestoneProgressStyle} class={css(s.input)}>
+            <select {...input} id={ids.milestoneProgressStyle} class={css(s.select)} style={s.selectInline}>
               <For each={MilestoneProgressStyleOptions}>
                 {({ label, value }) => (
                   <option value={value} selected={field.value === value}>
@@ -86,7 +86,14 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
             <label for={ids.birthDate} class={css(s.label)}>
               Birth date
             </label>
-            <input {...input} id={ids.birthDate} class={css(s.input)} type="date" value={field.value ?? ''} />
+            <input
+              {...input}
+              id={ids.birthDate}
+              class={css(s.input)}
+              placeholder="Birthdate"
+              type="date"
+              value={field.value ?? ''}
+            />
           </div>
         )}
       </Field>

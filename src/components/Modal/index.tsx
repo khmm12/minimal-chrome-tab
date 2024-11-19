@@ -59,7 +59,7 @@ export default function Modal(props: ModalProps): JSX.Element {
                   </h1>
                 </div>
                 <button class={css(s.closeButton)} type="button" title="Close" onClick={handleCloseButtonClick}>
-                  <CloseIcon aria-hidden="true" />
+                  <CloseIcon css={s.closeButtonIcon} aria-hidden="true" />
                 </button>
               </div>
               <div class={css(s.body)}>{props.children}</div>

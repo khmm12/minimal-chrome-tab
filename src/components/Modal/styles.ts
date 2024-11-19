@@ -74,6 +74,10 @@ export const closeButton = css.raw({
   color: { base: 'neutral.500', _dark: 'neutral.400', _hover: { base: 'black', _dark: 'white' } },
 })
 
+export const closeButtonIcon = css.raw({
+  flexShrink: 0,
+})
+
 export const body = css.raw({
   width: 'full',
   padding: '1.6rem 2.4rem',
