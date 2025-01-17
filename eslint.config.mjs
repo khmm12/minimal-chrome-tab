@@ -25,6 +25,7 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-type-assertion': 'off', // doesn't allow type assertions where they are necessary
       '@typescript-eslint/class-methods-use-this': 'off', // useless,
       '@typescript-eslint/no-deprecated': 'off', // false positives, example: chrome namespace
+      'promise/avoid-new': 'off', // tooooo opinionated from eslint-config-love
       'import/order': [
         'error',
         {
@@ -58,6 +59,7 @@ export default tseslint.config(
     files: ['**/*.test.{js,mjs,cjs}', '**/*.test.{ts,tsx,mts,cts}'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      'max-nested-callbacks': 'off',
     },
   },
 )

@@ -13,6 +13,7 @@ export default defineConfig((config) => ({
     target: browserslistToEsbuild(),
   },
   resolve: {
+    conditions: ['module', 'browser', 'development|production'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       'styled-system': fileURLToPath(new URL('./styled-system', import.meta.url)),
