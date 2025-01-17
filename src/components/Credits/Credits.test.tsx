@@ -2,7 +2,7 @@ import { render, screen } from '@test/helpers/solid'
 import Credits from '.'
 
 describe('Credits', () => {
-  it('renders correctly', async () => {
+  it('renders correctly', () => {
     render(() => <Credits />)
 
     const $credits = screen.getByText('Made by khmm12')

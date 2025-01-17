@@ -13,13 +13,13 @@ afterEach(() => {
 })
 
 describe('useTabActive', () => {
-  it('returns tab state', async () => {
+  it('returns tab state', () => {
     const isActive = renderHook(() => useTabActive()).result
 
     expect(isActive()).toBeTruthy()
   })
 
-  it('reflects to tab state', async () => {
+  it('reflects to tab state', () => {
     const isActive = renderHook(() => useTabActive()).result
 
     isHidden.mockReturnValue(true)

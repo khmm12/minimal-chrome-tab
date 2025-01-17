@@ -42,6 +42,7 @@ export default function removeUnusedCSS(css: string): string {
   }
 
   // Detect variable uses
+  // eslint-disable-next-line complexity -- ok
   root.walkDecls((decl) => {
     const parent = decl.parent
     if (parent == null) return
