@@ -24,7 +24,7 @@
     "*.css"
   ],
   "dependencies": {
-    "@modular-forms/solid": "^0.25.0",
+    "@tanstack/solid-form": "^0.41.2",
     "@total-typescript/ts-reset": "^0.6.1",
     "date-fns": "^4.1.0",
     "focus-trap": "^7.6.2",
