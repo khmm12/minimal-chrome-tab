@@ -6,7 +6,7 @@ settings:
 
 patchedDependencies:
   solid-transition-group@0.2.3:
-    hash: up32lyc3ukx5bjeq5hegbjlj7u
+    hash: ee75d8b1b8c7ce07e2bd0043bc25041cbcfe8f78bd3df71ccf849fc9a7b177c2
     path: patches/solid-transition-group@0.2.3.patch
 
 importers:
@@ -36,7 +36,7 @@ importers:
         version: 1.9.4
       solid-transition-group:
         specifier: ^0.2.3
-        version: 0.2.3(patch_hash=up32lyc3ukx5bjeq5hegbjlj7u)(solid-js@1.9.4)
+        version: 0.2.3(patch_hash=ee75d8b1b8c7ce07e2bd0043bc25041cbcfe8f78bd3df71ccf849fc9a7b177c2)(solid-js@1.9.4)
       type-fest:
         specifier: ^4.32.0
         version: 4.32.0
@@ -9793,7 +9793,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  solid-transition-group@0.2.3(patch_hash=up32lyc3ukx5bjeq5hegbjlj7u)(solid-js@1.9.4):
+  solid-transition-group@0.2.3(patch_hash=ee75d8b1b8c7ce07e2bd0043bc25041cbcfe8f78bd3df71ccf849fc9a7b177c2)(solid-js@1.9.4):
     dependencies:
       '@solid-primitives/refs': 1.0.8(solid-js@1.9.4)
       '@solid-primitives/transition-group': 1.0.5(solid-js@1.9.4)
