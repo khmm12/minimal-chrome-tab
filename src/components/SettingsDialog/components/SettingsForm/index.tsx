@@ -25,7 +25,7 @@ const MilestoneProgressStyleOptions = [
 ]
 
 export default function SettingsForm(props: SettingsFormProps): JSX.Element {
-  const form = createForm<Settings>(() => ({
+  const form = createForm(() => ({
     defaultValues: { ...props.initialValues },
     async onSubmit({ value: values }) {
       const nextValues: Settings = {
@@ -51,7 +51,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const ids = createUniqueIds(['birthDate', 'milestoneProgressStyle', 'themeColorMode'])
 
   return (
-    <form class={css(s.container)} aria-label="Settings" onSubmit={withCanceled(form.handleSubmit)}>
+    <form class={css(s.container)} aria-label="Settings" onSubmit={withCanceled(form.handleSubmit.bind(form))}>
       <form.Field name="themeColorMode">
         {(field) => (
           <div class={css(s.formGroup)}>
@@ -115,9 +115,7 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
               type="date"
               name={field().name}
               value={field().state.value ?? ''}
-              onChange={(e) => {
-                field().handleChange(parseDateValue(e.target.value))
-              }}
+              onChange={textHandler(parseDateValue, field().handleChange)}
               onBlur={field().handleBlur}
             />
           </div>
@@ -153,5 +151,14 @@ function selectHandler<T extends string>(
 ): (e: Event & { target: HTMLSelectElement }) => void {
   return (e) => {
     onChange(e.target.value as T)
+  }
+}
+
+function textHandler<T>(
+  parse: (val: string) => T,
+  onChange: (value: T) => void,
+): (e: Event & { target: HTMLInputElement }) => void {
+  return (e) => {
+    onChange(parse(e.target.value))
   }
 }

@@ -4,7 +4,8 @@ import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
 
-export default tseslint.config(
+/** @type {import('typescript-eslint').ConfigArray} */
+const config = tseslint.config(
   lovePreset,
   prettier,
   {
@@ -63,3 +64,5 @@ export default tseslint.config(
     },
   },
 )
+
+export default config
