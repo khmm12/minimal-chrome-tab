@@ -3,7 +3,7 @@ import { isISODate, type ISODate } from '@/utils/brands'
 import Storage, { buildStorageAdapter, type ISerializer } from '@/utils/storage'
 
 export interface Settings {
-  birthDate?: ISODate
+  birthDate?: ISODate | undefined
   themeColorMode: ThemeColorMode
   milestoneProgressStyle: MilestoneProgressStyle
 }
