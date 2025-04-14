@@ -1,6 +1,9 @@
 name: Deploy demo page
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Test]
+    types: [completed]
+    branches: [main]
 jobs:
   build:
     runs-on: ubuntu-latest
