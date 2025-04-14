@@ -60,6 +60,7 @@ const config = tseslint.config(
     files: ['**/*.test.{js,mjs,cjs}', '**/*.test.{ts,tsx,mts,cts}'],
     rules: {
       '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/explicit-function-return-type': 'off',
       'max-nested-callbacks': 'off',
     },
   },

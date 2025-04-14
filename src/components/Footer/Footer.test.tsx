@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@test/helpers/solid'
+import { fireEvent, render, screen, waitFor } from '@solidjs/testing-library'
 import Footer from '.'
 
 vi.mock('@/components/Credits', () => ({

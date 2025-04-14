@@ -1,16 +1,17 @@
-import { renderHook } from '@test/helpers/solid'
+import { renderHook } from '@solidjs/testing-library'
 import createMediaQuery from './createMediaQuery'
 
 describe('createMediaQuery', () => {
   it('returns true if media query is matched', () => {
-    window.resizeTo(1920, 1080)
+    happyDOM.setViewport({ width: 1920, height: 1080 })
+
     const matches = renderHook(() => createMediaQuery('(max-width: 599px)')).result
 
     expect(matches()).toBeFalsy()
   })
 
   it('returns false if media query is not matched', () => {
-    window.resizeTo(320, 480)
+    happyDOM.setViewport({ width: 320, height: 1080 })
 
     const matches = renderHook(() => createMediaQuery('(max-width: 599px)')).result
 
@@ -18,11 +19,11 @@ describe('createMediaQuery', () => {
   })
 
   it('is reactive', () => {
-    window.resizeTo(1920, 1080)
+    happyDOM.setViewport({ width: 1920, height: 1080 })
     const matches = renderHook(() => createMediaQuery('(max-width: 599px)')).result
 
     expect(() => {
-      window.resizeTo(320, 480)
+      happyDOM.setViewport({ width: 320, height: 1080 })
     }).to.change(() => matches())
   })
 

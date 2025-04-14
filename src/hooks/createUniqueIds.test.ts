@@ -1,4 +1,4 @@
-import { renderHook } from '@test/helpers/solid'
+import { renderHook } from '@solidjs/testing-library'
 import createUniqueIds from './createUniqueIds'
 
 const anyString = /.+/

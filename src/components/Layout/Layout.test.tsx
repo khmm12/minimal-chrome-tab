@@ -1,4 +1,4 @@
-import { render } from '@test/helpers/solid'
+import { render } from '@solidjs/testing-library'
 import Layout from '.'
 
 describe('Layout', () => {

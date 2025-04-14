@@ -1,5 +1,5 @@
+import { fireEvent, renderHook } from '@solidjs/testing-library'
 import type { MockInstance } from 'vitest'
-import { fireEvent, renderHook } from '@test/helpers/solid'
 import useTabActive from './useTabActive'
 
 let isHidden: MockInstance<() => boolean>

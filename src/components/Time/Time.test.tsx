@@ -1,4 +1,4 @@
-import { render, screen } from '@test/helpers/solid'
+import { render, screen } from '@solidjs/testing-library'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import Time from '.'
 

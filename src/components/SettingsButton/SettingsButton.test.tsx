@@ -1,5 +1,5 @@
 import { createResource, createSignal, Show, Suspense } from 'solid-js'
-import { fireEvent, render, renderHook, waitFor } from '@test/helpers/solid'
+import { fireEvent, render, renderHook, waitFor } from '@solidjs/testing-library'
 import SettingsButton from '.'
 
 describe('SettingsButton', () => {
@@ -54,12 +54,6 @@ describe('SettingsButton', () => {
 })
 
 function deferred<T>(): [p: Promise<T>, resolve: (val: T) => void] {
-  let r: (val: T) => void
-
-  const p = new Promise<T>((resolve) => {
-    r = resolve
-  })
-
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- safe
-  return [p, r!]
+  const p = Promise.withResolvers<T>()
+  return [p.promise, p.resolve]
 }

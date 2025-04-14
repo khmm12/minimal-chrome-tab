@@ -1,4 +1,4 @@
-import { render, screen } from '@test/helpers/solid'
+import { render, screen } from '@solidjs/testing-library'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { MilestoneProgressStyle } from '@/shared/settings'

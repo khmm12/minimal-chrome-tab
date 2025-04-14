@@ -1,5 +1,5 @@
 import { createEffect, createSignal } from 'solid-js'
-import { renderHook, withRoot } from '@test/helpers/solid'
+import { renderHook } from '@solidjs/testing-library'
 import createSubscription from './createSubscription'
 
 describe('createSubscription', () => {
@@ -53,7 +53,7 @@ describe('createSubscription', () => {
     ).result
 
     const onUpdate = vi.fn<(v: number) => void>()
-    withRoot(() => {
+    renderHook(() => {
       createEffect(() => {
         onUpdate(value())
       })
@@ -68,11 +68,11 @@ describe('createSubscription', () => {
   })
 
   it('unsubscribes on unmount', () => {
-    const [{ unsubscribe }, dispose] = withRoot(() => createContainer())
+    const { cleanup, result } = renderHook(() => createContainer())
 
-    dispose()
+    cleanup()
 
-    expect(unsubscribe).toBeCalled()
+    expect(result.unsubscribe).toBeCalled()
   })
 
   describe('when `getCurrentValue` is changing', () => {
@@ -144,7 +144,6 @@ interface CreateContainerConfig {
   identity?: (a: number, b: number) => boolean
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ok in tests
 function createContainer(config?: CreateContainerConfig) {
   const getCurrentValue = vi.fn().mockImplementation(config?.getCurrentValue ?? (() => 1))
 

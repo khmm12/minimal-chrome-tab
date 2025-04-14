@@ -1,5 +1,5 @@
 import { type Accessor, createSignal, type JSX, useContext } from 'solid-js'
-import { render } from '@test/helpers/solid'
+import { render } from '@solidjs/testing-library'
 import ShowWithTransition, { ShowWithTransitionContext } from '.'
 
 describe('ShowWithTransition', () => {

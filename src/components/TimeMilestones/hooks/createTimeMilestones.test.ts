@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js'
+import { renderHook } from '@solidjs/testing-library'
 import * as D from 'date-fns/fp'
-import { renderHook } from '@test/helpers/solid'
 import createTimeMilestones from './createTimeMilestones'
 
 describe('milestones.day', () => {

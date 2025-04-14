@@ -1,7 +1,7 @@
 import { mergeProps, Suspense } from 'solid-js'
+import { render, screen, waitFor, waitForElementToBeRemoved } from '@solidjs/testing-library'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
-import { render, screen, waitFor, waitForElementToBeRemoved } from '@test/helpers/solid'
 import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import toISODate from '@/utils/to-iso-date'
 import SettingsDialog, { type SettingsDialogProps } from '.'
@@ -88,7 +88,6 @@ describe('SettingsDialog', () => {
   })
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type -- ok in tests
 async function createContainer(props?: Partial<SettingsDialogProps>) {
   const user = userEvent.setup()
   const container = render(() => (

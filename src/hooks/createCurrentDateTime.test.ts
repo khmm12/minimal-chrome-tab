@@ -1,6 +1,6 @@
 import { createSignal } from 'solid-js'
+import { renderHook } from '@solidjs/testing-library'
 import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
-import { renderHook } from '@test/helpers/solid'
 import createCurrentDateTime, { EveryClockMinute, EveryClockSecond } from './createCurrentDateTime'
 import useTabActive from './useTabActive'
 
