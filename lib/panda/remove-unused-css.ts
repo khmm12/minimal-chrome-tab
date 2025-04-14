@@ -4,109 +4,228 @@ import postcss from 'postcss'
  * Based on https://panda-css.com/docs/concepts/hooks#remove-unused-variables-from-final-css
  */
 
-interface UseRecord {
-  uses: number
-  dependencies: Set<string>
-  declarations: Set<postcss.Declaration>
-}
-
-const varRegex = /var\(\s*(?<name>--[^ ,);]+)/g
-
 export default function removeUnusedCSS(css: string): string {
   const root = postcss.parse(css)
 
-  const records = new Map<string, UseRecord>()
-  const keyframes = new Map<string, boolean>()
-
-  const getRecord = (variable: string): UseRecord => {
-    let record = records.get(variable)
-    if (record == null) {
-      record = { uses: 0, dependencies: new Set(), declarations: new Set() }
-      records.set(variable, record)
-    }
-    return record
-  }
-
-  const registerUse = (variable: string, ignoreList = new Set<string>()): void => {
-    const record = getRecord(variable)
-    record.uses++
-    ignoreList.add(variable)
-    for (const dependency of record.dependencies) {
-      if (!ignoreList.has(dependency)) registerUse(dependency, ignoreList)
-    }
-  }
-
-  const registerDependency = (variable: string, dependency: string): void => {
-    const record = getRecord(variable)
-    record.dependencies.add(dependency)
-  }
-
-  // Detect variable uses
-  // eslint-disable-next-line complexity -- ok
-  root.walkDecls((decl) => {
-    const parent = decl.parent
-    if (parent == null) return
-
-    if (isRule(parent) && parent.selector === ':root') {
-      return
-    }
-
-    const isVar = decl.prop.startsWith('--')
-
-    // Initiate record
-    if (isVar) getRecord(decl.prop).declarations.add(decl)
-
-    if (!decl.value.includes('var(')) return
-
-    for (const match of decl.value.matchAll(varRegex)) {
-      const variable = match.groups?.['name']?.trim()
-      if (variable == null || variable === '') continue
-
-      if (isVar) {
-        registerDependency(decl.prop, variable)
-      } else {
-        registerUse(variable)
-      }
-    }
-  })
+  const variables = new VariablesCollector()
+  const keyframes = new KeyframesCollector()
 
   root.walk((node) => {
-    if (node.type === 'atrule' && node.name === 'keyframes') {
-      // Record the keyframe and mark it as unused
-      keyframes.set(node.params, false)
-    } else if (node.type === 'decl') {
-      const decl = node
-      const animationName = decl.prop === 'animation' ? decl.value.split(' ')[0] : decl.value
-
-      if (
-        (decl.prop === 'animation' || decl.prop === 'animation-name') &&
-        animationName != null &&
-        keyframes.has(animationName)
-      ) {
-        // Mark the keyframe as used
-        keyframes.set(animationName, true)
-      }
-    }
+    variables.walkNode(node)
+    keyframes.walkNode(node)
   })
 
-  // Remove unused variables
-  for (const { uses, declarations } of records.values()) {
-    if (uses > 0) continue
-
-    for (const decl of declarations) {
-      const node = decl.parent?.nodes.length === 1 ? decl.parent : decl
-      node.remove()
-    }
-  }
-
-  // Remove unused keyframes
-  root.walkAtRules('keyframes', (rule) => {
-    if (keyframes.get(rule.params) === false) rule.remove()
-  })
+  variables.removeUnused()
+  keyframes.removeUnused()
 
   return root.toString()
 }
 
+declare const BRAND: unique symbol
+
+interface Brand<B> {
+  [BRAND]: B
+}
+type Branded<T, B> = T & Brand<B>
+
+type VariableDecl = Branded<postcss.Declaration, 'VariableDecl'>
+
+interface VariableUsage {
+  uses: number
+  dependencies: Set<string>
+  declarations: Set<VariableDecl>
+}
+
+class VariablesCollector {
+  private readonly records = new Map<string, VariableUsage>()
+  private readonly varRegex = /var\(\s*(?<name>--[^ ,);]+)/g
+
+  walkNode(node: postcss.ChildNode): void {
+    if (isDecl(node)) {
+      this.walkDecl(node)
+    }
+  }
+
+  removeUnused(): void {
+    for (const { uses, declarations } of this.records.values()) {
+      if (uses > 0) continue
+
+      for (const decl of declarations) {
+        const node = decl.parent?.nodes.length === 1 ? decl.parent : decl
+        node.remove()
+      }
+    }
+  }
+
+  private walkDecl(decl: postcss.Declaration): void {
+    if (this.isTop(decl)) return
+
+    if (this.isVariableDecl(decl)) {
+      this.registerDeclaration(decl)
+      this.walkVariables(decl, (varName) => {
+        this.registerDependency(decl, varName)
+      })
+    } else {
+      this.walkVariables(decl, (varName) => {
+        this.registerUsage(varName)
+      })
+    }
+  }
+
+  private getRecord(variable: string): VariableUsage {
+    let record = this.records.get(variable)
+
+    if (record == null) {
+      record = { uses: 0, dependencies: new Set(), declarations: new Set() }
+      this.records.set(variable, record)
+    }
+    return record
+  }
+
+  private registerUsage(variable: string): void {
+    const handled = new Set<string>()
+
+    const traverse = (variable: string): void => {
+      if (handled.has(variable)) return
+
+      const record = this.getRecord(variable)
+      record.uses++
+      handled.add(variable)
+      for (const dependency of record.dependencies) {
+        traverse(dependency)
+      }
+    }
+
+    traverse(variable)
+  }
+
+  private registerDependency(decl: VariableDecl, dependency: string): void {
+    const varName = this.getVarNameFromDecl(decl)
+    this.getRecord(varName).dependencies.add(dependency)
+  }
+
+  private registerDeclaration(decl: VariableDecl): void {
+    const varName = this.getVarNameFromDecl(decl)
+    this.getRecord(varName).declarations.add(decl)
+  }
+
+  private getVarNameFromDecl(decl: VariableDecl): string {
+    return decl.prop
+  }
+
+  private isTop(decl: postcss.Declaration): boolean {
+    const parent = decl.parent
+    return parent == null || (isRule(parent) && parent.selector === ':root')
+  }
+
+  private isVariableDecl(decl: postcss.Declaration): decl is VariableDecl {
+    return decl.prop.startsWith('--')
+  }
+
+  private walkVariables(decl: postcss.Declaration, walk: (variable: string) => void): void {
+    for (const match of decl.value.matchAll(this.varRegex)) {
+      const variable = match.groups?.['name']?.trim()
+      if (variable != null && variable !== '') {
+        walk(variable)
+      }
+    }
+  }
+}
+
+interface KeyframeUsage {
+  uses: number
+  atRules: Set<KeyframesAtRule>
+}
+
+interface AnimationDecl extends postcss.Declaration {
+  prop: 'animation' | 'animation-name'
+}
+
+interface KeyframesAtRule extends postcss.AtRule {
+  name: 'keyframes'
+}
+
+class KeyframesCollector {
+  private readonly keyframes = new Map<string, KeyframeUsage>()
+
+  walkNode(node: postcss.ChildNode): void {
+    if (isAtRule(node)) {
+      this.walkAtRule(node)
+    } else if (isDecl(node)) {
+      this.walkDecl(node)
+    }
+  }
+
+  removeUnused(): void {
+    for (const { uses, atRules: declarations } of this.keyframes.values()) {
+      if (uses > 0) continue
+
+      for (const rule of declarations) {
+        rule.remove()
+      }
+    }
+  }
+
+  private walkAtRule(rule: postcss.AtRule): void {
+    if (this.isKeyframeAtRule(rule)) {
+      this.registerRule(rule)
+    }
+  }
+
+  private walkDecl(decl: postcss.Declaration): void {
+    this.walkAnimations(decl, (name) => {
+      this.registerUsage(name)
+    })
+  }
+
+  private getRecord(keyframe: string): KeyframeUsage {
+    let record = this.keyframes.get(keyframe)
+
+    if (record == null) {
+      record = { uses: 0, atRules: new Set() }
+      this.keyframes.set(keyframe, record)
+    }
+    return record
+  }
+
+  private registerRule(rule: KeyframesAtRule): void {
+    this.getRecord(this.getAnimationNameFromRule(rule)).atRules.add(rule)
+  }
+
+  private registerUsage(name: string): void {
+    this.getRecord(name).uses++
+  }
+
+  private isKeyframeAtRule(rule: postcss.AtRule): rule is KeyframesAtRule {
+    return rule.name === 'keyframes'
+  }
+
+  private isAnimationDecl(decl: postcss.Declaration): decl is AnimationDecl {
+    return decl.prop === 'animation' || decl.prop === 'animation-name'
+  }
+
+  private walkAnimations(decl: postcss.Declaration, fn: (name: string) => void): void {
+    const name = this.isAnimationDecl(decl) ? this.getAnimationNameFromDecl(decl) : null
+    if (name != null && name !== '') fn(name)
+  }
+
+  private getAnimationNameFromRule(rule: KeyframesAtRule): string {
+    return rule.params
+  }
+
+  private getAnimationNameFromDecl(decl: AnimationDecl): string | null {
+    return (decl.prop === 'animation' ? decl.value.split(' ')[0] : decl.value)?.trim() ?? null
+  }
+}
+
+function isAtRule(n: postcss.Node): n is postcss.AtRule {
+  return n.type === 'atrule'
+}
+
 function isRule(n: postcss.Node): n is postcss.Rule {
   return n.type === 'rule'
+}
+
+function isDecl(n: postcss.Node): n is postcss.Declaration {
+  return n.type === 'decl'
 }
