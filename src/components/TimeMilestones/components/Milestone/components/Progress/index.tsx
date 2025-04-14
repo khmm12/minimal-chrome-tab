@@ -34,7 +34,7 @@ export default function Progress(_props: ProgressProps): JSX.Element {
       role="figure"
       aria-hidden="true"
       preserveAspectRatio="xMinYMin"
-      height="1.6rem"
+      height="1rem"
       viewBox={`0 0 ${props.width} ${props.height}`}
     >
       {(() => {

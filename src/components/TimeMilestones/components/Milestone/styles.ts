@@ -7,11 +7,11 @@ export const container = p.vstack.raw({
 })
 
 export const value = css.raw({
-  fontSize: { base: '6.4rem', smDown: '5.4rem' },
+  fontSize: { base: '4rem', smDown: '3.375rem' },
 })
 
 export const description = css.raw({
-  margin: '1rem 0 0',
-  fontSize: { base: '2.4rem', smDown: '1.6rem' },
+  margin: '0.625rem 0 0',
+  fontSize: { base: '1.5rem', smDown: '1rem' },
   textTransform: 'lowercase',
 })

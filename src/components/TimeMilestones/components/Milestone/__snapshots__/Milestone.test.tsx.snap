@@ -7,13 +7,13 @@ exports[`Milestone > renders correctly 1`] = `
   role="group"
 >
   <span
-    class="fs_6.4rem smDown:fs_5.4rem"
+    class="fs_4rem smDown:fs_3.375rem"
   >
     25%
   </span>
   <svg
     aria-hidden="true"
-    height="1.6rem"
+    height="1rem"
     preserveAspectRatio="xMinYMin"
     role="figure"
     viewBox="0 0 25 5"
@@ -70,7 +70,7 @@ exports[`Milestone > renders correctly 1`] = `
     />
   </svg>
   <span
-    class="m_1rem_0_0 fs_2.4rem smDown:fs_1.6rem tt_lowercase"
+    class="m_0.625rem_0_0 fs_1.5rem smDown:fs_1rem tt_lowercase"
   >
     <span
       aria-hidden="true"

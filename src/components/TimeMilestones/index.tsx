@@ -1,5 +1,5 @@
 import { createMemo, type JSX, Show } from 'solid-js'
-import { css } from 'styled-system/css'
+import { css, cx } from 'styled-system/css'
 import createCurrentDateTime, { EveryClockMinute } from '@/hooks/createCurrentDateTime'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import { MilestoneProgressStyle } from '@/shared/settings'
@@ -29,7 +29,7 @@ export default function TimeMilestones(props: TimeMilestonesProps): JSX.Element 
       <h1 id={ids.heading} class={css(s.title)}>
         We're now through...
       </h1>
-      <div class={css(s.items)}>
+      <div class={cx(css(s.items))}>
         <Milestone variant={variant()} value={milestones.day} description="of day" />
         <Milestone variant={variant()} value={milestones.week} description="of week" />
         <Milestone variant={variant()} value={milestones.month} description="of month" />

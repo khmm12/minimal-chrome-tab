@@ -8,13 +8,13 @@ exports[`TimeMilestones > renders correctly 1`] = `
   role="group"
 >
   <h1
-    class="fs_3.6rem smDown:fs_3.2rem fw_bold ta_center m_0_0_2.4rem smDown:m_0_0_1.6rem"
+    class="fs_2.25rem smDown:fs_2rem fw_bold ta_center m_0_0_1.5rem smDown:m_0_0_1rem"
     id="cl-0"
   >
     We're now through...
   </h1>
   <div
-    class="d_grid grid-tc_repeat(auto-fit,_minmax(12rem,_auto)) gap_3.5rem smDown:gap_1.6rem w_full jc_flex-end smDown:jc_center"
+    class="d_grid grid-tc_repeat(auto-fit,_minmax(7.5rem,_auto)) gap_2.25rem smDown:gap_1rem w_full jc_flex-end smDown:jc_center"
   >
     <div
       aria-label="of day"

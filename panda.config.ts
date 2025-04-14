@@ -13,6 +13,7 @@ export default defineConfig({
   },
   theme: {
     extend: {
+      containerNames: ['milestones'],
       tokens: {
         fonts: {
           Digital7Mono: { value: 'Digital-7Mono' },
@@ -28,7 +29,6 @@ export default defineConfig({
       fontFamily:
         "'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
       fontWeight: 400,
-      fontSize: '10px',
       boxSizing: 'border-box',
       background: { base: 'white', _dark: 'neutral.800' },
     },
