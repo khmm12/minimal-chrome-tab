@@ -13,7 +13,6 @@ export default defineConfig({
   },
   theme: {
     extend: {
-      containerNames: ['milestones'],
       tokens: {
         fonts: {
           Digital7Mono: { value: 'Digital-7Mono' },
