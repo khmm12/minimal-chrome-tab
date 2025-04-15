@@ -147,6 +147,7 @@ interface KeyframesAtRule extends postcss.AtRule {
 
 class KeyframesCollector {
   private readonly keyframes = new Map<string, KeyframeUsage>()
+  private readonly animationNameRegex = /(['"]?)(?<name>[a-zA-Z_][\w-]*)\1/g
 
   walkNode(node: postcss.ChildNode): void {
     if (isAtRule(node)) {
@@ -204,17 +205,25 @@ class KeyframesCollector {
     return decl.prop === 'animation' || decl.prop === 'animation-name'
   }
 
-  private walkAnimations(decl: postcss.Declaration, fn: (name: string) => void): void {
-    const name = this.isAnimationDecl(decl) ? this.getAnimationNameFromDecl(decl) : null
-    if (name != null && name !== '') fn(name)
+  private walkAnimations(decl: postcss.Declaration, walk: (name: string) => void): void {
+    const val = this.isAnimationDecl(decl) ? this.getAnimationNameValueFromDecl(decl) : null
+    if (val == null) return
+
+    for (const match of decl.value.matchAll(this.animationNameRegex)) {
+      const variable = match.groups?.['name']?.trim()
+      if (variable != null && variable !== '') {
+        walk(variable)
+      }
+    }
   }
 
   private getAnimationNameFromRule(rule: KeyframesAtRule): string {
     return rule.params
   }
 
-  private getAnimationNameFromDecl(decl: AnimationDecl): string | null {
-    return (decl.prop === 'animation' ? decl.value.split(' ')[0] : decl.value)?.trim() ?? null
+  private getAnimationNameValueFromDecl(decl: AnimationDecl): string | null {
+    const val = (decl.prop === 'animation' ? decl.value.split(' ')[0] : decl.value)?.trim()
+    return val === '' ? null : (val ?? null)
   }
 }
 
