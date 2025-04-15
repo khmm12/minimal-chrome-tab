@@ -17,4 +17,10 @@ export const button = css.raw({
 export const svg = css.raw({
   transform: { base: 'rotate(0deg)', _groupHover: 'rotate(22.5deg)' },
   transition: '0.1s transform ease-out',
+  _active: {
+    animationName: 'spin',
+    animationDuration: 'slow',
+    animationTimingFunction: 'linear',
+    animationIterationCount: 'infinite',
+  },
 })

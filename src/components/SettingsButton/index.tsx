@@ -36,6 +36,7 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
     <button
       class={cx(css(s.button), 'group')}
       type="button"
+      aria-busy={isLoading()}
       aria-disabled={isLoading()}
       title={isLoading() ? 'Opening settings' : 'Open settings'}
       onClick={handleClick}
@@ -62,25 +63,20 @@ function createIconAnimation(svg: Accessor<SVGSVGElement | undefined>, when: Acc
     const $el = untrack(svg)
     if ($el == null || !isRunning()) return
 
-    const animation = $el.animate(
-      { easing: 'ease-out', transform: ['rotate(360deg)'] },
-      { duration: 300, fill: 'both' },
-    )
-
-    const handleAnimationFinish = (): void => {
+    const handleIterationFinish = (): void => {
       if (!untrack(when)) {
         setIsRunning(false)
-      } else {
-        animation.play()
       }
     }
 
-    animation.addEventListener('finish', handleAnimationFinish)
+    $el.addEventListener('animationiteration', handleIterationFinish)
+
+    // Run
+    $el.setAttribute('data-active', 'true')
 
     onCleanup(() => {
-      animation.removeEventListener('finish', handleAnimationFinish)
-      animation.finish()
-      animation.cancel()
+      $el.removeEventListener('animationiteration', handleIterationFinish)
+      $el.removeAttribute('data-active')
     })
   })
 }

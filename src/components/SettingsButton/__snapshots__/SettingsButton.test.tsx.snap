@@ -2,6 +2,7 @@
 
 exports[`SettingsButton > renders a button 1`] = `
 <button
+  aria-busy="false"
   aria-disabled="false"
   class="w_2rem h_2rem flex_0_0_auto c_neutral.700 dark:c_neutral.300 hover:c_black hover:dark:c_white ap_none p_0.25rem bg_transparent bd_none cursor_pointer disabled:cursor_default trs_0.1s_color_ease-out fs_1.5rem group"
   title="Open settings"
@@ -9,7 +10,7 @@ exports[`SettingsButton > renders a button 1`] = `
 >
   <svg
     aria-hidden="true"
-    class="w_1em h_1em trf_rotate(0deg) groupHover:trf_rotate(22.5deg) trs_0.1s_transform_ease-out"
+    class="w_1em h_1em trf_rotate(0deg) groupHover:trf_rotate(22.5deg) trs_0.1s_transform_ease-out active:anim-n_spin active:anim-dur_slow active:anim-tmf_linear active:anim-ic_infinite"
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
