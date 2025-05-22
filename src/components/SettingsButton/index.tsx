@@ -10,6 +10,7 @@ import {
 } from 'solid-js'
 import { css, cx } from 'styled-system/css'
 import { SettingsIcon } from '@/components/Icon'
+import { supportsAnimations } from '@/utils/dom'
 import * as s from './styles'
 
 interface SettingsButtonProps {
@@ -55,7 +56,7 @@ function createIconAnimation(svg: Accessor<SVGSVGElement | undefined>, when: Acc
 
   // Wait for animation iteration to finish, then stop
   createEffect(() => {
-    if (typeof Element.prototype.animate === 'undefined') {
+    if (!supportsAnimations()) {
       setIsRunning(false)
       return
     }

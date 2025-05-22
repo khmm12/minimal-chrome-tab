@@ -1,10 +1,13 @@
-import { createEffect, onCleanup } from 'solid-js'
+import { createEffect, on, onCleanup, untrack } from 'solid-js'
 import { createFocusTrap } from 'focus-trap'
+import { supportsAnimations } from '@/utils/dom'
 
 interface OverlayHooksConfig {
   readonly $overlay: HTMLElement | undefined
   readonly $dialog: HTMLElement | undefined
+  readonly isVisible: boolean
   readonly onClose?: () => void
+  readonly onExited?: () => void
 }
 
 export default function useDialogHooks(config: OverlayHooksConfig): void {
@@ -54,6 +57,43 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
       }
     })
   }
+
+  createEffect(() => {
+    const { $dialog } = config
+    if ($dialog == null) return
+
+    const handleAnimationEnd = (): void => {
+      untrack(() => {
+        if (!config.isVisible) config.onExited?.()
+      })
+    }
+
+    $dialog.addEventListener('animationend', handleAnimationEnd)
+    onCleanup(() => {
+      $dialog.removeEventListener('animationend', handleAnimationEnd)
+    })
+  })
+
+  // In case of animations aren't supported, dispatch animationend event manually
+  createEffect(
+    on(
+      () => config.isVisible,
+      (isDialogVisible) => {
+        const $el = config.$dialog
+
+        if (supportsAnimations() || $el == null || isDialogVisible) return
+
+        const rafID = requestAnimationFrame(() => {
+          $el.dispatchEvent(new Event('animationend'))
+        })
+
+        onCleanup(() => {
+          cancelAnimationFrame(rafID)
+        })
+      },
+      { defer: true },
+    ),
+  )
 }
 
 function shouldClose(e: MouseEvent, $dialog: HTMLElement | undefined): boolean {

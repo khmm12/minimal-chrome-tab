@@ -1,5 +1,56 @@
-import { defineConfig, defineGlobalStyles } from '@pandacss/dev'
+import { defineAnimationStyles, defineConfig, defineGlobalStyles, defineKeyframes } from '@pandacss/dev'
+import type { AnimationStyles } from '@pandacss/types'
 import removeUnusedCSS from './lib/panda/remove-unused-css.js'
+
+export const animationStyles: AnimationStyles = defineAnimationStyles({
+  'scale-fade-in': {
+    value: {
+      transformOrigin: 'var(--transform-origin)',
+      animationName: 'scale-in, fade-in',
+    },
+  },
+  'scale-fade-out': {
+    value: {
+      transformOrigin: 'var(--transform-origin)',
+      animationName: 'scale-out, fade-out',
+    },
+  },
+})
+
+const keyframes = defineKeyframes({
+  'fade-in': {
+    from: {
+      opacity: 0,
+    },
+    to: {
+      opacity: 1,
+    },
+  },
+  'fade-out': {
+    from: {
+      opacity: 1,
+    },
+    to: {
+      opacity: 0,
+    },
+  },
+  'scale-in': {
+    from: {
+      scale: 0.6,
+    },
+    to: {
+      scale: 1.0,
+    },
+  },
+  'scale-out': {
+    from: {
+      scale: 1.0,
+    },
+    to: {
+      scale: 0.6,
+    },
+  },
+})
 
 export default defineConfig({
   preflight: false,
@@ -13,6 +64,8 @@ export default defineConfig({
   },
   theme: {
     extend: {
+      keyframes,
+      animationStyles,
       tokens: {
         fonts: {
           Digital7Mono: { value: 'Digital-7Mono' },

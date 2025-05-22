@@ -1,8 +1,25 @@
 import { css } from 'styled-system/css'
 
+export const backdrop = css.raw({
+  position: 'fixed',
+  left: 0,
+  right: 0,
+  top: 0,
+  bottom: 0,
+  zIndex: 10,
+  background: { base: 'black/50', _dark: 'black/10' },
+  _open: {
+    animationName: 'fade-in',
+    animationDuration: 'slow',
+  },
+  _closed: {
+    animationName: 'fade-out',
+    animationDuration: 'slow',
+  },
+})
+
 export const overlay = css.raw({
   position: 'fixed',
-  zIndex: 10,
   left: 0,
   right: 0,
   top: 0,
@@ -11,7 +28,7 @@ export const overlay = css.raw({
   alignItems: 'center',
   justifyContent: 'center',
   padding: '1rem 1.5rem',
-  background: { base: 'black/50', _dark: 'black/10' },
+  zIndex: 11,
 })
 
 export const dialog = css.raw({
@@ -23,6 +40,14 @@ export const dialog = css.raw({
   display: 'flex',
   flexDirection: 'column',
   fontSize: '1rem',
+  _open: {
+    animationStyle: 'scale-fade-in',
+    animationDuration: 'slow',
+  },
+  _closed: {
+    animationStyle: 'scale-fade-out',
+    animationDuration: 'slow',
+  },
 })
 
 export const header = css.raw({
