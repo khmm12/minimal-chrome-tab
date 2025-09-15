@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "composite": true,
     "noEmit": true,
+    "types": ["@total-typescript/ts-reset"],
     "tsBuildInfoFile": ".tmp/node.tsbuildinfo"
   },
   "include": [
