@@ -56,5 +56,5 @@ const Serializer: ISerializer<Settings> = {
 
 const StorageAdapter = /* @__PURE__ */ await buildStorageAdapter(Key)
 
-// Singletone
+// Singleton
 export const SettingsStorage = /* @__PURE__ */ await Storage.create(StorageAdapter, Serializer)
