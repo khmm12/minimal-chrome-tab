@@ -28,11 +28,13 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   const form = createForm(() => ({
     defaultValues: { ...props.initialValues },
     async onSubmit({ value: values }) {
+      const { milestoneProgressStyle, themeColorMode, birthDate } = values
+
       const nextValues: Settings = {
-        milestoneProgressStyle: values.milestoneProgressStyle,
-        themeColorMode: values.themeColorMode,
+        milestoneProgressStyle,
+        themeColorMode,
       }
-      if (values.birthDate != null) nextValues.birthDate = values.birthDate
+      if (birthDate != null) nextValues.birthDate = birthDate
 
       await props.onSubmit(nextValues)
     },

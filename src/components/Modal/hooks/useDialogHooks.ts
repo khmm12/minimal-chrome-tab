@@ -79,7 +79,7 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
     on(
       () => config.isVisible,
       (isDialogVisible) => {
-        const $el = config.$dialog
+        const { $dialog: $el } = config
 
         if (supportsAnimations() || $el == null || isDialogVisible) return
 

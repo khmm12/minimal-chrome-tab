@@ -14,13 +14,13 @@ afterEach(() => {
 
 describe('useTabActive', () => {
   it('returns tab state', () => {
-    const isActive = renderHook(() => useTabActive()).result
+    const { result: isActive } = renderHook(() => useTabActive())
 
     expect(isActive()).toBeTruthy()
   })
 
   it('reflects to tab state', () => {
-    const isActive = renderHook(() => useTabActive()).result
+    const { result: isActive } = renderHook(() => useTabActive())
 
     isHidden.mockReturnValue(true)
     fireEvent(document, new Event('visibilitychange'))

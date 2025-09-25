@@ -16,7 +16,7 @@ describe('Modal', () => {
   it('renders overlay', () => {
     render(() => <Modal title="" />)
 
-    const overlay = screen.getByRole('dialog').parentElement
+    const { parentElement: overlay } = screen.getByRole('dialog')
 
     expect(overlay).toBeInTheDocument()
     expect(overlay).toHaveAttribute('tabIndex', '-1')
@@ -51,7 +51,9 @@ describe('Modal', () => {
   })
 
   it('supports `ShowWithTransition` component', async () => {
-    const [shouldOpen, setShouldOpen] = renderHook(() => createSignal(false)).result
+    const {
+      result: [shouldOpen, setShouldOpen],
+    } = renderHook(() => createSignal(false))
     render(() => (
       <ShowWithTransition when={shouldOpen()}>
         <Modal title="">Modal content</Modal>

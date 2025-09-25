@@ -50,7 +50,7 @@ export default class ChromeStorageAdapter implements IStorageAdapter {
   }
 
   protected handleChanged(changes: Partial<Record<string, chrome.storage.StorageChange>>): void {
-    const change = changes[this.name]
+    const change: chrome.storage.StorageChange | undefined = changes[this.name]
     if (change != null) this.subscription.notify(this.parse(change.newValue))
   }
 }

@@ -49,7 +49,7 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
         <ShowWithTransitionContext.Provider value={value}>
           {
             createMemo(() => {
-              const child = props.children
+              const { children: child } = props
               if (typeof child === 'function' && child.length > 0) {
                 strictEqual = true
                 return untrack(() => child(condition as Accessor<T>))
