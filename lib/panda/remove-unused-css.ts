@@ -89,7 +89,7 @@ class VariablesCollector {
       if (handled.has(variable)) return
 
       const record = this.getRecord(variable)
-      record.uses++
+      record.uses += 1
       handled.add(variable)
       for (const dependency of record.dependencies) {
         traverse(dependency)
@@ -114,7 +114,7 @@ class VariablesCollector {
   }
 
   private isTop(decl: postcss.Declaration): boolean {
-    const parent = decl.parent
+    const { parent } = decl
     return parent == null || (isRule(parent) && parent.selector === ':root')
   }
 
@@ -194,7 +194,7 @@ class KeyframesCollector {
   }
 
   private registerUsage(name: string): void {
-    this.getRecord(name).uses++
+    this.getRecord(name).uses += 1
   }
 
   private isKeyframeAtRule(rule: postcss.AtRule): rule is KeyframesAtRule {

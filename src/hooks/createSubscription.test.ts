@@ -7,7 +7,13 @@ describe('createSubscription', () => {
     let currentValue = 1
 
     renderHook(() => {
-      const { value } = createContainer({ getCurrentValue: () => currentValue++ })
+      const { value } = createContainer({
+        getCurrentValue() {
+          const v = currentValue
+          currentValue += 1
+          return v
+        },
+      })
 
       expect(value()).toBe(1)
     })
@@ -16,7 +22,17 @@ describe('createSubscription', () => {
   it('reads value on mount to avoid stale state', () => {
     let currentValue = 1
 
-    const { value } = renderHook(() => createContainer({ getCurrentValue: () => currentValue++ })).result
+    const {
+      result: { value },
+    } = renderHook(() =>
+      createContainer({
+        getCurrentValue() {
+          const v = currentValue
+          currentValue += 1
+          return v
+        },
+      }),
+    )
 
     expect(value()).toBe(2)
   })
@@ -24,11 +40,13 @@ describe('createSubscription', () => {
   it('reads value on subscription event', () => {
     let currentValue = 1
 
-    const { value, trigger } = renderHook(() =>
+    const {
+      result: { value, trigger },
+    } = renderHook(() =>
       createContainer({
         getCurrentValue: () => currentValue,
       }),
-    ).result
+    )
 
     trigger(() => {
       currentValue = 2
@@ -45,12 +63,14 @@ describe('createSubscription', () => {
 
   it("doesn't update value when identity function returns true", () => {
     let currentValue = 1
-    const { value, trigger } = renderHook(() =>
+    const {
+      result: { value, trigger },
+    } = renderHook(() =>
       createContainer({
         getCurrentValue: () => currentValue,
         identity: () => true,
       }),
-    ).result
+    )
 
     const onUpdate = vi.fn<(v: number) => void>()
     renderHook(() => {
@@ -77,12 +97,16 @@ describe('createSubscription', () => {
 
   describe('when `getCurrentValue` is changing', () => {
     it('updates value', () => {
-      const [dep, setDep] = renderHook(() => createSignal(1)).result
-      const { getCurrentValue } = renderHook(() =>
+      const {
+        result: [dep, setDep],
+      } = renderHook(() => createSignal(1))
+      const {
+        result: { getCurrentValue },
+      } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
         }),
-      ).result
+      )
 
       setDep(2)
       setDep(3)
@@ -91,12 +115,16 @@ describe('createSubscription', () => {
     })
 
     it("doesn't resubscribe", () => {
-      const [dep, setDep] = renderHook(() => createSignal(1)).result
-      const { subscribe } = renderHook(() =>
+      const {
+        result: [dep, setDep],
+      } = renderHook(() => createSignal(1))
+      const {
+        result: { subscribe },
+      } = renderHook(() =>
         createContainer({
           getCurrentValue: () => dep(),
         }),
-      ).result
+      )
 
       setDep(2)
 
@@ -106,14 +134,18 @@ describe('createSubscription', () => {
 
   describe('when `subscription` is changing', () => {
     it("doesn't update value", () => {
-      const [dep, setDep] = renderHook(() => createSignal(1)).result
-      const { getCurrentValue } = renderHook(() =>
+      const {
+        result: [dep, setDep],
+      } = renderHook(() => createSignal(1))
+      const {
+        result: { getCurrentValue },
+      } = renderHook(() =>
         createContainer({
           subscribe() {
             dep()
           },
         }),
-      ).result
+      )
 
       setDep(2)
 
@@ -121,14 +153,18 @@ describe('createSubscription', () => {
     })
 
     it('resubscribes', () => {
-      const [dep, setDep] = renderHook(() => createSignal(1)).result
-      const { subscribe, unsubscribe } = renderHook(() =>
+      const {
+        result: [dep, setDep],
+      } = renderHook(() => createSignal(1))
+      const {
+        result: { subscribe, unsubscribe },
+      } = renderHook(() =>
         createContainer({
           subscribe() {
             dep()
           },
         }),
-      ).result
+      )
 
       setDep(2)
 

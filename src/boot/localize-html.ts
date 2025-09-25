@@ -16,7 +16,7 @@ function localizeContent(): void {
   if (i18n == null) return
 
   const localizeElement = ($el: HTMLElement): void => {
-    const key = $el.dataset[DataAttribute]
+    const key: string | undefined = $el.dataset[DataAttribute]
     if (key != null && key !== '') $el.innerHTML = i18n.getMessage(key)
   }
 

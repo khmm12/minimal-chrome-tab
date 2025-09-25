@@ -22,9 +22,13 @@ describe('SettingsButton', () => {
   })
 
   it('handles deferred resources', async () => {
-    const [isShown, setIsShown] = renderHook(() => createSignal(false)).result
+    const {
+      result: [isShown, setIsShown],
+    } = renderHook(() => createSignal(false))
     const [p, resolve] = deferred<null>()
-    const [resource] = renderHook(() => createResource(async () => await p)).result
+    const {
+      result: [resource],
+    } = renderHook(() => createResource(async () => await p))
 
     const r = render(() => (
       <>

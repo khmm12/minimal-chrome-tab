@@ -19,18 +19,22 @@ afterEach(() => {
 
 describe('createCurrentDateTime', () => {
   it('returns current date time', () => {
-    const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockSecond })).result
+    const { result: currentDateTime } = renderHook(() => createCurrentDateTime({ update: EveryClockSecond }))
 
     expect(currentDateTime()).toEqual(new Date())
   })
 
   it('pauses when browser tab is not active', () => {
-    const [currentDateTime, setIsActive] = renderHook(() => {
-      const [isActive, setIsActive] = renderHook(() => createSignal(true)).result
+    const {
+      result: [currentDateTime, setIsActive],
+    } = renderHook(() => {
+      const {
+        result: [isActive, setIsActive],
+      } = renderHook(() => createSignal(true))
 
       vi.mocked(useTabActive).mockReturnValue(isActive)
       return [createCurrentDateTime({ update: EveryClockSecond }), setIsActive] as const
-    }).result
+    })
 
     const initial = currentDateTime()
 
@@ -49,7 +53,7 @@ describe('createCurrentDateTime', () => {
     it('can update every second', () => {
       const date = startOfSecond(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockSecond })).result
+      const { result: currentDateTime } = renderHook(() => createCurrentDateTime({ update: EveryClockSecond }))
 
       vi.advanceTimersByTime(990)
 
@@ -63,7 +67,7 @@ describe('createCurrentDateTime', () => {
     it('can update every minute', () => {
       const date = startOfMinute(new Date())
       vi.setSystemTime(date)
-      const currentDateTime = renderHook(() => createCurrentDateTime({ update: EveryClockMinute })).result
+      const { result: currentDateTime } = renderHook(() => createCurrentDateTime({ update: EveryClockMinute }))
 
       vi.advanceTimersByTime(1000 * 59)
 

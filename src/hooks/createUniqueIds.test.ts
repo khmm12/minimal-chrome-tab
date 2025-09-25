@@ -5,7 +5,7 @@ const anyString = /.+/
 
 describe('createUniqueIds', () => {
   it('creates dictionary with unique ids by given names', () => {
-    const ids = renderHook(() => createUniqueIds(['a', 'b', 'c'])).result
+    const { result: ids } = renderHook(() => createUniqueIds(['a', 'b', 'c']))
 
     expect(ids).toMatchObject({
       a: expect.stringMatching(anyString),

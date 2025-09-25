@@ -1,12 +1,16 @@
 // @ts-check
+import { defineConfig } from 'eslint/config'
 import lovePreset from 'eslint-config-love'
 import prettier from 'eslint-plugin-prettier/recommended'
 import globals from 'globals'
-import tseslint from 'typescript-eslint'
 
-/** @type {import('typescript-eslint').ConfigArray} */
-const config = tseslint.config(
-  lovePreset,
+/** @import {Linter} from 'eslint' */
+
+/** @type {Linter.Config} */
+const typescriptEslint = /** @type {any} */ (lovePreset) // see https://github.com/typescript-eslint/typescript-eslint/issues/10899
+
+const config = defineConfig(
+  typescriptEslint,
   prettier,
   {
     files: ['**/*.{js,mjs,cjs}', '**/*.{ts,tsx,mts,cts}'],
@@ -19,14 +23,13 @@ const config = tseslint.config(
       globals: globals.webextensions,
     },
     rules: {
-      '@typescript-eslint/prefer-destructuring': 'off', // false positives, less readable sometimes
       '@typescript-eslint/no-magic-numbers': 'off', // too many false positives
       '@typescript-eslint/init-declarations': 'off', // too many false positives
       '@typescript-eslint/no-empty-function': 'off', // useless,
       '@typescript-eslint/no-unsafe-type-assertion': 'off', // doesn't allow type assertions where they are necessary
       '@typescript-eslint/class-methods-use-this': 'off', // useless,
-      '@typescript-eslint/no-deprecated': 'off', // false positives, example: chrome namespace
-      'promise/avoid-new': 'off', // tooooo opinionated from eslint-config-love
+      'no-param-reassign': 'off', // too opinionated from eslint-config-love
+      'no-negated-condition': 'off', // too opinionated from eslint-config-love: screams on != null conditions
       'import/order': [
         'error',
         {
