@@ -4,7 +4,7 @@
   "license": "MIT",
   "type": "module",
   "engine": {
-    "node": "^22"
+    "node": "^22 || ^24"
   },
   "scripts": {
     "prepare": "panda codegen --clean",
