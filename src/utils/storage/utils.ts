@@ -12,7 +12,7 @@ async function loadStorageAdapter(): Promise<IStorageAdapterConstructor> {
   if (typeof chrome()?.storage !== 'undefined') return (await import('./adapters/chrome-storage-adapter')).default
 
   // Try to use local storage.
-  if (typeof localStorage !== 'undefined') return (await import('./adapters/local-starage-adapter')).default
+  if (typeof localStorage !== 'undefined') return (await import('./adapters/local-storage-adapter')).default
 
   // Fallback to memory storage.
   return (await import('./adapters/memory-storage-adapter')).default
