@@ -41,7 +41,7 @@ const SettingsSchema = /* @__PURE__ */ v.fallback(
   defaults,
 )
 
-const Serializer: ISerializer<Settings> = {
+export const Serializer: ISerializer<Settings> = {
   deserialize(value) {
     try {
       return v.parse(SettingsSchema, value)
