@@ -6,11 +6,9 @@ import globals from 'globals'
 
 /** @import {Linter} from 'eslint' */
 
-/** @type {Linter.Config} */
-const typescriptEslint = /** @type {any} */ (lovePreset) // see https://github.com/typescript-eslint/typescript-eslint/issues/10899
-
+/** @type {Linter.Config[]} */
 const config = defineConfig(
-  typescriptEslint,
+  /** @type {Linter.Config} */ (lovePreset),
   prettier,
   {
     files: ['**/*.{js,mjs,cjs}', '**/*.{ts,tsx,mts,cts}'],
