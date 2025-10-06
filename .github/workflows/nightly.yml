@@ -24,9 +24,33 @@ jobs:
         run: pnpm build
       - name: Pack Chrome extension
         run: cd ./dist && zip -r ../minimal-chrome-tab.zip ./
-      - name: Publish nightly release
+      - name: Check nightly asset changes
+        id: release_check
         run: |
-          gh release delete nightly --cleanup-tag --yes
+          set -euo pipefail
+          changed=true
+          if gh release view nightly >/dev/null 2>&1; then
+            tmp_download_dir="$(mktemp -d)"
+            if gh release download nightly --pattern "minimal-chrome-tab.zip" --dir "$tmp_download_dir" >/dev/null 2>&1; then
+              prev_dir="$(mktemp -d)"
+              curr_dir="$(mktemp -d)"
+              unzip -q "$tmp_download_dir/minimal-chrome-tab.zip" -d "$prev_dir"
+              unzip -q ./minimal-chrome-tab.zip -d "$curr_dir"
+              if diff -qr "$prev_dir" "$curr_dir" >/dev/null; then
+                changed=false
+              fi
+            fi
+          fi
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish nightly release
+        if: steps.release_check.outputs.changed == 'true'
+        run: |
+          gh release delete nightly --cleanup-tag --yes 2>/dev/null || true
           gh release create nightly --prerelease --title "Nightly" --notes "The bleeding edge release." ./minimal-chrome-tab.zip
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Skip publishing
+        if: steps.release_check.outputs.changed == 'false'
+        run: echo "No changes detected; skipping release update."
