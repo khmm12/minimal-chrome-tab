@@ -14,7 +14,7 @@ const config = defineConfig(
     files: ['**/*.{js,mjs,cjs}', '**/*.{ts,tsx,mts,cts}'],
   },
   {
-    ignores: ['dist', 'styled-system', 'vite.config.ts.timestamp-*.mjs'],
+    ignores: ['dist', 'styled-system', 'vite.config.ts.timestamp-*.mjs', 'coverage'],
   },
   {
     languageOptions: {
