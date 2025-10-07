@@ -1,6 +1,6 @@
 import { createEffect, on, onCleanup, untrack } from 'solid-js'
 import { createFocusTrap } from 'focus-trap'
-import { supportsAnimations } from '@/utils/dom'
+import { supportsAnimations, supportsInertAttribute } from '@/utils/dom'
 
 interface OverlayHooksConfig {
   readonly $overlay: HTMLElement | undefined
@@ -42,21 +42,18 @@ export default function useDialogHooks(config: OverlayHooksConfig): void {
     })
   })
 
-  if (!import.meta.env.TEST) {
-    // JSDOM doesn't support inert attribute
-    createEffect(() => {
-      const { $overlay, $dialog } = config
+  createEffect(() => {
+    const { $overlay, $dialog } = config
+    if (!supportsInertAttribute() || $overlay == null || $dialog == null) return
 
-      if ($overlay != null && $dialog != null) {
-        const focusTrap = createFocusTrap($overlay, {
-          escapeDeactivates: false,
-          fallbackFocus: $dialog,
-        })
-        focusTrap.activate()
-        onCleanup(() => focusTrap.deactivate())
-      }
+    const focusTrap = createFocusTrap($overlay, {
+      escapeDeactivates: false,
+      fallbackFocus: $dialog,
     })
-  }
+
+    focusTrap.activate()
+    onCleanup(() => focusTrap.deactivate())
+  })
 
   createEffect(() => {
     const { $dialog } = config
