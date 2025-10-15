@@ -2,7 +2,7 @@ import { defineAnimationStyles, defineConfig, defineGlobalStyles, defineKeyframe
 import type { AnimationStyles } from '@pandacss/types'
 import removeUnusedCSS from './lib/panda/remove-unused-css.js'
 
-export const animationStyles: AnimationStyles = defineAnimationStyles({
+const animationStyles: AnimationStyles = defineAnimationStyles({
   'scale-fade-in': {
     value: {
       transformOrigin: 'var(--transform-origin)',
@@ -100,7 +100,7 @@ export default defineConfig({
   }),
   outdir: 'styled-system',
   hooks: {
-    'cssgen:done': ({ artifact, content }) => {
+    'cssgen:done'({ artifact, content }) {
       if (artifact === 'styles.css') return removeUnusedCSS(content)
       return content
     },
