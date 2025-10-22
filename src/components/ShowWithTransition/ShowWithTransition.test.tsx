@@ -66,7 +66,7 @@ describe('ShowWithTransition', () => {
     expect(context.isOpened).toBeFalsy()
   })
 
-  it('removes child after transiton end only', () => {
+  it('removes child after transition end only', () => {
     let context: (typeof ShowWithTransitionContext)['defaultValue'] = ShowWithTransitionContext.defaultValue
     const [value, setValue] = createSignal(true)
     const child = (): JSX.Element => {
@@ -87,21 +87,22 @@ describe('ShowWithTransition', () => {
 
   it('renders render-prop children with reactive condition', () => {
     const [value, setValue] = createSignal<{ name: string } | null>(null)
-    const child = vi.fn((val: Accessor<{ name: string }>): JSX.Element => <>hello {val().name}</>)
+    const childMock = vi.fn((val: Accessor<{ name: string }>): JSX.Element => <>hello {val().name}</>)
+    const child = (val: Accessor<{ name: string }>) => childMock(val) // vi.fn provides a function with zero arguments, wrap
 
     const { container } = render(() => <ShowWithTransition when={value()}>{child}</ShowWithTransition>)
 
     expect(container).toBeEmptyDOMElement()
-    expect(child).not.toBeCalled()
+    expect(childMock).not.toBeCalled()
 
     setValue({ name: 'world' })
 
     expect(container).toHaveTextContent('hello world')
-    expect(child).toBeCalledTimes(1) // unlike of solid.Show
+    expect(childMock).toBeCalledTimes(1) // unlike of solid.Show
 
     setValue({ name: 'pony' })
 
     expect(container).toHaveTextContent('hello pony')
-    expect(child).toBeCalledTimes(1)
+    expect(childMock).toBeCalledTimes(1)
   })
 })
