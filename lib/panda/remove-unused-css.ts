@@ -147,7 +147,7 @@ interface KeyframesAtRule extends postcss.AtRule {
 
 class KeyframesCollector {
   private readonly keyframes = new Map<string, KeyframeUsage>()
-  private readonly animationNameRegex = /(['"]?)(?<name>[a-zA-Z_][\w-]*)\1/g
+  private readonly animationNameRegex = /(?:'|")?(?<name>[a-zA-Z_][\w-]*)(?:'|")?/g
 
   walkNode(node: postcss.ChildNode): void {
     if (isAtRule(node)) {

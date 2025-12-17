@@ -28,6 +28,7 @@ const config = defineConfig(
       '@typescript-eslint/class-methods-use-this': 'off', // useless,
       'no-param-reassign': 'off', // too opinionated from eslint-config-love
       'no-negated-condition': 'off', // too opinionated from eslint-config-love: screams on != null conditions
+      eqeqeq: ['error', 'always', { null: 'ignore' }], // too opinionated from eslint-config-love, by default they doesn't allow == for nullish
       'import/order': [
         'error',
         {

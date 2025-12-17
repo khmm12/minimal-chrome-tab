@@ -8,12 +8,11 @@ import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
 import manifestPlugin from './lib/vite/manifest-plugin.js'
 
-export default defineConfig((config) => ({
+export default defineConfig(() => ({
   build: {
     target: browserslistToEsbuild(),
   },
   resolve: {
-    conditions: ['module', 'browser', 'development|production'],
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
       'styled-system': fileURLToPath(new URL('./styled-system', import.meta.url)),
@@ -22,7 +21,7 @@ export default defineConfig((config) => ({
   },
   plugins: [
     solidDevTools({ autoname: true }),
-    solidPlugin({ hot: config.mode === 'development' }),
+    solidPlugin(),
     createHtmlPlugin({ minify: true }),
     viteStaticCopy({
       targets: [

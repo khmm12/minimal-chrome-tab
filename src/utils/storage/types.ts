@@ -10,10 +10,7 @@ export interface IStorageAdapter extends ISubscribable<unknown> {
 }
 
 export interface IStorage<T>
-  extends IWritableStorage<T>,
-    IMemorableStorage<T>,
-    ISubscribableStorage<T>,
-    IDisposableStorage {}
+  extends IWritableStorage<T>, IMemorableStorage<T>, ISubscribableStorage<T>, IDisposableStorage {}
 
 export interface IWritableStorage<T> {
   read: () => Promise<T>
