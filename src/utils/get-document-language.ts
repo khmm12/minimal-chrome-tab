@@ -5,7 +5,7 @@ export default function getDocumentLanguage(locale: string = getCurrentLocale())
 }
 
 function getISO639Language(language: string): string {
-  const [, lang] = /^([a-z]{0,2})([-_][a-zA-Z]{0,255})?/.exec(language) ?? []
+  const { lang } = /^(?<lang>[a-z]{0,2})(?:[-_][a-zA-Z]{0,255})?/.exec(language)?.groups ?? {}
 
   if (lang == null || lang === '') throw new TypeError('The locale is not valid BCP 47 format')
 
