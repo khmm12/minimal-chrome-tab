@@ -36,6 +36,13 @@ export default defineConfig(() => ({
     }),
   ],
   test: {
+    server: {
+      deps: {
+        // fix for vitest v4
+        // otherwise they're handled directly via nodejs and can not be imported
+        inline: ['@tanstack/solid-form', '@tanstack/solid-store'],
+      },
+    },
     setupFiles: ['test-support/setup.ts'],
     watch: false,
     globals: true,
