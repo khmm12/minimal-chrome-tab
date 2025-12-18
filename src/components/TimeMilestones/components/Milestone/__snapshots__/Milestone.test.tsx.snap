@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Milestone > renders correctly 1`] = `
+exports[`Milestone > variant BarsCompact > renders correctly 1`] = `
 <div
   aria-label="test milestone"
   class="d_flex ai_center gap_0 flex-d_column"
@@ -67,6 +67,184 @@ exports[`Milestone > renders correctly 1`] = `
       d="M24.4 4.75 L24.4 5 Z"
       stroke="currentColor"
       stroke-width="1.2"
+    />
+  </svg>
+  <span
+    class="m_0.625rem_0_0 fs_1.5rem smDown:fs_1rem tt_lowercase"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ...
+    </span>
+    test milestone
+  </span>
+</div>
+`;
+
+exports[`Milestone > variant BarsDetailed > renders correctly 1`] = `
+<div
+  aria-label="test milestone"
+  class="d_flex ai_center gap_0 flex-d_column"
+  role="group"
+>
+  <span
+    class="fs_4rem smDown:fs_3.375rem"
+  >
+    25%
+  </span>
+  <svg
+    aria-hidden="true"
+    height="1rem"
+    preserveAspectRatio="xMinYMin"
+    role="figure"
+    viewBox="0 0 30 5"
+  >
+    <path
+      d="M0.5 0 L0.5 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M2.0263157895 0 L2.0263157895 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M3.5526315789 0 L3.5526315789 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M5.0789473684 0 L5.0789473684 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M6.6052631579 0 L6.6052631579 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M8.1315789474 4.75 L8.1315789474 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M9.6578947368 4.75 L9.6578947368 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M11.1842105263 4.75 L11.1842105263 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M12.7105263158 4.75 L12.7105263158 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M14.2368421053 4.75 L14.2368421053 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M15.7631578947 4.75 L15.7631578947 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M17.2894736842 4.75 L17.2894736842 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M18.8157894737 4.75 L18.8157894737 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M20.3421052632 4.75 L20.3421052632 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M21.8684210526 4.75 L21.8684210526 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M23.3947368421 4.75 L23.3947368421 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M24.9210526316 4.75 L24.9210526316 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M26.4473684211 4.75 L26.4473684211 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M27.9736842105 4.75 L27.9736842105 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+    <path
+      d="M29.5 4.75 L29.5 5 Z"
+      stroke="currentColor"
+      stroke-width="1"
+    />
+  </svg>
+  <span
+    class="m_0.625rem_0_0 fs_1.5rem smDown:fs_1rem tt_lowercase"
+  >
+    <span
+      aria-hidden="true"
+    >
+      ...
+    </span>
+    test milestone
+  </span>
+</div>
+`;
+
+exports[`Milestone > variant HorizontalBar > renders correctly 1`] = `
+<div
+  aria-label="test milestone"
+  class="d_flex ai_center gap_0 flex-d_column"
+  role="group"
+>
+  <span
+    class="fs_4rem smDown:fs_3.375rem"
+  >
+    25%
+  </span>
+  <svg
+    aria-hidden="true"
+    height="1rem"
+    preserveAspectRatio="xMinYMin"
+    role="figure"
+    viewBox="0 0 30 5"
+  >
+    <rect
+      fill="currentColor"
+      height="0.25"
+      width="30"
+      x="0"
+      y="4.75"
+    />
+    <rect
+      fill="currentColor"
+      height="5"
+      width="7.5"
+      x="0"
+      y="0"
     />
   </svg>
   <span
