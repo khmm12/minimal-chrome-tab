@@ -13,12 +13,36 @@ afterEach(() => {
 })
 
 describe('Milestone', () => {
-  it('renders correctly', () => {
-    render(() => <Milestone variant={MilestoneVariant.BarsCompact} value={0.25} description="test milestone" />)
+  describe('variant BarsCompact', () => {
+    it('renders correctly', () => {
+      render(() => <Milestone variant={MilestoneVariant.BarsCompact} value={0.25} description="test milestone" />)
 
-    const r = screen.getByLabelText('test milestone')
+      const r = screen.getByLabelText('test milestone')
 
-    expect(r).toBeInTheDocument()
-    expect(r).toMatchSnapshot()
+      expect(r).toBeInTheDocument()
+      expect(r).toMatchSnapshot()
+    })
+  })
+
+  describe('variant BarsDetailed', () => {
+    it('renders correctly', () => {
+      render(() => <Milestone variant={MilestoneVariant.BarsDetailed} value={0.25} description="test milestone" />)
+
+      const r = screen.getByLabelText('test milestone')
+
+      expect(r).toBeInTheDocument()
+      expect(r).toMatchSnapshot()
+    })
+  })
+
+  describe('variant HorizontalBar', () => {
+    it('renders correctly', () => {
+      render(() => <Milestone variant={MilestoneVariant.HorizontalBar} value={0.25} description="test milestone" />)
+
+      const r = screen.getByLabelText('test milestone')
+
+      expect(r).toBeInTheDocument()
+      expect(r).toMatchSnapshot()
+    })
   })
 })
