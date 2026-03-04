@@ -4,7 +4,7 @@ import SettingsButton from '.'
 
 describe('SettingsButton', () => {
   it('renders a button', async () => {
-    const handleClick = vi.fn()
+    const handleClick = vi.fn(() => {})
     const r = render(() => <SettingsButton onClick={handleClick} />)
 
     const button = r.getByRole('button')
@@ -32,7 +32,11 @@ describe('SettingsButton', () => {
 
     const r = render(() => (
       <>
-        <SettingsButton onClick={() => setIsShown(true)} />
+        <SettingsButton
+          onClick={() => {
+            setIsShown(true)
+          }}
+        />
         <Show when={isShown()}>
           <Suspense>
             <div>{resource()}</div>

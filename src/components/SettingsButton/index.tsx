@@ -30,7 +30,9 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
     setIsLoading(true)
     startTransition(() => props.onClick?.())
       .catch(() => {})
-      .finally(() => setIsLoading(false))
+      .finally(() => {
+        setIsLoading(false)
+      })
   }
 
   return (

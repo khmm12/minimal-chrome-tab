@@ -35,7 +35,7 @@ describe('Modal', () => {
   })
 
   it('renders close button', () => {
-    const handleClose = vi.fn()
+    const handleClose = vi.fn(() => {})
 
     render(() => <Modal title="" onClose={handleClose} />)
 
@@ -72,7 +72,7 @@ describe('Modal', () => {
   })
 
   it('closes on outside click', () => {
-    const handleClose = vi.fn()
+    const handleClose = vi.fn(() => {})
 
     render(() => (
       <Modal title="" onClose={handleClose}>
@@ -90,7 +90,7 @@ describe('Modal', () => {
   })
 
   it('closes on Escape key press', () => {
-    const handleClose = vi.fn()
+    const handleClose = vi.fn(() => {})
 
     render(() => (
       <Modal title="" onClose={handleClose}>
