@@ -21,7 +21,7 @@ describe('SettingsDialog', () => {
   })
 
   it('can be closed', async () => {
-    const handleClose = vi.fn()
+    const handleClose = vi.fn(() => {})
     const { user } = await createContainer({ onClose: handleClose })
 
     await user.click(screen.getByTitle(/close/i))

@@ -7,7 +7,7 @@ vi.mock('@/components/Credits', () => ({
 
 describe('Footer', () => {
   it('renders a settings button', async () => {
-    const handleSettingsRequest = vi.fn()
+    const handleSettingsRequest = vi.fn(() => {})
     render(() => <Footer onSettingsRequest={handleSettingsRequest} />)
 
     expect(screen.getByTitle('Open settings')).toBeInTheDocument()

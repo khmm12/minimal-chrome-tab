@@ -13,7 +13,9 @@ export { EveryClockMinute, EveryClockSecond }
 
 export default function createCurrentDateTime(config: CurrentDateTimeConfig): Accessor<Date> {
   const [dateTime, setDateTime] = createSignal(getDate(), { equals: isDateEqual })
-  const update = (): Date => setDateTime(getDate())
+  const update = (): void => {
+    setDateTime(getDate())
+  }
 
   const isTabActive = useTabActive()
 
