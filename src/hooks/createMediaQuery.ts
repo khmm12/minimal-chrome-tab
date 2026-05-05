@@ -9,9 +9,9 @@ export default function createMediaQuery(query: string): MediaQuery {
   const mediaQueryList = createMemo(() => window.matchMedia(query))
 
   const val = createSubscription({
-    getCurrentValue: () => mediaQueryList().matches,
-    subscribe(fn) {
-      const mq = mediaQueryList()
+    deps: () => [mediaQueryList()] as const,
+    getCurrentValue: ([mq]) => mq.matches,
+    subscribe(fn, [mq]) {
       mq.addEventListener('change', fn)
       return () => {
         mq.removeEventListener('change', fn)

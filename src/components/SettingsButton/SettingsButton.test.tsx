@@ -1,5 +1,5 @@
-import { createResource, createSignal, Show, Suspense } from 'solid-js'
-import { fireEvent, render, renderHook, waitFor } from '@solidjs/testing-library'
+import { createMemo, createSignal, flush, Loading, Show } from 'solid-js'
+import { fireEvent, render, waitFor } from '@solidjs/testing-library'
 import SettingsButton from '.'
 
 describe('SettingsButton', () => {
@@ -15,53 +15,83 @@ describe('SettingsButton', () => {
     expect(button).toHaveAccessibleName('Open settings')
 
     fireEvent.click(button)
+    flush()
 
     await waitFor(() => {
-      expect(handleClick).toBeCalled()
+      expect(handleClick).toHaveBeenCalled()
     })
   })
 
   it('handles deferred resources', async () => {
-    const {
-      result: [isShown, setIsShown],
-    } = renderHook(() => createSignal(false))
-    const [p, resolve] = deferred<null>()
-    const {
-      result: [resource],
-    } = renderHook(() => createResource(async () => await p))
+    const p = Promise.withResolvers<null>()
 
-    const r = render(() => (
-      <>
-        <SettingsButton
-          onClick={() => {
-            setIsShown(true)
-          }}
-        />
-        <Show when={isShown()}>
-          <Suspense>
-            <div>{resource()}</div>
-          </Suspense>
-        </Show>
-      </>
-    ))
+    const r = render(() => {
+      const [isShown, setIsShown] = createSignal(false)
+      const deferred = createMemo(async () => await p.promise, { lazy: true })
+
+      return (
+        <>
+          <SettingsButton
+            onClick={() => {
+              setIsShown(true)
+            }}
+          />
+          <Show when={isShown()}>
+            <Loading>{deferred()}</Loading>
+          </Show>
+        </>
+      )
+    })
 
     const button = r.getByRole('button')
 
     fireEvent.click(button)
+    flush()
 
     expect(button).toHaveAttribute('aria-disabled', 'true')
     expect(button).toHaveAccessibleName('Opening settings')
 
-    resolve(null)
+    p.resolve(null)
 
     await waitFor(() => {
       expect(button).toHaveAttribute('aria-disabled', 'false')
       expect(button).toHaveAccessibleName('Open settings')
     })
   })
-})
 
-function deferred<T>(): [p: Promise<T>, resolve: (val: T) => void] {
-  const p = Promise.withResolvers<T>()
-  return [p.promise, p.resolve]
-}
+  it('ignores clicks while deferred opening is pending', () => {
+    const p = Promise.withResolvers<null>()
+    const handleClick = vi.fn()
+
+    const r = render(() => {
+      const [isShown, setIsShown] = createSignal(false)
+      const deferred = createMemo(async () => await p.promise, { lazy: true })
+
+      return (
+        <>
+          <SettingsButton
+            onClick={() => {
+              handleClick()
+              setIsShown(true)
+            }}
+          />
+          <Show when={isShown()}>
+            <Loading>{deferred()}</Loading>
+          </Show>
+        </>
+      )
+    })
+
+    const button = r.getByRole('button')
+
+    fireEvent.click(button)
+    flush()
+    fireEvent.click(button)
+    flush()
+
+    expect(handleClick).toHaveBeenCalledTimes(1)
+    expect(button).toHaveAttribute('aria-busy', 'true')
+
+    p.resolve(null)
+  })
+})

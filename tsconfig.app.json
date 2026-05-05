@@ -3,7 +3,6 @@
   "compilerOptions": {
     "checkJs": false,
     "allowJs": true,
-    "baseUrl": ".",
     "composite": true,
     "lib": ["esnext", "dom", "dom.iterable"],
     "module": "esnext",
@@ -15,17 +14,17 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "jsxImportSource": "solid-js",
+    "jsxImportSource": "@solidjs/web",
     "noEmit": true,
     "verbatimModuleSyntax": true,
 
     "paths": {
-      "@/*": ["src/*"],
-      "styled-system": ["styled-system"],
-      "@test/*": ["test-support/*"]
+      "@/*": ["./src/*"],
+      "styled-system/*": ["./styled-system/*"],
+      "@test/*": ["./test-support/*"],
     },
     "types": ["chrome", "vite/client", "@total-typescript/ts-reset"],
-    "tsBuildInfoFile": ".tmp/app.tsbuildinfo"
+    "tsBuildInfoFile": "node_modules/.tmp/app.tsbuildinfo",
   },
   "include": ["typings", "src", "styled-system", "test-support"],
   "exclude": ["./dist"],

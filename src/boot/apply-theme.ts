@@ -1,4 +1,4 @@
-import { type Accessor, createEffect, createMemo, createRoot, on, onMount } from 'solid-js'
+import { type Accessor, createEffect, createMemo, createRoot, onSettled } from 'solid-js'
 import createMediaQuery from '@/hooks/createMediaQuery'
 import createSettingsStorage from '@/hooks/createSettingsStorage'
 import { ThemeColorMode } from '@/shared/settings'
@@ -11,23 +11,19 @@ const disposeRoot = createRoot((dispose) => {
     settings().themeColorMode === ThemeColorMode.Auto ? (isOSDark() ? 'dark' : 'light') : settings().themeColorMode,
   )
 
-  createEffect(
-    on(theme, (val) => {
-      document.documentElement.setAttribute('data-theme', val)
-    }),
-  )
+  createEffect(theme, (val) => {
+    document.documentElement.setAttribute('data-theme', val)
+  })
 
   const favicon = useFavicon()
 
   createEffect(
-    on(
-      isOSDark,
-      () => {
-        const $el = favicon()
-        if ($el != null) triggerFaviconRefresh($el)
-      },
-      { defer: true },
-    ),
+    isOSDark,
+    () => {
+      const $el = favicon()
+      if ($el != null) triggerFaviconRefresh($el)
+    },
+    { defer: true },
   )
 
   return dispose
@@ -41,7 +37,7 @@ if (import.meta.hot != null) {
 function useFavicon(): Accessor<HTMLLinkElement | null> {
   let $favicon: HTMLLinkElement | null = null
 
-  onMount(() => {
+  onSettled(() => {
     $favicon = document.querySelector('link[rel="icon"][type="image/svg+xml"]')
   })
 

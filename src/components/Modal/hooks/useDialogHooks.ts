@@ -1,4 +1,4 @@
-import { createEffect, on, onCleanup, untrack } from 'solid-js'
+import { createEffect, createRenderEffect, untrack } from 'solid-js'
 import { createFocusTrap } from 'focus-trap'
 import { supportsAnimations, supportsInertAttribute } from '@/utils/dom'
 
@@ -11,85 +11,92 @@ interface OverlayHooksConfig {
 }
 
 export default function useDialogHooks(config: OverlayHooksConfig): void {
-  createEffect(() => {
-    const { $overlay } = config
-    if ($overlay == null) return
+  createEffect(
+    () => config.$overlay,
+    ($overlay) => {
+      if ($overlay == null) return
 
-    const handleKeyDown = (e: KeyboardEvent): void => {
-      if (e.code === 'Escape') {
-        e.stopPropagation()
-        config.onClose?.()
+      const handleKeyDown = (e: KeyboardEvent): void => {
+        if (e.code === 'Escape') {
+          e.stopPropagation()
+          config.onClose?.()
+        }
       }
-    }
 
-    $overlay.addEventListener('keydown', handleKeyDown)
-    onCleanup(() => {
-      $overlay.removeEventListener('keydown', handleKeyDown)
-    })
-  })
-
-  createEffect(() => {
-    const handleDocumentClick = (e: MouseEvent): void => {
-      if (shouldClose(e, config.$dialog)) {
-        e.stopPropagation()
-        config.onClose?.()
+      $overlay.addEventListener('keydown', handleKeyDown)
+      return () => {
+        $overlay.removeEventListener('keydown', handleKeyDown)
       }
-    }
+    },
+  )
 
-    document.addEventListener('click', handleDocumentClick, true)
-    onCleanup(() => {
-      document.removeEventListener('click', handleDocumentClick, true)
-    })
-  })
+  createEffect(
+    () => config.$dialog,
+    ($dialog) => {
+      const handleDocumentClick = (e: MouseEvent): void => {
+        if (shouldClose(e, $dialog)) {
+          e.stopPropagation()
+          config.onClose?.()
+        }
+      }
 
-  createEffect(() => {
-    const { $overlay, $dialog } = config
-    if (!supportsInertAttribute() || $overlay == null || $dialog == null) return
+      document.addEventListener('click', handleDocumentClick, true)
+      return () => {
+        document.removeEventListener('click', handleDocumentClick, true)
+      }
+    },
+  )
 
-    const focusTrap = createFocusTrap($overlay, {
-      escapeDeactivates: false,
-      fallbackFocus: $dialog,
-    })
+  createRenderEffect(
+    () => ({ $overlay: config.$overlay, $dialog: config.$dialog }),
+    ({ $overlay, $dialog }) => {
+      if (!supportsInertAttribute() || $overlay == null || $dialog == null) return
 
-    focusTrap.activate()
-    onCleanup(() => focusTrap.deactivate())
-  })
-
-  createEffect(() => {
-    const { $dialog } = config
-    if ($dialog == null) return
-
-    const handleAnimationEnd = (): void => {
-      untrack(() => {
-        if (!config.isVisible) config.onExited?.()
+      const focusTrap = createFocusTrap($overlay, {
+        escapeDeactivates: false,
+        fallbackFocus: $dialog,
       })
-    }
 
-    $dialog.addEventListener('animationend', handleAnimationEnd)
-    onCleanup(() => {
-      $dialog.removeEventListener('animationend', handleAnimationEnd)
-    })
-  })
+      focusTrap.activate()
+      return () => {
+        focusTrap.deactivate()
+      }
+    },
+  )
+
+  createEffect(
+    () => config.$dialog,
+    ($dialog) => {
+      if ($dialog == null) return
+
+      const handleAnimationEnd = (): void => {
+        untrack(() => {
+          if (!config.isVisible) config.onExited?.()
+        })
+      }
+
+      $dialog.addEventListener('animationend', handleAnimationEnd)
+      return () => {
+        $dialog.removeEventListener('animationend', handleAnimationEnd)
+      }
+    },
+  )
 
   // In case of animations aren't supported, dispatch animationend event manually
   createEffect(
-    on(
-      () => config.isVisible,
-      (isDialogVisible) => {
-        const { $dialog: $el } = config
+    () => ({ isDialogVisible: config.isVisible, $dialog: config.$dialog }),
+    ({ isDialogVisible, $dialog: $el }) => {
+      if (supportsAnimations() || $el == null || isDialogVisible) return
 
-        if (supportsAnimations() || $el == null || isDialogVisible) return
+      const rafID = requestAnimationFrame(() => {
+        $el.dispatchEvent(new Event('animationend'))
+      })
 
-        const rafID = requestAnimationFrame(() => {
-          $el.dispatchEvent(new Event('animationend'))
-        })
-
-        onCleanup(() => {
-          cancelAnimationFrame(rafID)
-        })
-      },
-      { defer: true },
-    ),
+      return () => {
+        cancelAnimationFrame(rafID)
+      }
+    },
+    { defer: true },
   )
 }
 

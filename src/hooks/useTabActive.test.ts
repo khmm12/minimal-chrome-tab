@@ -1,3 +1,4 @@
+import { flush } from 'solid-js'
 import { fireEvent, renderHook } from '@solidjs/testing-library'
 import type { MockInstance } from 'vitest'
 import useTabActive from './useTabActive'
@@ -21,14 +22,17 @@ describe('useTabActive', () => {
 
   it('reflects to tab state', () => {
     const { result: isActive } = renderHook(() => useTabActive())
+    flush()
 
     isHidden.mockReturnValue(true)
     fireEvent(document, new Event('visibilitychange'))
+    flush()
 
     expect(isActive()).toBeFalsy()
 
     isHidden.mockReturnValue(false)
     fireEvent(document, new Event('visibilitychange'))
+    flush()
 
     expect(isActive()).toBeTruthy()
   })

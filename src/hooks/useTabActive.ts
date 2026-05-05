@@ -5,6 +5,7 @@ const getTabState = (): boolean => !document.hidden
 
 export default function useTabActive(): Accessor<boolean> {
   const isTabActive = createSubscription({
+    deps: () => [],
     getCurrentValue: getTabState,
     subscribe(fn) {
       document.addEventListener('visibilitychange', fn)

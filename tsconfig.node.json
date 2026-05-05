@@ -3,11 +3,10 @@
   "compilerOptions": {
     "checkJs": true,
     "allowJs": true,
-    "baseUrl": ".",
     "composite": true,
     "noEmit": true,
     "types": ["@total-typescript/ts-reset"],
-    "tsBuildInfoFile": ".tmp/node.tsbuildinfo"
+    "tsBuildInfoFile": "node_modules/.tmp/node.tsbuildinfo",
   },
   "include": [
     "vite.config.ts",
@@ -17,9 +16,7 @@
     "panda.config.ts",
     "lib",
     "src/theme",
-    "typings"
+    "typings",
   ],
-  "exclude": [
-    "**/*.test.ts"
-  ]
+  "exclude": ["**/*.test.ts"],
 }

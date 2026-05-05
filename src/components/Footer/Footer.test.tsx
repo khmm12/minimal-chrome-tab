@@ -15,7 +15,7 @@ describe('Footer', () => {
     fireEvent.click(screen.getByTitle('Open settings'))
 
     await waitFor(() => {
-      expect(handleSettingsRequest).toBeCalled()
+      expect(handleSettingsRequest).toHaveBeenCalled()
     })
   })
 

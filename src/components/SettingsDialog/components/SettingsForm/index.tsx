@@ -1,6 +1,6 @@
-import { createEffect, For, type JSX, on } from 'solid-js'
+import { action, createEffect, createMemo, createOptimistic, createStore, For, untrack } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { css } from 'styled-system/css'
-import { createForm } from '@tanstack/solid-form'
 import createUniqueIds from '@/hooks/createUniqueIds'
 import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
 import type { ISODate } from '@/utils/brands'
@@ -10,6 +10,16 @@ import * as s from './styles'
 interface SettingsFormProps {
   initialValues: Settings
   onSubmit: (values: Settings) => Promise<void> | void
+}
+
+interface FormValues {
+  birthDate: ISODate | undefined
+  milestoneProgressStyle: MilestoneProgressStyle
+  themeColorMode: ThemeColorMode
+}
+
+interface FormState {
+  isDirty: boolean
 }
 
 const ThemeColorModeOptions = [
@@ -25,111 +35,128 @@ const MilestoneProgressStyleOptions = [
 ]
 
 export default function SettingsForm(props: SettingsFormProps): JSX.Element {
-  const form = createForm(() => ({
-    defaultValues: { ...props.initialValues },
-    async onSubmit({ value: values }) {
-      const { milestoneProgressStyle, themeColorMode, birthDate } = values
+  const initialValues = untrack(() => props.initialValues)
 
-      const nextValues: Settings = {
-        milestoneProgressStyle,
-        themeColorMode,
-      }
-      if (birthDate != null) nextValues.birthDate = birthDate
+  const [values, setValues] = createStore<FormValues>({
+    birthDate: initialValues.birthDate,
+    milestoneProgressStyle: initialValues.milestoneProgressStyle,
+    themeColorMode: initialValues.themeColorMode,
+  })
 
-      await props.onSubmit(nextValues)
-    },
-  }))
+  const [state, setState] = createStore<FormState>({
+    isDirty: false,
+  })
+  const [isSubmitting, setIsSubmitting] = createOptimistic(false)
+
+  const settings = createMemo(
+    (): Settings => ({
+      milestoneProgressStyle: values.milestoneProgressStyle,
+      themeColorMode: values.themeColorMode,
+      ...(values.birthDate != null ? { birthDate: values.birthDate } : {}),
+    }),
+  )
 
   createEffect(
-    on(
-      () => ({ ...props.initialValues }), // Subscribe to all fields
-      (initialValues) => {
-        if (!form.state.isDirty) form.reset(initialValues)
-      },
-      { defer: true },
-    ),
+    () => ({ initialValues: { ...props.initialValues }, isDirty: state.isDirty }),
+    ({ initialValues, isDirty }) => {
+      if (isDirty) return
+
+      setValues(() => ({
+        birthDate: initialValues.birthDate,
+        milestoneProgressStyle: initialValues.milestoneProgressStyle,
+        themeColorMode: initialValues.themeColorMode,
+      }))
+    },
+    { defer: true },
   )
+
+  const handleSubmit = action(async function* () {
+    setIsSubmitting(true)
+    await props.onSubmit(settings())
+    setState((state) => {
+      state.isDirty = false
+    })
+    yield
+  })
+
+  const change = <TName extends keyof FormValues>(name: TName, value: FormValues[TName]): void => {
+    setValues((state) => {
+      state[name] = value
+    })
+    setState((state) => {
+      state.isDirty = true
+    })
+  }
 
   const ids = createUniqueIds(['birthDate', 'milestoneProgressStyle', 'themeColorMode'])
 
   return (
-    <form class={css(s.container)} aria-label="Settings" onSubmit={withCanceled(form.handleSubmit.bind(form))}>
-      <form.Field name="themeColorMode">
-        {(field) => (
-          <div class={css(s.formGroup)}>
-            <label for={ids.themeColorMode} class={css(s.label)}>
-              Theme color mode
-            </label>
-            <select
-              name={field().name}
-              id={ids.themeColorMode}
-              class={css(s.select)}
-              style={s.selectInline}
-              onChange={selectHandler(ThemeColorModeOptions, field().handleChange)}
-              onBlur={field().handleBlur}
-            >
-              <For each={ThemeColorModeOptions}>
-                {({ label, value }) => (
-                  <option value={value} selected={field().state.value === value}>
-                    {label}
-                  </option>
-                )}
-              </For>
-            </select>
-          </div>
-        )}
-      </form.Field>
-      <form.Field name="milestoneProgressStyle">
-        {(field) => (
-          <div class={css(s.formGroup)}>
-            <label for={ids.milestoneProgressStyle} class={css(s.label)}>
-              Milestone progress style
-            </label>
-            <select
-              id={ids.milestoneProgressStyle}
-              class={css(s.select)}
-              style={s.selectInline}
-              name={field().name}
-              onChange={selectHandler(MilestoneProgressStyleOptions, field().handleChange)}
-              onBlur={field().handleBlur}
-            >
-              <For each={MilestoneProgressStyleOptions}>
-                {({ label, value }) => (
-                  <option value={value} selected={field().state.value === value}>
-                    {label}
-                  </option>
-                )}
-              </For>
-            </select>
-          </div>
-        )}
-      </form.Field>
-      <form.Field name="birthDate">
-        {(field) => (
-          <div class={css(s.formGroup)}>
-            <label for={ids.birthDate} class={css(s.label)}>
-              Birth date
-            </label>
-            <input
-              id={ids.birthDate}
-              class={css(s.input)}
-              placeholder="Birthdate"
-              type="date"
-              name={field().name}
-              value={field().state.value ?? ''}
-              onChange={textHandler(parseDateValue, field().handleChange)}
-              onBlur={field().handleBlur}
-            />
-          </div>
-        )}
-      </form.Field>
-      <form.Subscribe selector={(state) => ({ isSubmitting: state.isSubmitting, canSubmit: state.canSubmit })}>
-        {(state) => (
-          <button class={css(s.button)} disabled={!state().canSubmit} type="submit">
-            {state().isSubmitting ? 'Saving' : 'Save'}
-          </button>
-        )}
-      </form.Subscribe>
+    <form class={css(s.container)} aria-label="Settings" onSubmit={withCanceled(handleSubmit)}>
+      <div class={css(s.formGroup)}>
+        <label for={ids.themeColorMode} class={css(s.label)}>
+          Theme color mode
+        </label>
+        <select
+          name="themeColorMode"
+          id={ids.themeColorMode}
+          class={css(s.select)}
+          style={s.selectInline}
+          value={values.themeColorMode}
+          onChange={selectHandler(ThemeColorModeOptions, (value) => {
+            change('themeColorMode', value)
+          })}
+        >
+          <For each={ThemeColorModeOptions}>
+            {(option) => (
+              <option value={option().value} selected={values.themeColorMode === option().value}>
+                {option().label}
+              </option>
+            )}
+          </For>
+        </select>
+      </div>
+      <div class={css(s.formGroup)}>
+        <label for={ids.milestoneProgressStyle} class={css(s.label)}>
+          Milestone progress style
+        </label>
+        <select
+          id={ids.milestoneProgressStyle}
+          class={css(s.select)}
+          style={s.selectInline}
+          name="milestoneProgressStyle"
+          value={values.milestoneProgressStyle}
+          onChange={selectHandler(MilestoneProgressStyleOptions, (value) => {
+            change('milestoneProgressStyle', value)
+          })}
+        >
+          <For each={MilestoneProgressStyleOptions}>
+            {(option) => (
+              <option value={option().value} selected={values.milestoneProgressStyle === option().value}>
+                {option().label}
+              </option>
+            )}
+          </For>
+        </select>
+      </div>
+      <div class={css(s.formGroup)}>
+        <label for={ids.birthDate} class={css(s.label)}>
+          Birth date
+        </label>
+        <input
+          id={ids.birthDate}
+          class={css(s.input)}
+          placeholder="Birthdate"
+          type="date"
+          name="birthDate"
+          value={values.birthDate ?? ''}
+          onChange={textHandler(parseDateValue, (value) => {
+            change('birthDate', value)
+          })}
+        />
+      </div>
+      <button class={css(s.button)} disabled={isSubmitting()} type="submit">
+        {isSubmitting() ? 'Saving' : 'Save'}
+      </button>
     </form>
   )
 }

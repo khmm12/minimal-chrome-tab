@@ -1,14 +1,14 @@
-import { onCleanup, onMount } from 'solid-js'
+import { onSettled } from 'solid-js'
 
 const DurationInSeconds = (1 / 60) * 6 // 6 frames or 100 ms
 
 export default function useMountEffect(): void {
-  onMount(() => {
+  onSettled(() => {
     const $root: HTMLElement | null = document.querySelector('#app')
     if ($root != null) {
-      const dispose = animate($root, DurationInSeconds)
-      onCleanup(dispose)
+      return animate($root, DurationInSeconds)
     }
+    return undefined
   })
 }
 

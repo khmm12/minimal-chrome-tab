@@ -1,48 +1,37 @@
-import {
-  type Accessor,
-  createComputed,
-  createEffect,
-  createSignal,
-  type JSX,
-  onCleanup,
-  startTransition,
-  untrack,
-} from 'solid-js'
+import { type Accessor, action, createEffect, createOptimistic, createSignal, untrack } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { css, cx } from 'styled-system/css'
 import { SettingsIcon } from '@/components/Icon'
 import { supportsAnimations } from '@/utils/dom'
 import * as s from './styles'
 
 interface SettingsButtonProps {
-  onClick?: () => void
+  onClick?: (() => void) | (() => Promise<void>)
 }
 
 export default function SettingsButton(props: SettingsButtonProps): JSX.Element {
   let $svg: SVGSVGElement | undefined
 
-  const [isLoading, setIsLoading] = createSignal(false)
+  const [isLoading, setIsLoading] = createOptimistic(false)
 
   createIconAnimation(() => $svg, isLoading)
 
-  const handleClick = (): void => {
+  const handleClick = action(async function* () {
     if (isLoading()) return
 
     setIsLoading(true)
-    startTransition(() => props.onClick?.())
-      .catch(() => {})
-      .finally(() => {
-        setIsLoading(false)
-      })
-  }
+    await props.onClick?.()
+    yield
+  })
 
   return (
     <button
       class={cx(css(s.button), 'group')}
       type="button"
-      aria-busy={isLoading()}
-      aria-disabled={isLoading()}
+      aria-busy={isLoading() ? 'true' : 'false'}
+      aria-disabled={isLoading() ? 'true' : 'false'}
       title={isLoading() ? 'Opening settings' : 'Open settings'}
-      onClick={handleClick}
+      onClick={noop(handleClick)}
     >
       <SettingsIcon ref={$svg} aria-hidden="true" css={s.svg} />
     </button>
@@ -52,34 +41,42 @@ export default function SettingsButton(props: SettingsButtonProps): JSX.Element 
 function createIconAnimation(svg: Accessor<SVGSVGElement | undefined>, when: Accessor<boolean>): void {
   const [isRunning, setIsRunning] = createSignal(false)
 
-  createComputed(() => {
-    if (when()) setIsRunning(true)
+  createEffect(when, (shouldRun) => {
+    if (shouldRun) setIsRunning(true)
   })
 
   // Wait for animation iteration to finish, then stop
-  createEffect(() => {
-    if (!supportsAnimations()) {
-      setIsRunning(false)
-      return
-    }
-
-    const $el = untrack(svg)
-    if ($el == null || !isRunning()) return
-
-    const handleIterationFinish = (): void => {
-      if (!untrack(when)) {
+  createEffect(
+    () => ({ $el: svg(), isRunning: isRunning() }),
+    ({ $el, isRunning: shouldRun }) => {
+      if (!supportsAnimations()) {
         setIsRunning(false)
+        return
       }
-    }
 
-    $el.addEventListener('animationiteration', handleIterationFinish)
+      if ($el == null || !shouldRun) return
 
-    // Run
-    $el.setAttribute('data-active', 'true')
+      const handleIterationFinish = (): void => {
+        if (!untrack(when)) {
+          setIsRunning(false)
+        }
+      }
 
-    onCleanup(() => {
-      $el.removeEventListener('animationiteration', handleIterationFinish)
-      $el.removeAttribute('data-active')
-    })
-  })
+      $el.addEventListener('animationiteration', handleIterationFinish)
+
+      // Run
+      $el.setAttribute('data-active', 'true')
+
+      return () => {
+        $el.removeEventListener('animationiteration', handleIterationFinish)
+        $el.removeAttribute('data-active')
+      }
+    },
+  )
+}
+
+function noop(fn: () => Promise<void>): () => void {
+  return () => {
+    void fn()
+  }
 }

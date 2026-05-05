@@ -1,4 +1,4 @@
-import type { JSX } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { css } from 'styled-system/css'
 import * as s from './styles'
 
