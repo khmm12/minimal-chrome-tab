@@ -1,6 +1,5 @@
 import { fileURLToPath } from 'node:url'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
-import solidDevTools from 'solid-devtools/vite'
 import { defineConfig } from 'vite'
 import 'vitest/config'
 import { createHtmlPlugin } from 'vite-plugin-html'
@@ -13,21 +12,21 @@ export default defineConfig(() => ({
     target: browserslistToEsbuild(),
   },
   resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'styled-system': fileURLToPath(new URL('./styled-system', import.meta.url)),
-      '@test': fileURLToPath(new URL('./test-support', import.meta.url)),
-    },
+    alias: [
+      { find: '@', replacement: fileURLToPath(new URL('./src', import.meta.url)) },
+      { find: 'styled-system', replacement: fileURLToPath(new URL('./styled-system', import.meta.url)) },
+      { find: '@test', replacement: fileURLToPath(new URL('./test-support', import.meta.url)) },
+    ],
   },
   plugins: [
-    solidDevTools({ autoname: true }),
     solidPlugin(),
     createHtmlPlugin({ minify: true }),
     viteStaticCopy({
       targets: [
         {
-          src: 'src/_locales/*',
+          src: 'src/_locales',
           dest: '_locales',
+          rename: { stripBase: 2 },
         },
       ],
     }),
@@ -40,7 +39,7 @@ export default defineConfig(() => ({
       deps: {
         // fix for vitest v4
         // otherwise they're handled directly via nodejs and can not be imported
-        inline: ['@tanstack/solid-form', '@tanstack/solid-store'],
+        inline: ['@solidjs/testing-library'],
       },
     },
     setupFiles: ['test-support/setup.ts'],

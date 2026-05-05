@@ -1,4 +1,4 @@
-import { createEffect, createSignal } from 'solid-js'
+import { createEffect, createSignal, flush, untrack } from 'solid-js'
 import { renderHook } from '@solidjs/testing-library'
 import createSubscription from './createSubscription'
 
@@ -15,7 +15,7 @@ describe('createSubscription', () => {
         },
       })
 
-      expect(value()).toBe(1)
+      expect(untrack(value)).toBe(1)
     })
   })
 
@@ -33,6 +33,7 @@ describe('createSubscription', () => {
         },
       }),
     )
+    flush()
 
     expect(value()).toBe(2)
   })
@@ -47,6 +48,7 @@ describe('createSubscription', () => {
         getCurrentValue: () => currentValue,
       }),
     )
+    flush()
 
     trigger(() => {
       currentValue = 2
@@ -71,11 +73,12 @@ describe('createSubscription', () => {
         identity: () => true,
       }),
     )
+    flush()
 
     const onUpdate = vi.fn<(v: number) => void>()
     renderHook(() => {
-      createEffect(() => {
-        onUpdate(value())
+      createEffect(value, (nextValue) => {
+        onUpdate(nextValue)
       })
     })
 
@@ -84,114 +87,137 @@ describe('createSubscription', () => {
     })
 
     expect(value()).toBe(1)
-    expect(onUpdate).toBeCalledTimes(1) // including mount
+    expect(onUpdate).toHaveBeenCalledTimes(1) // including mount
   })
 
   it('unsubscribes on unmount', () => {
     const { cleanup, result } = renderHook(() => createContainer())
+    flush()
 
     cleanup()
 
-    expect(result.unsubscribe).toBeCalled()
+    expect(result.unsubscribe).toHaveBeenCalled()
   })
 
-  describe('when `getCurrentValue` is changing', () => {
+  describe('when `deps` are changing', () => {
     it('updates value', () => {
       const {
-        result: [dep, setDep],
-      } = renderHook(() => createSignal(1))
-      const {
-        result: { getCurrentValue },
-      } = renderHook(() =>
-        createContainer({
-          getCurrentValue: () => dep(),
-        }),
-      )
+        result: { setDep, value },
+      } = renderHook(() => {
+        const [dep, setDep] = createSignal(1)
+
+        return {
+          ...createContainer({
+            deps: () => [dep()],
+          }),
+          setDep,
+        }
+      })
+      flush()
 
       setDep(2)
+      flush()
+      expect(value()).toBe(2)
+
       setDep(3)
-
-      expect(getCurrentValue).toBeCalledTimes(4)
-    })
-
-    it("doesn't resubscribe", () => {
-      const {
-        result: [dep, setDep],
-      } = renderHook(() => createSignal(1))
-      const {
-        result: { subscribe },
-      } = renderHook(() =>
-        createContainer({
-          getCurrentValue: () => dep(),
-        }),
-      )
-
-      setDep(2)
-
-      expect(subscribe).toBeCalledTimes(1)
-    })
-  })
-
-  describe('when `subscription` is changing', () => {
-    it("doesn't update value", () => {
-      const {
-        result: [dep, setDep],
-      } = renderHook(() => createSignal(1))
-      const {
-        result: { getCurrentValue },
-      } = renderHook(() =>
-        createContainer({
-          subscribe() {
-            dep()
-          },
-        }),
-      )
-
-      setDep(2)
-
-      expect(getCurrentValue).toBeCalledTimes(2)
+      flush()
+      expect(value()).toBe(3)
     })
 
     it('resubscribes', () => {
       const {
-        result: [dep, setDep],
-      } = renderHook(() => createSignal(1))
-      const {
-        result: { subscribe, unsubscribe },
-      } = renderHook(() =>
-        createContainer({
-          subscribe() {
-            dep()
-          },
-        }),
-      )
+        result: { setDep, subscribe, unsubscribe },
+      } = renderHook(() => {
+        const [dep, setDep] = createSignal(1)
+
+        return {
+          ...createContainer({
+            deps: () => [dep()],
+          }),
+          setDep,
+        }
+      })
+      flush()
 
       setDep(2)
+      flush()
 
-      expect(unsubscribe).toBeCalled()
-      expect(subscribe).toBeCalledTimes(2)
+      expect(unsubscribe).toHaveBeenCalled()
+      expect(subscribe).toHaveBeenCalledTimes(2)
+    })
+  })
+
+  describe('when `subscribe` reads reactive values outside tracked deps', () => {
+    it("doesn't update value", () => {
+      const {
+        result: { getCurrentValue, setDep },
+      } = renderHook(() => {
+        const [dep, setDep] = createSignal(1)
+
+        return {
+          ...createContainer({
+            subscribe() {
+              untrack(dep)
+            },
+          }),
+          setDep,
+        }
+      })
+      flush()
+
+      setDep(2)
+      flush()
+
+      expect(getCurrentValue).toHaveBeenCalledTimes(2)
+    })
+
+    it("doesn't resubscribe", () => {
+      const {
+        result: { subscribe, unsubscribe, setDep },
+      } = renderHook(() => {
+        const [dep, setDep] = createSignal(1)
+
+        return {
+          ...createContainer({
+            subscribe() {
+              untrack(dep)
+            },
+          }),
+          setDep,
+        }
+      })
+      flush()
+
+      setDep(2)
+      flush()
+
+      expect(unsubscribe).not.toHaveBeenCalled()
+      expect(subscribe).toHaveBeenCalledTimes(1)
     })
   })
 })
 
 interface CreateContainerConfig {
-  getCurrentValue?: () => number
-  subscribe?: (fn: () => void) => void
+  deps?: () => number[]
+  getCurrentValue?: (deps: number[]) => number
+  subscribe?: (fn: () => void, deps: number[]) => void
   identity?: (a: number, b: number) => boolean
 }
 
 function createContainer(config?: CreateContainerConfig) {
-  const getCurrentValue = vi.fn().mockImplementation(config?.getCurrentValue ?? (() => 1))
+  const deps = vi.fn(config?.deps ?? (() => []))
+  const getCurrentValue = vi.fn(config?.getCurrentValue ?? (([value]: number[]) => value ?? 1))
 
-  const unsubscribe = vi.fn()
+  const unsubscribe = vi.fn<() => void>()
   let update: () => void
-  const subscribe = vi.fn().mockImplementation((fn) => {
-    config?.subscribe?.(fn as () => void)
+  const subscribe = vi.fn((fn: () => void, deps: number[]): (() => void) => {
+    config?.subscribe?.(fn, deps)
     update = fn
     return unsubscribe
   })
 
   const value = createSubscription({
+    deps,
     getCurrentValue,
     subscribe,
     identity: config?.identity,
@@ -199,12 +225,15 @@ function createContainer(config?: CreateContainerConfig) {
 
   return {
     value,
+    deps,
     getCurrentValue,
     subscribe,
     unsubscribe,
     trigger: (fn?: () => void) => {
+      flush()
       fn?.()
       update()
+      flush()
     },
   }
 }

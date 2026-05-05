@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, flush } from 'solid-js'
 import { renderHook } from '@solidjs/testing-library'
 import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 import createCurrentDateTime, { EveryClockMinute, EveryClockSecond } from './createCurrentDateTime'
@@ -39,12 +39,16 @@ describe('createCurrentDateTime', () => {
     const initial = currentDateTime()
 
     setIsActive(false)
+    flush()
     vi.runOnlyPendingTimers()
+    flush()
 
     expect(currentDateTime()).toEqual(initial)
 
     setIsActive(true)
+    flush()
     vi.runOnlyPendingTimers()
+    flush()
 
     expect(currentDateTime()).not.to.equal(initial).but.to.equal(new Date())
   })
@@ -56,10 +60,12 @@ describe('createCurrentDateTime', () => {
       const { result: currentDateTime } = renderHook(() => createCurrentDateTime({ update: EveryClockSecond }))
 
       vi.advanceTimersByTime(990)
+      flush()
 
       expect(currentDateTime()).toEqual(date)
 
       vi.advanceTimersByTime(10)
+      flush()
 
       expect(currentDateTime()).toEqual(addSeconds(date, 1))
     })
@@ -70,10 +76,12 @@ describe('createCurrentDateTime', () => {
       const { result: currentDateTime } = renderHook(() => createCurrentDateTime({ update: EveryClockMinute }))
 
       vi.advanceTimersByTime(1000 * 59)
+      flush()
 
       expect(currentDateTime()).toEqual(date)
 
       vi.advanceTimersByTime(1000)
+      flush()
 
       expect(currentDateTime()).toEqual(addMinutes(date, 1))
     })

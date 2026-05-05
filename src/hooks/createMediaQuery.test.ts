@@ -1,3 +1,4 @@
+import { flush } from 'solid-js'
 import { renderHook } from '@solidjs/testing-library'
 import createMediaQuery from './createMediaQuery'
 
@@ -21,10 +22,13 @@ describe('createMediaQuery', () => {
   it('is reactive', () => {
     happyDOM.setViewport({ width: 1920, height: 1080 })
     const { result: matches } = renderHook(() => createMediaQuery('(max-width: 599px)'))
+    flush()
 
-    expect(() => {
-      happyDOM.setViewport({ width: 320, height: 1080 })
-    }).to.change(() => matches())
+    const previous = matches()
+    happyDOM.setViewport({ width: 320, height: 1080 })
+    flush()
+
+    expect(matches()).not.toBe(previous)
   })
 
   it('has `query` property which returns media query string', () => {

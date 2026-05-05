@@ -1,4 +1,4 @@
-import { createEffect, onCleanup, untrack } from 'solid-js'
+import { createEffect } from 'solid-js'
 import { addMinutes, addSeconds, startOfMinute, startOfSecond } from 'date-fns'
 
 type Tick = () => void
@@ -40,10 +40,8 @@ export default function createPolled(config: PolledConfig): void {
 
   const tick = (): void => {
     timeoutId = undefined
-    untrack(() => {
-      config.onTick()
-      lastTickedAt = config.every.now()
-    })
+    config.onTick()
+    lastTickedAt = config.every.now()
     schedule()
   }
 
@@ -54,12 +52,13 @@ export default function createPolled(config: PolledConfig): void {
     }
   }
 
-  createEffect(() => {
-    if (config.enabled) {
+  createEffect(
+    () => config.enabled,
+    (enabled) => {
+      if (!enabled) return
+
       schedule()
-      onCleanup(() => {
-        dispose()
-      })
-    }
-  })
+      return dispose
+    },
+  )
 }

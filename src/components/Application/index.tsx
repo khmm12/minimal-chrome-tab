@@ -1,4 +1,4 @@
-import type { JSX } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import Footer from '@/components/Footer'
 import Layout from '@/components/Layout'
 import Time from '@/components/Time'

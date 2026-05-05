@@ -1,4 +1,5 @@
-import { For, type JSX, mergeProps } from 'solid-js'
+import { For, merge } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { round } from '@/utils/rounds'
 import times from '@/utils/times'
 
@@ -27,7 +28,7 @@ export enum ProgressVariant {
 const precision = 10
 
 export default function Progress(_props: ProgressProps): JSX.Element {
-  const props = mergeProps({ width: 25, height: 5, minHeight: 0.25 }, _props)
+  const props = merge({ width: 25, height: 5, minHeight: 0.25 }, _props)
 
   return (
     <svg
@@ -48,7 +49,9 @@ export default function Progress(_props: ProgressProps): JSX.Element {
           )
         } else {
           const path = buildPathCalculator(props)
-          return <For each={times(props.barsNumber)}>{(index) => <path stroke="currentColor" {...path(index)} />}</For>
+          return (
+            <For each={times(props.barsNumber)}>{(index) => <path stroke="currentColor" {...path(index())} />}</For>
+          )
         }
       })()}
     </svg>

@@ -1,4 +1,5 @@
-import { type Component, type JSX, mergeProps, splitProps } from 'solid-js'
+import { type Component, merge, omit } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { css, cx } from 'styled-system/css'
 import type { WithCss } from 'styled-system/types'
 
@@ -34,9 +35,10 @@ export const CloseIcon: Icon = (props) => (
 )
 
 function iconProps(props: IconProps): SVGProps {
-  const [sProps, rest] = splitProps(props, ['css', 'class'])
-  return mergeProps(rest, {
+  return merge(omit(props, 'class', 'css'), {
     xmlns: 'http://www.w3.org/2000/svg',
-    class: cx(css(iconStyles, sProps.css), sProps.class),
+    get class() {
+      return cx(css(iconStyles, props.css), typeof props.class === 'string' ? props.class : undefined)
+    },
   })
 }

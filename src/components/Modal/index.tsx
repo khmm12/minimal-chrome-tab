@@ -1,5 +1,6 @@
-import { type JSX, Show, useContext } from 'solid-js'
-import { Portal } from 'solid-js/web'
+import { createSignal, Show, useContext } from 'solid-js'
+import type { JSX } from '@solidjs/web'
+import { Portal } from '@solidjs/web'
 import { css } from 'styled-system/css'
 import { CloseIcon } from '@/components/Icon'
 import { ShowWithTransitionContext } from '@/components/ShowWithTransition'
@@ -15,8 +16,16 @@ interface ModalProps {
 }
 
 export default function Modal(props: ModalProps): JSX.Element {
-  let $overlay: HTMLDivElement | undefined
-  let $dialog: HTMLDivElement | undefined
+  const [$overlay, setOverlay] = createSignal<HTMLDivElement | undefined>(undefined)
+  const [$dialog, setDialog] = createSignal<HTMLDivElement | undefined>(undefined)
+
+  const assignOverlay = (el: HTMLDivElement): void => {
+    setOverlay(el)
+  }
+
+  const assignDialog = (el: HTMLDivElement): void => {
+    setDialog(el)
+  }
 
   const transition = useContext(ShowWithTransitionContext)
 
@@ -24,10 +33,10 @@ export default function Modal(props: ModalProps): JSX.Element {
 
   useDialogHooks({
     get $overlay() {
-      return $overlay
+      return $overlay()
     },
     get $dialog() {
-      return $dialog
+      return $dialog()
     },
     get isVisible() {
       return isVisible()
@@ -49,15 +58,15 @@ export default function Modal(props: ModalProps): JSX.Element {
 
   return (
     <Portal>
-      <div data-state={isVisible() ? 'open' : 'closed'} aria-hidden="true" tabIndex={-1} class={css(s.backdrop)} />
-      <div ref={$overlay} class={css(s.overlay)} tabIndex={-1}>
+      <div data-state={isVisible() ? 'open' : 'closed'} aria-hidden="true" tabindex={-1} class={css(s.backdrop)} />
+      <div ref={assignOverlay} class={css(s.overlay)} tabindex={-1}>
         <div
-          ref={$dialog}
+          ref={assignDialog}
           class={css(s.dialog)}
           data-state={isVisible() ? 'open' : 'closed'}
           aria-labelledby={ids.title}
           role="dialog"
-          tabIndex={-1}
+          tabindex={-1}
         >
           <div class={css(s.header)}>
             <div class={css(s.titleWrapper)}>

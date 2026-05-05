@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, flush } from 'solid-js'
 import { renderHook } from '@solidjs/testing-library'
 import * as D from 'date-fns/fp'
 import createTimeMilestones from './createTimeMilestones'
@@ -25,7 +25,10 @@ describe('milestones.day', () => {
       return [milestones, setCurrentDateTime] as const
     })
 
-    expect(() => setCurrentDateTime((value) => D.addHours(2, value))).to.change(() => milestones.day)
+    expect(() => {
+      setCurrentDateTime((value) => D.addHours(2, value))
+      flush()
+    }).to.change(() => milestones.day)
   })
 })
 
@@ -51,7 +54,10 @@ describe('milestones.month', () => {
       return [milestones, setCurrentDateTime] as const
     })
 
-    expect(() => setCurrentDateTime((value) => D.addDays(15, value))).to.change(() => milestones.month)
+    expect(() => {
+      setCurrentDateTime((value) => D.addDays(15, value))
+      flush()
+    }).to.change(() => milestones.month)
   })
 })
 
@@ -77,7 +83,10 @@ describe('milestones.week', () => {
       return [milestones, setCurrentDateTime] as const
     })
 
-    expect(() => setCurrentDateTime((value) => D.addDays(2, value))).to.change(() => milestones.week)
+    expect(() => {
+      setCurrentDateTime((value) => D.addDays(2, value))
+      flush()
+    }).to.change(() => milestones.week)
   })
 })
 
@@ -103,7 +112,10 @@ describe('milestones.year', () => {
       return [milestones, setCurrentDateTime] as const
     })
 
-    expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.year)
+    expect(() => {
+      setCurrentDateTime((value) => D.addMonths(6, value))
+      flush()
+    }).to.change(() => milestones.year)
   })
 })
 
@@ -140,6 +152,9 @@ describe('milestones.birthday', () => {
       return [milestones, setCurrentDateTime] as const
     })
 
-    expect(() => setCurrentDateTime((value) => D.addMonths(6, value))).to.change(() => milestones.birthday)
+    expect(() => {
+      setCurrentDateTime((value) => D.addMonths(6, value))
+      flush()
+    }).to.change(() => milestones.birthday)
   })
 })

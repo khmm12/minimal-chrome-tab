@@ -1,4 +1,4 @@
-import type { JSX } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import { SettingsIcon } from '@/components/Icon'
 import Modal from '@/components/Modal'
 import type { Settings } from '@/shared/settings'

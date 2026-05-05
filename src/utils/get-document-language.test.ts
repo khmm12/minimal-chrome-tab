@@ -26,8 +26,8 @@ describe('getDocumentLanguage', () => {
   })
 
   it('raises an exception when given locale is not valid', () => {
-    expect(() => getDocumentLanguage('NOTVALID')).toThrowError('The locale is not valid BCP 47 format')
-    expect(() => getDocumentLanguage('')).toThrowError('The locale is not valid BCP 47 format')
+    expect(() => getDocumentLanguage('NOTVALID')).toThrow('The locale is not valid BCP 47 format')
+    expect(() => getDocumentLanguage('')).toThrow('The locale is not valid BCP 47 format')
   })
 
   it('uses current locale when locale argument is not provided', () => {

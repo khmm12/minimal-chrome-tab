@@ -1,9 +1,11 @@
-import { type Accessor, createComputed, createContext, createMemo, createSignal, type JSX, untrack } from 'solid-js'
+import { type Accessor, createContext, createMemo, createSignal, untrack } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 
-interface ShowWithTransitionProps<T> {
+interface ShowWithTransitionProps<T, F extends ConditionalRenderCallback<T>> {
   when: T | undefined | null | false
   fallback?: JSX.Element
-  children: JSX.Element | ((item: Accessor<T>) => JSX.Element)
+  keyed?: boolean
+  children: ConditionalRenderChildren<T, F>
 }
 
 interface ShowWithTransitionContextValue {
@@ -11,30 +13,34 @@ interface ShowWithTransitionContextValue {
   onAfterExit: () => void
 }
 
+type NonZeroParams<T extends (...args: any[]) => any> = Parameters<T>['length'] extends 0 ? never : T // eslint-disable-line @typescript-eslint/no-explicit-any -- used in generics
+type ConditionalRenderCallback<T> = (item: Accessor<NonNullable<T>>) => JSX.Element
+type ConditionalRenderChildren<T, F extends ConditionalRenderCallback<T> = ConditionalRenderCallback<T>> =
+  | JSX.Element
+  | NonZeroParams<F>
+
 export const ShowWithTransitionContext = createContext<ShowWithTransitionContextValue>({
   isOpened: true,
   onAfterExit: () => {},
 })
 
-export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>): JSX.Element {
-  const [when, setWhen] = createSignal(props.when)
-
-  createComputed(() => {
-    if (!isNegative(props.when) || isNegative(when())) setWhen(() => props.when)
+export default function ShowWithTransition<T, F extends ConditionalRenderCallback<T>>(
+  props: ShowWithTransitionProps<T, F>,
+): JSX.Element {
+  const [heldWhen, setHeldWhen] = createSignal<T | undefined | null | boolean>((prev) => {
+    if (!isNegative(props.when)) return props.when
+    return prev
   })
 
   const handleAfterExit = (): void => {
-    setWhen(undefined)
+    setHeldWhen(() => props.when)
   }
 
   const isOpened = createMemo(() => !isNegative(props.when))
+  const shouldShow = createMemo(() => !isNegative(heldWhen()))
 
-  let strictEqual = false
-
-  const equals = <T,>(a: T, b: T): boolean => (strictEqual ? a === b : Boolean(a) === Boolean(b))
-
-  const condition = createMemo(() => when(), undefined, { equals })
-  const shouldShow = createMemo(() => !isNegative(when()), undefined, { equals })
+  const keyed = props.keyed ?? true
+  const condition = keyed ? heldWhen : createMemo(heldWhen, { equals: (a, b) => Boolean(a) === Boolean(b) })
 
   return createMemo(() => {
     if (shouldShow()) {
@@ -46,20 +52,18 @@ export default function ShowWithTransition<T>(props: ShowWithTransitionProps<T>)
       }
 
       return (
-        <ShowWithTransitionContext.Provider value={value}>
+        <ShowWithTransitionContext value={value}>
           {
             createMemo(() => {
               const { children: child } = props
               if (typeof child === 'function' && child.length > 0) {
-                strictEqual = true
-                return untrack(() => child(condition as Accessor<T>))
+                return untrack(() => child(condition as Accessor<NonNullable<T>>))
               } else {
-                strictEqual = false
                 return child
               }
             }) as unknown as JSX.Element
           }
-        </ShowWithTransitionContext.Provider>
+        </ShowWithTransitionContext>
       )
     } else {
       return props.fallback

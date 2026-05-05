@@ -1,4 +1,5 @@
-import { createSignal, type JSX, lazy, Suspense } from 'solid-js'
+import { createSignal, lazy, Loading } from 'solid-js'
+import type { JSX } from '@solidjs/web'
 import ShowWithTransition from '@/components/ShowWithTransition'
 import type { Settings } from '@/shared/settings'
 
@@ -32,11 +33,11 @@ export default function createSettingsDialog(opts: CreateSettingsDialogOptions):
 
   return {
     $el: (
-      <Suspense>
+      <Loading>
         <ShowWithTransition when={showSettings()}>
           <SettingsDialog settings={opts.settings} onSave={handleSettingsSave} onClose={handleSettingsClose} />
         </ShowWithTransition>
-      </Suspense>
+      </Loading>
     ),
     open: handleSettingsRequest,
   }

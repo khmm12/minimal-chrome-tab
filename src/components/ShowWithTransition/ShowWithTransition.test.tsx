@@ -1,5 +1,6 @@
-import { type Accessor, createSignal, type JSX, useContext } from 'solid-js'
+import { type Accessor, createSignal, flush, useContext } from 'solid-js'
 import { render } from '@solidjs/testing-library'
+import type { JSX } from '@solidjs/web'
 import ShowWithTransition, { ShowWithTransitionContext } from '.'
 
 describe('ShowWithTransition', () => {
@@ -52,24 +53,25 @@ describe('ShowWithTransition', () => {
   it('creates a context', () => {
     let context: (typeof ShowWithTransitionContext)['defaultValue'] = ShowWithTransitionContext.defaultValue
     const [value, setValue] = createSignal(true)
-    const child = (): null => {
+    const child = (_: unknown): null => {
       context = useContext(ShowWithTransitionContext)
       return null
     }
 
     render(() => <ShowWithTransition when={value()}>{child}</ShowWithTransition>)
 
-    expect(context.isOpened).toBeTruthy()
+    expect(context?.isOpened).toBeTruthy()
 
     setValue(false)
+    flush()
 
-    expect(context.isOpened).toBeFalsy()
+    expect(context?.isOpened).toBeFalsy()
   })
 
   it('removes child after transition end only', () => {
     let context: (typeof ShowWithTransitionContext)['defaultValue'] = ShowWithTransitionContext.defaultValue
     const [value, setValue] = createSignal(true)
-    const child = (): JSX.Element => {
+    const child = (_: unknown): JSX.Element => {
       context = useContext(ShowWithTransitionContext)
       return 'hello'
     }
@@ -77,10 +79,12 @@ describe('ShowWithTransition', () => {
     const { container } = render(() => <ShowWithTransition when={value()}>{child}</ShowWithTransition>)
 
     setValue(false)
+    flush()
 
     expect(container).toHaveTextContent('hello')
 
-    context.onAfterExit()
+    context?.onAfterExit()
+    flush()
 
     expect(container).toBeEmptyDOMElement()
   })
@@ -93,16 +97,18 @@ describe('ShowWithTransition', () => {
     const { container } = render(() => <ShowWithTransition when={value()}>{child}</ShowWithTransition>)
 
     expect(container).toBeEmptyDOMElement()
-    expect(childMock).not.toBeCalled()
+    expect(childMock).not.toHaveBeenCalled()
 
     setValue({ name: 'world' })
+    flush()
 
     expect(container).toHaveTextContent('hello world')
-    expect(childMock).toBeCalledTimes(1) // unlike of solid.Show
+    expect(childMock).toHaveBeenCalledTimes(1) // unlike of solid.Show
 
     setValue({ name: 'pony' })
+    flush()
 
     expect(container).toHaveTextContent('hello pony')
-    expect(childMock).toBeCalledTimes(1)
+    expect(childMock).toHaveBeenCalledTimes(1)
   })
 })

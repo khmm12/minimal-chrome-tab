@@ -41,6 +41,7 @@ const config = defineConfig(
           pathGroups: [
             { pattern: 'solid-js', group: 'external', position: 'before' },
             { pattern: 'solid-js/**', group: 'external', position: 'before' },
+            { pattern: '@solidjs/**', group: 'external', position: 'before' },
             { pattern: 'styled-system', group: 'external', position: 'before' },
             { pattern: 'styled-system/**', group: 'external', position: 'before' },
             { pattern: '@test/**', group: 'internal', position: 'after' },

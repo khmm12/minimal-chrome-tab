@@ -1,4 +1,4 @@
-import { createSignal } from 'solid-js'
+import { createSignal, flush } from 'solid-js'
 import { fireEvent, render, renderHook, screen, waitForElementToBeRemoved } from '@solidjs/testing-library'
 import ShowWithTransition from '@/components/ShowWithTransition'
 import Modal from '.'
@@ -41,7 +41,7 @@ describe('Modal', () => {
 
     fireEvent.click(screen.getByTitle(/close/i))
 
-    expect(handleClose).toBeCalled()
+    expect(handleClose).toHaveBeenCalled()
   })
 
   it('renders modal content', () => {
@@ -63,10 +63,12 @@ describe('Modal', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
     setShouldOpen(true)
+    flush()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
 
     setShouldOpen(false)
+    flush()
 
     await waitForElementToBeRemoved(() => screen.queryByRole('dialog'))
   })
@@ -79,14 +81,20 @@ describe('Modal', () => {
         <button>should not close</button>
       </Modal>
     ))
+    flush()
 
     fireEvent.click(screen.getByText(/should not close/))
 
-    expect(handleClose).not.toBeCalled()
+    expect(handleClose).not.toHaveBeenCalled()
 
-    fireEvent.click(document.body)
+    const { parentElement: overlay } = screen.getByRole('dialog')
+    expect(overlay).not.toBeNull()
+    if (overlay == null) throw new Error('Expected dialog overlay to exist')
 
-    expect(handleClose).toBeCalled()
+    fireEvent.click(overlay)
+    flush()
+
+    expect(handleClose).toHaveBeenCalled()
   })
 
   it('closes on Escape key press', () => {
@@ -97,9 +105,11 @@ describe('Modal', () => {
         Hello
       </Modal>
     ))
+    flush()
 
     fireEvent.keyDown(screen.getByRole('dialog'), { code: 'Escape' })
+    flush()
 
-    expect(handleClose).toBeCalled()
+    expect(handleClose).toHaveBeenCalled()
   })
 })

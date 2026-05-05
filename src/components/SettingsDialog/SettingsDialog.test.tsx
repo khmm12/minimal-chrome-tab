@@ -1,4 +1,4 @@
-import { mergeProps, Suspense } from 'solid-js'
+import { Loading, merge } from 'solid-js'
 import { render, screen, waitFor, waitForElementToBeRemoved } from '@solidjs/testing-library'
 import userEvent from '@testing-library/user-event'
 import { format } from 'date-fns'
@@ -26,7 +26,7 @@ describe('SettingsDialog', () => {
 
     await user.click(screen.getByTitle(/close/i))
 
-    expect(handleClose).toBeCalled()
+    expect(handleClose).toHaveBeenCalled()
   })
 
   describe('form', () => {
@@ -79,7 +79,7 @@ describe('SettingsDialog', () => {
         expect(screen.getByText(/Save/)).not.toBeDisabled()
       })
 
-      expect(handleSave).toBeCalledWith(
+      expect(handleSave).toHaveBeenCalledWith(
         expect.objectContaining({
           birthDate,
         }),
@@ -91,9 +91,9 @@ describe('SettingsDialog', () => {
 async function createContainer(props?: Partial<SettingsDialogProps>) {
   const user = userEvent.setup()
   const container = render(() => (
-    <Suspense fallback={<div>loading....</div>}>
-      <SettingsDialog {...mergeProps({ settings: defaults() }, props)} />
-    </Suspense>
+    <Loading fallback={<div>loading....</div>}>
+      <SettingsDialog {...merge({ settings: defaults() }, props)} />
+    </Loading>
   ))
 
   if (screen.queryByText(/loading/i) != null) {

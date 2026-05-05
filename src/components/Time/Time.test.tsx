@@ -1,3 +1,4 @@
+import { flush } from 'solid-js'
 import { render, screen } from '@solidjs/testing-library'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import Time from '.'
@@ -36,6 +37,7 @@ describe('Time', () => {
     render(() => <Time />)
 
     vi.advanceTimersByTime(1000)
+    flush()
 
     expect(screen.getByLabelText('Time')).toHaveTextContent('16:05:31')
   })
