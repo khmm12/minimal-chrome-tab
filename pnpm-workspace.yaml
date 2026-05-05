@@ -1,2 +1,4 @@
 overrides:
   postcss: '$postcss'
+allowBuilds:
+  esbuild: true
