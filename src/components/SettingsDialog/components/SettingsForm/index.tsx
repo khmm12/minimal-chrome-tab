@@ -168,7 +168,10 @@ function withCanceled(fn: () => void | Promise<void>): (e: SubmitEvent) => void 
   return (e) => {
     e.preventDefault()
     e.stopPropagation()
-    Promise.resolve(fn()).catch(() => {})
+    // A failed save (e.g. storage quota) leaves the dialog open with the button
+    // back to "Save" (optimistic `isSubmitting` rolls back), so the user can retry.
+    // Let a rejection surface as an unhandled rejection rather than swallowing it.
+    void Promise.resolve(fn())
   }
 }
 

@@ -89,4 +89,59 @@ describe('storage', () => {
 
     expect(load).toHaveBeenCalledTimes(1)
   })
+
+  it('retries the adapter load after a failed load (no poisoned cache)', async () => {
+    const adapter = new MemoryStorageAdapter()
+    adapter.write(5)
+    let attempt = 0
+    const load = vi.fn(async () => {
+      attempt += 1
+      // Reject asynchronously (like a failed dynamic import) so the rejection is
+      // cached in `adapterPromise` — that is exactly what the fix must drop.
+      if (attempt === 1) await Promise.reject(new Error('chunk load failed'))
+      return adapter
+    })
+    const storage = createStorage(load, numberSerializer)
+
+    await expect(storage.read()).rejects.toThrow('chunk load failed')
+    // The cached rejection must not be replayed — the next call retries.
+    expect(await storage.read()).toBe(5)
+    expect(load).toHaveBeenCalledTimes(2)
+  })
+
+  it('disposes a lazily-loaded adapter and skips attaching when disposed mid-load', async () => {
+    const adapter = new MemoryStorageAdapter()
+    const disposeSpy = vi.spyOn(adapter, 'dispose')
+    const { promise, resolve: resolveLoad } = Promise.withResolvers<MemoryStorageAdapter>()
+    const storage = createStorage(async () => await promise, numberSerializer)
+
+    const seen: number[] = []
+    storage.subscribe((v) => {
+      seen.push(v)
+    })
+    storage.dispose() // dispose before the load resolves
+    resolveLoad(adapter)
+    await tick()
+
+    expect(disposeSpy).toHaveBeenCalledTimes(1)
+    adapter.write(1) // an external change after dispose
+    await tick()
+    expect(seen).toEqual([]) // the subscription never attached
+  })
+
+  it('keeps notifying the remaining subscribers when one throws', async () => {
+    const { storage } = build()
+    const seen: number[] = []
+    storage.subscribe(() => {
+      throw new Error('bad listener')
+    })
+    storage.subscribe((v) => {
+      seen.push(v)
+    })
+    await tick()
+
+    await storage.write(1)
+
+    expect(seen).toEqual([1])
+  })
 })

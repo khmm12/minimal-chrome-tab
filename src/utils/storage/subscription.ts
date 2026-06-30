@@ -5,7 +5,14 @@ export default class StorageSubscription<T> {
 
   notify(value: T): void {
     this.subscribers.forEach((subscriber) => {
-      subscriber(value)
+      // Isolate subscribers: a throwing listener is a consumer bug, and must not
+      // stop the rest nor escape into the backend event handler it runs under
+      // (chrome `onChanged` / the `storage` event).
+      try {
+        subscriber(value)
+      } catch {
+        // Intentionally swallowed — see above.
+      }
     })
   }
 
