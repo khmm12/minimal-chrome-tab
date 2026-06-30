@@ -5,13 +5,13 @@
       "source": "khmm12/solidjs-v2-skills",
       "sourceType": "github",
       "skillPath": "skills/solidjs-v2/SKILL.md",
-      "computedHash": "56107139c535081281a4d01e8dfcdc2f79f5aec7b023b36c5b50611075acad4d"
+      "computedHash": "f80fc5b90b828c28472563afe65e3be15b6de5c8c0057b6ac299102f41a16282"
     },
     "solidjs-v2-reviewer": {
       "source": "khmm12/solidjs-v2-skills",
       "sourceType": "github",
       "skillPath": "skills/solidjs-v2-reviewer/SKILL.md",
-      "computedHash": "5987f06e45116b308dbf0744def375f2795d7953017091d1bf2f58299dd529ec"
+      "computedHash": "5824dcce87080be14cf0a62119456ad7a89597e8fb4872126957cc25b143d164"
     }
   }
 }

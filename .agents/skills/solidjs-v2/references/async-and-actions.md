@@ -18,9 +18,10 @@ const user = createMemo(() => fetchUser(params.id));
 
 - Loading state is **structural** (boundaries), not a `T | undefined` hole in
   every type.
-- Async iterables stream values: `createMemo(async function* () { yield a; yield b; })`
-  — each `yield` commits a new value (see `references/patterns.md` for the
-  streaming-query pattern).
+- Async iterables stream: in `createMemo(async function* () { yield a; yield b; })`
+  each `yield` commits a new value. Both async shapes own in-flight work that needs
+  explicit cleanup — see **Cancellation & cleanup** below; the streaming-query
+  pattern is in `references/patterns.md`.
 - Reading a pending async value **outside** a tracked scope throws
   (`PENDING_ASYNC_UNTRACKED_READ`). Read in JSX, a memo, or an effect compute.
 - Async with no `<Loading>` ancestor at `render()` time warns
@@ -36,6 +37,66 @@ const user = createMemo(() => fetchUser(params.id));
 | `resource.error` | `<Errored>` boundary or effect `error` option — one error path, no inline `.error` branching |
 | `refetch()` | `refresh(resource)` |
 | `mutate()` | `createOptimisticStore` + `action` |
+
+## Cancellation & cleanup in async computations
+
+A computation that returns a `Promise` or async generator owns in-flight work — a
+fetch, a socket, a subscription. Solid does **not** cancel it for you. Register
+cleanup with `onCleanup`, **synchronously, before the first `await`/`yield`**: after
+a suspension point the continuation runs with no owner, so an `onCleanup` placed
+there warns `NO_OWNER_CLEANUP` and is silently never run.
+
+### Plain async — abort the in-flight request
+
+```ts
+const user = createMemo(async () => {
+  const ac = new AbortController();
+  onCleanup(() => ac.abort());      // sync, before fetchUser's internal await
+  return fetchUser(id(), { signal: ac.signal });
+});
+```
+
+On a re-run (`id()` changed) or on dispose, the previous request aborts. Solid
+already discards the superseded *value*, so the reactive result is correct either
+way; aborting is about stopping wasted work and the side effects of a late response.
+
+### Async generator — `yield` streams, `return` discards
+
+Each `yield` **commits** a value (the accessor updates per yield). `return` **ends
+the stream and throws its value away** — the last yielded value stays committed.
+`return` is for stopping, never for emitting a final value. This is the opposite of
+`action()`, where the generator's `return` *is* the action's result:
+
+| In a… | `yield x` | `return x` |
+|---|---|---|
+| `createMemo(async function*)` | commits `x` — streams | ends the stream, `x` **discarded** |
+| `action(async function*)` (below) | transition sync point, not a value | the action's **result** |
+
+Cleanup is the footgun. On dispose Solid **does** call `.return()` on the iterator —
+but a generator parked on an *external* `await` (the next socket message, an emitter
+tick) won't unwind from it: `.return()` queues behind that `await`, and if the source
+has gone quiet the `await` never settles, so `finally` never runs and the resource
+leaks. An up-front `onCleanup` is the reliable hook — and it must **actively cancel**
+what the generator awaits (close the socket, abort, resolve the pending promise),
+which both frees the resource and unblocks the parked `await` so the generator can
+unwind. Full pattern in `references/patterns.md` → *Streaming a socket*.
+
+```ts
+const messages = createMemo(async function* () {
+  const { iterable, cancel } = subscribeToAsyncIterable<Msg>(/* socket → emit */);
+  onCleanup(cancel);   // ends the stream and unblocks the parked await (bridge: patterns.md)
+  yield* iterable;     // each message commits; never returns on its own
+});
+```
+
+Symptoms when this is wrong:
+
+- `onCleanup` after the first `await`/`yield` → `NO_OWNER_CLEANUP`; cleanup silently
+  skipped, resource leaks.
+- A generator that `return`s without ever `yield`ing → the memo never commits a value
+  → its `<Loading>` fallback shows **forever**.
+- Subscribing to a socket/emitter with no up-front `onCleanup` → leaks on every re-run
+  and on route change. `try/finally` alone does **not** save you.
 
 ## `Loading` boundary semantics
 

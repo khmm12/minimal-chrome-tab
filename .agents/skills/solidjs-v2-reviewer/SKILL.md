@@ -61,6 +61,7 @@ Run these over the changed files; each hit needs a fix or a justification.
 | Primitives created inside `onSettled`/tracked effect | 🔴 throws | create in component body |
 | Store proxy passed compute→apply, read in apply | 🟡 warns, won't re-run | extract plain values / `deep(store)` in compute |
 | Async read with no `<Loading>` ancestor | 🟡 root mount deferred | add boundary where fallback UI is wanted |
+| `async function*` memo over a socket/emitter/observable with no up-front `onCleanup` | 🔴 leaks on dispose/re-run | `onCleanup` (before the first `await`/`yield`) that cancels the source; `try/finally`/`.return()` can't unwind a parked generator |
 | `refresh()` called inside a computation | 🔴 throws | call from handlers/actions |
 | `isRefreshing(` call (or imported from `solid-js`) | 🔴 removed in beta.15 | gone from `solid-js` exports; detect a refresh re-run by key comparison, or use `isPending`/`<Loading>` |
 | `<For>` callback shape vs keying mode mismatch (`item()` on keyed, `i()` on `keyed={false}`) | 🔴 type/runtime error | check the mode table |
