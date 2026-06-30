@@ -13,8 +13,9 @@ code, comments, ADRs, and architecture reviews.
 - **Birthday milestone** — the milestone of the year-long epoch running from the
   user's most recent birthday to the next one. Special-cased: depends on `birthDate`.
 - **Progress style** — how a milestone is rendered (compact bars / detailed bars /
-  horizontal bar). Persisted as `MilestoneProgressStyle` (a stable wire-format enum);
-  mapped to the internal `MilestoneVariant` at render time.
+  horizontal bar). Persisted as `MilestoneProgressStyle`; each style maps directly to
+  its visual parameters via the `ProgressStyles` table in
+  `components/TimeMilestones/components/Milestone`.
 
 ## Settings
 

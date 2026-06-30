@@ -3,12 +3,15 @@ import type { JSX } from '@solidjs/web'
 import { round } from '@/utils/rounds'
 import times from '@/utils/times'
 
-type ProgressProps = {
-  progress: number
+interface ProgressBaseProps {
   width?: number
   height?: number
   minHeight?: number
-} & ProgressVariantProps
+}
+
+type ProgressProps = ProgressBaseProps & { progress: number } & ProgressVariantProps
+
+export type ProgressStyle = ProgressBaseProps & ProgressVariantProps
 
 type ProgressVariantProps =
   | {

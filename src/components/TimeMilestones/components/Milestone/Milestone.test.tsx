@@ -1,6 +1,7 @@
 import { render, screen } from '@solidjs/testing-library'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import Milestone, { MilestoneVariant } from '.'
+import { MilestoneProgressStyle } from '@/shared/settings'
+import Milestone from '.'
 
 vi.mock('@/hooks/useCurrentLanguage')
 
@@ -15,7 +16,7 @@ afterEach(() => {
 describe('Milestone', () => {
   describe('variant BarsCompact', () => {
     it('renders correctly', () => {
-      render(() => <Milestone variant={MilestoneVariant.BarsCompact} value={0.25} description="test milestone" />)
+      render(() => <Milestone style={MilestoneProgressStyle.BarsCompact} value={0.25} description="test milestone" />)
 
       const r = screen.getByLabelText('test milestone')
 
@@ -26,7 +27,7 @@ describe('Milestone', () => {
 
   describe('variant BarsDetailed', () => {
     it('renders correctly', () => {
-      render(() => <Milestone variant={MilestoneVariant.BarsDetailed} value={0.25} description="test milestone" />)
+      render(() => <Milestone style={MilestoneProgressStyle.BarsDetailed} value={0.25} description="test milestone" />)
 
       const r = screen.getByLabelText('test milestone')
 
@@ -37,7 +38,7 @@ describe('Milestone', () => {
 
   describe('variant HorizontalBar', () => {
     it('renders correctly', () => {
-      render(() => <Milestone variant={MilestoneVariant.HorizontalBar} value={0.25} description="test milestone" />)
+      render(() => <Milestone style={MilestoneProgressStyle.HorizontalBar} value={0.25} description="test milestone" />)
 
       const r = screen.getByLabelText('test milestone')
 
