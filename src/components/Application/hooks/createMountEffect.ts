@@ -2,7 +2,7 @@ import { onSettled } from 'solid-js'
 
 const DurationInSeconds = (1 / 60) * 6 // 6 frames or 100 ms
 
-export default function useMountEffect(): void {
+export default function createMountEffect(): void {
   onSettled(() => {
     const $root: HTMLElement | null = document.querySelector('#app')
     if ($root != null) {

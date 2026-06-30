@@ -5,11 +5,11 @@ import Layout from '@/components/Layout'
 import Time from '@/components/Time'
 import TimeMilestones from '@/components/TimeMilestones'
 import createApplyTheme from './hooks/createApplyTheme'
+import createMountEffect from './hooks/createMountEffect'
 import createSettingsDialog from './hooks/createSettingsDialog'
-import useMountEffect from './hooks/useMountEffect'
 
 export default function Application(): JSX.Element {
-  useMountEffect()
+  createMountEffect()
   createApplyTheme()
 
   const settingsDialog = createSettingsDialog()
