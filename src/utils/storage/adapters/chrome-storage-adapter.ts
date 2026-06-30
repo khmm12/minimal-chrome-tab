@@ -1,56 +1,45 @@
-import StorageSubscription from '../subscription'
-import type { IStorageAdapter, Subscriber, Unsubscribe } from '../types'
+import type { JsonValue } from 'type-fest'
+import AbstractStorageAdapter from './abstract-storage-adapter'
 
-const read = async (key: string): Promise<unknown> => {
+const read = async (key: string): Promise<JsonValue> => {
   const items = await chrome.storage.local.get(key)
-  return items[key]
+  return (items[key] as JsonValue | undefined) ?? null
 }
 
-const write = async (key: string, value: unknown): Promise<void> => {
+const write = async (key: string, value: JsonValue): Promise<void> => {
   await chrome.storage.local.set({ [key]: value })
 }
 
-export default class ChromeStorageAdapter implements IStorageAdapter {
-  protected subscription = new StorageSubscription<unknown>()
-
+export default class ChromeStorageAdapter extends AbstractStorageAdapter {
   readonly #listener = (changes: Partial<Record<string, chrome.storage.StorageChange>>): void => {
     this.handleChanged(changes)
   }
 
   constructor(protected readonly name: string) {
+    super()
+    // `onChanged` echoes own writes in the same tab, so a subscription is enough.
     chrome.storage.onChanged.addListener(this.#listener)
   }
 
-  async read(): Promise<unknown> {
+  async read(): Promise<JsonValue> {
     return this.parse(await read(this.name))
   }
 
-  async write(value: unknown): Promise<void> {
+  async write(value: JsonValue): Promise<void> {
     await write(this.name, value)
   }
 
-  dispose(): void {
+  override dispose(): void {
     chrome.storage.onChanged.removeListener(this.#listener)
-    this.subscription.dispose()
+    super.dispose()
   }
 
-  subscribe(subscriber: Subscriber<unknown>): Unsubscribe {
-    this.subscription.subscribe(subscriber)
-    return () => {
-      this.unsubscribe(subscriber)
-    }
-  }
-
-  unsubscribe(subscriber: Subscriber<unknown>): void {
-    this.subscription.unsubscribe(subscriber)
-  }
-
-  protected parse(val: unknown): unknown {
+  protected parse(val: JsonValue | undefined): JsonValue {
     return val ?? null
   }
 
   protected handleChanged(changes: Partial<Record<string, chrome.storage.StorageChange>>): void {
     const change: chrome.storage.StorageChange | undefined = changes[this.name]
-    if (change != null) this.subscription.notify(this.parse(change.newValue))
+    if (change != null) this.subscription.notify(this.parse(change.newValue as JsonValue | undefined))
   }
 }

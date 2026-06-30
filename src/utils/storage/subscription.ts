@@ -1,7 +1,7 @@
 import type { Subscriber } from './types'
 
 export default class StorageSubscription<T> {
-  protected subscribers: Array<Subscriber<T>> = []
+  protected subscribers = new Set<Subscriber<T>>()
 
   notify(value: T): void {
     this.subscribers.forEach((subscriber) => {
@@ -10,15 +10,14 @@ export default class StorageSubscription<T> {
   }
 
   subscribe(subscriber: Subscriber<T>): void {
-    this.subscribers.push(subscriber)
+    this.subscribers.add(subscriber)
   }
 
   unsubscribe(subscriber: Subscriber<T>): void {
-    const index = this.subscribers.indexOf(subscriber)
-    if (index >= 0) this.subscribers.splice(index, 1)
+    this.subscribers.delete(subscriber)
   }
 
   dispose(): void {
-    this.subscribers.splice(0)
+    this.subscribers.clear()
   }
 }

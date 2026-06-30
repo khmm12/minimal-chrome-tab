@@ -1,6 +1,6 @@
 import * as v from 'valibot'
 import { isISODate, type ISODate } from '@/utils/brands'
-import Storage, { buildStorageAdapter, type ISerializer } from '@/utils/storage'
+import createStorage, { buildStorageAdapter, type Serializer, type Storage } from '@/utils/storage'
 
 export interface Settings {
   birthDate?: ISODate | undefined
@@ -41,7 +41,7 @@ const SettingsSchema = /* @__PURE__ */ v.fallback(
   defaults,
 )
 
-export const Serializer: ISerializer<Settings> = {
+export const settingsSerializer: Serializer<Settings> = {
   deserialize(value) {
     try {
       return v.parse(SettingsSchema, value)
@@ -49,12 +49,12 @@ export const Serializer: ISerializer<Settings> = {
       return v.getFallback(SettingsSchema)
     }
   },
-  serialize(value) {
-    return value
+  serialize({ birthDate, ...rest }) {
+    // `birthDate` may be `undefined`, which is not a JSON value — drop the key.
+    return birthDate != null ? { ...rest, birthDate } : rest
   },
 }
 
-const StorageAdapter = /* @__PURE__ */ await buildStorageAdapter(Key)
-
-// Singleton
-export const SettingsStorage = /* @__PURE__ */ await Storage.create(StorageAdapter, Serializer)
+export function buildSettingsStorage(): Storage<Settings> {
+  return createStorage(async () => await buildStorageAdapter(Key), settingsSerializer)
+}

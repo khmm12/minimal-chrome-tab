@@ -1,39 +1,27 @@
+import type { JsonValue, Promisable } from 'type-fest'
+
 export type Subscriber<T> = (value: T) => void
 export type Unsubscribe = () => void
 
-type Promisable<T> = T | Promise<T>
-
-export interface IStorageAdapter extends ISubscribable<unknown> {
-  read: () => Promisable<unknown>
-  write: (value: unknown) => Promisable<void>
+/** Backend binding (chrome / localStorage / memory). Operates on JSON wire values. */
+export interface StorageAdapter {
+  read: () => Promisable<JsonValue>
+  write: (value: JsonValue) => Promisable<void>
+  /** Notifies on every change — own writes and external ones, normalized per backend. */
+  subscribe: (subscriber: Subscriber<JsonValue>) => Unsubscribe
   dispose?: () => void
 }
 
-export interface IStorage<T>
-  extends IWritableStorage<T>, IMemorableStorage<T>, ISubscribableStorage<T>, IDisposableStorage {}
+/** The validation/serialization seam: `JsonValue → T` on the way in, `T → JsonValue` out. */
+export interface Serializer<T> {
+  deserialize: (value: JsonValue) => T
+  serialize: (value: T) => JsonValue
+}
 
-export interface IWritableStorage<T> {
+/** Generic, async, stateless conduit over a {@link StorageAdapter}. */
+export interface Storage<T> {
   read: () => Promise<T>
   write: (value: T) => Promise<void>
-}
-
-export interface IMemorableStorage<T> {
-  readonly value: T
-  refresh: () => Promise<void>
-}
-
-export interface IDisposableStorage {
-  dispose?: () => void
-}
-
-export interface ISubscribableStorage<T> extends ISubscribable<T> {}
-
-export interface ISerializer<T> {
-  deserialize: (value: unknown) => T
-  serialize: (value: T) => unknown
-}
-
-interface ISubscribable<T> {
   subscribe: (subscriber: Subscriber<T>) => Unsubscribe
-  unsubscribe: (subscriber: Subscriber<T>) => void
+  dispose: () => void
 }

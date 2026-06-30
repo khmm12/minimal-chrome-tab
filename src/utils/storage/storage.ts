@@ -1,91 +1,63 @@
-import type { ISerializer, IStorage, IStorageAdapter, Subscriber, Unsubscribe } from './types'
+import type { Promisable } from 'type-fest'
+import type { Serializer, Storage, StorageAdapter, Subscriber, Unsubscribe } from './types'
 
-type DeferredValue<T> = { value: T; loaded: true } | { loaded: false }
+export type AdapterLoader = () => Promisable<StorageAdapter>
 
-// Extracts subscription to a separate chunk.
-// Fixes the issue with circular chunks caused by top-level await.
-const { default: Subscription } = await import('./subscription')
+/**
+ * Builds a generic, async, stateless storage over a backend adapter.
+ *
+ * The backend is the source of truth — storage holds no value of its own. The
+ * adapter is loaded lazily on the first `read`/`write`/`subscribe`, which is what
+ * lets callers avoid a top-level await. The in-flight load promise is cached, so
+ * concurrent first calls share a single adapter instance (and a single listener).
+ */
+export default function createStorage<T>(loadAdapter: AdapterLoader, serializer: Serializer<T>): Storage<T> {
+  let adapterPromise: Promise<StorageAdapter> | null = null
+  let adapter: StorageAdapter | null = null
+  let disposed = false
 
-export default class Storage<T> implements IStorage<T> {
-  static async create<T>(adapter: IStorageAdapter, serializer: ISerializer<T>): Promise<Storage<T>> {
-    const storage = new Storage<T>(adapter, serializer)
-    await storage.init()
-    return storage
+  const ensureAdapter = async (): Promise<StorageAdapter> => {
+    adapterPromise ??= Promise.resolve(loadAdapter()).then((a) => {
+      adapter = a
+      if (disposed) a.dispose?.()
+      return a
+    })
+    return await adapterPromise
   }
 
-  protected readonly adapter: IStorageAdapter
-  protected readonly serializer: ISerializer<T>
-  protected readonly subscription = new Subscription<T>()
+  return {
+    async read() {
+      const adapter = await ensureAdapter()
+      return serializer.deserialize(await adapter.read())
+    },
 
-  protected currentValue: DeferredValue<T> = { loaded: false }
+    async write(value) {
+      const adapter = await ensureAdapter()
+      await adapter.write(serializer.serialize(value))
+    },
 
-  protected constructor(adapter: IStorageAdapter, serializer: ISerializer<T>) {
-    this.adapter = adapter
-    this.serializer = serializer
+    subscribe(subscriber: Subscriber<T>): Unsubscribe {
+      // The adapter loads asynchronously, so the real subscription attaches later.
+      // `active` cancels a subscription torn down before the adapter is ready.
+      let active = true
+      let unsubscribe: Unsubscribe | null = null
 
-    if (import.meta.env.TEST) {
-      afterEach(async () => {
-        await this.refresh()
+      void ensureAdapter().then((a) => {
+        if (!active) return
+        unsubscribe = a.subscribe((raw) => {
+          subscriber(serializer.deserialize(raw))
+        })
       })
-    }
-  }
 
-  protected async init(): Promise<void> {
-    if (!this.currentValue.loaded) {
-      this.adapter.subscribe(this.handleChanged.bind(this))
-      await this.refresh()
-    }
-  }
+      return () => {
+        active = false
+        unsubscribe?.()
+      }
+    },
 
-  get loaded(): boolean {
-    return this.currentValue.loaded
-  }
-
-  async refresh(): Promise<void> {
-    this.value = this.serializer.deserialize(await this.adapter.read())
-  }
-
-  async read(): Promise<T> {
-    await this.refresh()
-    return this.value
-  }
-
-  async write(value: T): Promise<void> {
-    await this.adapter.write(this.serializer.serialize(value))
-    this.value = value
-  }
-
-  get value(): T {
-    if (!this.currentValue.loaded) throw new Error('Storage is not loaded. Please call `init` method first.')
-    return this.currentValue.value
-  }
-
-  protected set value(nextValue: T) {
-    if (this.currentValue.loaded) {
-      this.currentValue.value = nextValue
-      this.subscription.notify(nextValue)
-    } else {
-      this.currentValue = { value: nextValue, loaded: true }
-    }
-  }
-
-  subscribe(subscriber: Subscriber<T>): Unsubscribe {
-    this.subscription.subscribe(subscriber)
-    return () => {
-      this.subscription.unsubscribe(subscriber)
-    }
-  }
-
-  unsubscribe(subscriber: Subscriber<T>): void {
-    this.subscription.unsubscribe(subscriber)
-  }
-
-  dispose(): void {
-    this.adapter.dispose?.()
-    this.subscription.dispose()
-  }
-
-  protected handleChanged(nextValue: unknown): void {
-    this.value = this.serializer.deserialize(nextValue)
+    dispose() {
+      disposed = true
+      adapter?.dispose?.()
+    },
   }
 }

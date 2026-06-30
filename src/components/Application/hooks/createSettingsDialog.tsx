@@ -1,6 +1,7 @@
 import { createSignal, lazy, Loading } from 'solid-js'
 import type { JSX } from '@solidjs/web'
 import ShowWithTransition from '@/components/ShowWithTransition'
+import useSettings from '@/hooks/useSettings'
 import type { Settings } from '@/shared/settings'
 
 const SettingsDialog = lazy(async () => await import('@/components/SettingsDialog'))
@@ -10,12 +11,9 @@ interface CreateSettingsDialogReturnValue {
   open: () => void
 }
 
-interface CreateSettingsDialogOptions {
-  settings: Settings
-  onSave: (settings: Settings) => void | Promise<void>
-}
+export default function createSettingsDialog(): CreateSettingsDialogReturnValue {
+  const [settings, setSettings] = useSettings()
 
-export default function createSettingsDialog(opts: CreateSettingsDialogOptions): CreateSettingsDialogReturnValue {
   const [showSettings, setShowSettings] = createSignal(false)
 
   const handleSettingsRequest = (): void => {
@@ -27,7 +25,7 @@ export default function createSettingsDialog(opts: CreateSettingsDialogOptions):
   }
 
   const handleSettingsSave = async (values: Settings): Promise<void> => {
-    await opts.onSave(values)
+    await setSettings(values)
     setShowSettings(false)
   }
 
@@ -35,7 +33,7 @@ export default function createSettingsDialog(opts: CreateSettingsDialogOptions):
     $el: (
       <Loading>
         <ShowWithTransition when={showSettings()}>
-          <SettingsDialog settings={opts.settings} onSave={handleSettingsSave} onClose={handleSettingsClose} />
+          <SettingsDialog settings={settings()} onSave={handleSettingsSave} onClose={handleSettingsClose} />
         </ShowWithTransition>
       </Loading>
     ),

@@ -1,8 +1,8 @@
 import toISODate from '@/utils/to-iso-date'
-import { MilestoneProgressStyle, Serializer, type Settings, ThemeColorMode } from './settings'
+import { MilestoneProgressStyle, type Settings, settingsSerializer, ThemeColorMode } from './settings'
 
-describe('SettingsStorage', () => {
-  describe('Serializer', () => {
+describe('settings', () => {
+  describe('settingsSerializer', () => {
     it('serializes settings', () => {
       const settings: Settings = {
         birthDate: toISODate(new Date()),
@@ -10,25 +10,41 @@ describe('SettingsStorage', () => {
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
       }
 
-      const serialized = Serializer.serialize(settings)
+      const serialized = settingsSerializer.serialize(settings)
 
       expect(serialized).toEqual(settings)
     })
 
-    it('deserializes settings', () => {
-      const serialized: Settings = {
-        birthDate: toISODate(new Date()),
+    it('drops the birthDate key when it is undefined', () => {
+      const settings: Settings = {
+        birthDate: undefined,
         themeColorMode: ThemeColorMode.Light,
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
       }
 
-      const deserialized = Serializer.deserialize(serialized)
+      const serialized = settingsSerializer.serialize(settings)
+
+      expect(serialized).toEqual({
+        themeColorMode: ThemeColorMode.Light,
+        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+      })
+      expect(serialized).not.toHaveProperty('birthDate')
+    })
+
+    it('deserializes settings', () => {
+      const serialized = {
+        birthDate: String(toISODate(new Date())),
+        themeColorMode: ThemeColorMode.Light,
+        milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
+      }
+
+      const deserialized = settingsSerializer.deserialize(serialized)
 
       expect(deserialized).toEqual(serialized)
     })
 
     it('fallbacks to default settings when deserialization fails', () => {
-      const deserialized = Serializer.deserialize({
+      const deserialized = settingsSerializer.deserialize({
         birthDate: 'invalid-date',
         themeColorMode: 'invalid-theme-color-mode',
         milestoneProgressStyle: 'invalid-milestone-progress-style',

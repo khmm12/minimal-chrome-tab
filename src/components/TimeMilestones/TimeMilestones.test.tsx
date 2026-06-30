@@ -1,18 +1,22 @@
 import { render, screen } from '@solidjs/testing-library'
 import createCurrentDateTime from '@/hooks/createCurrentDateTime'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
-import { MilestoneProgressStyle } from '@/shared/settings'
+import useSettings from '@/hooks/useSettings'
+import { MilestoneProgressStyle, type Settings, ThemeColorMode } from '@/shared/settings'
+import type { ISODate } from '@/utils/brands'
 import toISODate from '@/utils/to-iso-date'
 import Milestone from './components/Milestone'
-import TimeMilestones, { type TimeMilestonesProps } from '.'
+import TimeMilestones from '.'
 
 vi.mock('@/hooks/useCurrentLanguage')
 vi.mock('@/hooks/createCurrentDateTime')
+vi.mock('@/hooks/useSettings')
 vi.mock('./components/Milestone')
 
 beforeEach(() => {
   vi.mocked(useCurrentLanguage).mockReturnValue(() => 'en-GB')
   vi.mocked(createCurrentDateTime).mockReturnValue(() => new Date('2022-03-05T16:05:30'))
+  mockSettings()
   vi.mocked(Milestone).mockImplementation((props) => (
     <div aria-label={props.description}>
       {props.description} {props.value}
@@ -26,7 +30,7 @@ afterEach(() => {
 
 describe('TimeMilestones', () => {
   it('renders correctly', () => {
-    render(() => <TimeMilestones {...defaults()} />)
+    render(() => <TimeMilestones />)
 
     const r = screen.getByLabelText('Time milestones')
 
@@ -35,14 +39,14 @@ describe('TimeMilestones', () => {
   })
 
   it('has heading', () => {
-    render(() => <TimeMilestones progressStyle={MilestoneProgressStyle.BarsCompact} />)
+    render(() => <TimeMilestones />)
 
     const heading = screen.getByText("We're now through...")
     expect(heading).toBeInTheDocument()
   })
 
   it('has main milestones', () => {
-    render(() => <TimeMilestones progressStyle={MilestoneProgressStyle.BarsCompact} />)
+    render(() => <TimeMilestones />)
 
     const ofDayMileStone = screen.getByText(/of day/)
     expect(ofDayMileStone).toBeInTheDocument()
@@ -55,22 +59,26 @@ describe('TimeMilestones', () => {
   })
 
   it('has optional birthday milestone if specified', () => {
-    render(() => <TimeMilestones {...defaults({ birthDate: toISODate('1970-01-01') })} />)
+    mockSettings({ birthDate: toISODate('1970-01-01') })
+    render(() => <TimeMilestones />)
 
     const ofBirthdayMileStone = screen.getByText(/of b'day/)
     expect(ofBirthdayMileStone).toBeInTheDocument()
   })
 
   it('has no birthday milestone if not specified', () => {
-    render(() => <TimeMilestones {...defaults({ birthDate: undefined })} />)
+    mockSettings({ birthDate: undefined })
+    render(() => <TimeMilestones />)
     const ofBirthdayMileStone = screen.queryByText(/of b'day/)
     expect(ofBirthdayMileStone).not.toBeInTheDocument()
   })
 })
 
-function defaults(opts?: Partial<TimeMilestonesProps>): TimeMilestonesProps {
-  return {
-    progressStyle: MilestoneProgressStyle.BarsCompact,
+function mockSettings(opts?: { birthDate?: ISODate | undefined }): void {
+  const settings: Settings = {
+    themeColorMode: ThemeColorMode.Auto,
+    milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
     ...opts,
   }
+  vi.mocked(useSettings).mockReturnValue([() => settings, vi.fn()])
 }

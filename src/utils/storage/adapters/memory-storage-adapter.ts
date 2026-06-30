@@ -1,23 +1,15 @@
-import type { IStorageAdapter, Subscriber, Unsubscribe } from '../types'
+import type { JsonValue } from 'type-fest'
+import AbstractStorageAdapter from './abstract-storage-adapter'
 
-export default class MemoryStorageAdapter implements IStorageAdapter {
-  protected value: unknown = null
+export default class MemoryStorageAdapter extends AbstractStorageAdapter {
+  protected value: JsonValue = null
 
-  read(): unknown {
+  read(): JsonValue {
     return this.value
   }
 
-  write(value: unknown): void {
+  write(value: JsonValue): void {
     this.value = value
-  }
-
-  subscribe(_subscriber: Subscriber<unknown>): Unsubscribe {
-    return () => {
-      // Do nothing.
-    }
-  }
-
-  unsubscribe(_subscriber: Subscriber<unknown>): void {
-    // Do nothing.
+    this.subscription.notify(value)
   }
 }

@@ -1,13 +1,14 @@
 import chrome from '@/utils/chrome'
-import type { IStorageAdapter } from './types'
+import type { StorageAdapter } from './types'
 
-type IStorageAdapterConstructor = new (name: string) => IStorageAdapter
+type StorageAdapterConstructor = new (name: string) => StorageAdapter
 
-export async function buildStorageAdapter(name: string): Promise<IStorageAdapter> {
+/** Adapter loader: picks chrome / localStorage / memory by availability, lazily. */
+export async function buildStorageAdapter(name: string): Promise<StorageAdapter> {
   return new (await loadStorageAdapter())(name)
 }
 
-async function loadStorageAdapter(): Promise<IStorageAdapterConstructor> {
+async function loadStorageAdapter(): Promise<StorageAdapterConstructor> {
   // If Chrome API is available, then use Chrome API Storage.
   if (typeof chrome()?.storage !== 'undefined') return (await import('./adapters/chrome-storage-adapter')).default
 

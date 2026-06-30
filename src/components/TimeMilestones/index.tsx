@@ -3,6 +3,7 @@ import type { JSX } from '@solidjs/web'
 import { css, cx } from 'styled-system/css'
 import createCurrentDateTime, { EveryClockMinute } from '@/hooks/createCurrentDateTime'
 import createUniqueIds from '@/hooks/createUniqueIds'
+import useSettings from '@/hooks/useSettings'
 import { MilestoneProgressStyle } from '@/shared/settings'
 import asGetters from '@/utils/as-getters'
 import type { ISODate } from '@/utils/brands'
@@ -10,16 +11,12 @@ import Milestone, { MilestoneVariant } from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
 import * as s from './styles'
 
-export interface TimeMilestonesProps {
-  birthDate?: ISODate | undefined
-  progressStyle: MilestoneProgressStyle
-}
-
-export default function TimeMilestones(props: TimeMilestonesProps): JSX.Element {
+export default function TimeMilestones(): JSX.Element {
+  const [settings] = useSettings()
   const currentDateTime = createCurrentDateTime({ update: EveryClockMinute })
 
-  const birthDate = createMemo(() => createDate(props.birthDate), { equals: isDateEqual })
-  const variant = (): MilestoneVariant => mapSettingsStyleToVariant(props.progressStyle)
+  const birthDate = createMemo(() => createDate(settings().birthDate), { equals: isDateEqual })
+  const variant = (): MilestoneVariant => mapSettingsStyleToVariant(settings().milestoneProgressStyle)
 
   const milestones = createTimeMilestones(asGetters({ currentDateTime, birthDate }))
 

@@ -1,19 +1,28 @@
-import { type Accessor, createEffect, createMemo, createRoot, onSettled } from 'solid-js'
+import { type Accessor, createEffect, onSettled } from 'solid-js'
 import createMediaQuery from '@/hooks/createMediaQuery'
-import createSettingsStorage from '@/hooks/createSettingsStorage'
+import useSettings from '@/hooks/useSettings'
 import { ThemeColorMode } from '@/shared/settings'
 
-const disposeRoot = createRoot((dispose) => {
+/**
+ * Applies the theme as a `data-theme` attribute on `<html>`, in the component tree.
+ *
+ * Reads settings in a `createEffect` (user lane) — a not-ready read here is not "at
+ * render time", so it needs no `<Loading>` boundary; the effect just re-runs once
+ * settings resolve. Theme flash on the first frame is best-effort (see ADR 0001).
+ */
+export default function createApplyTheme(): void {
+  const [settings] = useSettings()
   const isOSDark = createMediaQuery('(prefers-color-scheme: dark)')
-  const [settings] = createSettingsStorage()
 
-  const theme = createMemo((): string =>
-    settings().themeColorMode === ThemeColorMode.Auto ? (isOSDark() ? 'dark' : 'light') : settings().themeColorMode,
+  createEffect(
+    (): string => {
+      const { themeColorMode } = settings()
+      return themeColorMode === ThemeColorMode.Auto ? (isOSDark() ? 'dark' : 'light') : themeColorMode
+    },
+    (theme) => {
+      document.documentElement.setAttribute('data-theme', theme)
+    },
   )
-
-  createEffect(theme, (val) => {
-    document.documentElement.setAttribute('data-theme', val)
-  })
 
   const favicon = useFavicon()
 
@@ -25,13 +34,6 @@ const disposeRoot = createRoot((dispose) => {
     },
     { defer: true },
   )
-
-  return dispose
-})
-
-if (import.meta.hot != null) {
-  import.meta.hot.accept()
-  import.meta.hot.dispose(disposeRoot)
 }
 
 function useFavicon(): Accessor<HTMLLinkElement | null> {
