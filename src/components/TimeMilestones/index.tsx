@@ -1,4 +1,4 @@
-import { createMemo, Show } from 'solid-js'
+import { Show } from 'solid-js'
 import type { JSX } from '@solidjs/web'
 import { css, cx } from 'styled-system/css'
 import createCurrentDateTime, { EveryClockMinute } from '@/hooks/createCurrentDateTime'
@@ -6,19 +6,17 @@ import createUniqueIds from '@/hooks/createUniqueIds'
 import useSettings from '@/hooks/useSettings'
 import type { MilestoneProgressStyle } from '@/shared/settings'
 import asGetters from '@/utils/as-getters'
-import type { ISODate } from '@/utils/brands'
 import Milestone from './components/Milestone'
 import createTimeMilestones from './hooks/createTimeMilestones'
 import * as s from './styles'
 
 export default function TimeMilestones(): JSX.Element {
   const [settings] = useSettings()
-  const currentDateTime = createCurrentDateTime({ update: EveryClockMinute })
+  const now = createCurrentDateTime({ update: EveryClockMinute })
 
-  const birthDate = createMemo(() => createDate(settings().birthDate), { equals: isDateEqual })
   const progressStyle = (): MilestoneProgressStyle => settings().milestoneProgressStyle
 
-  const milestones = createTimeMilestones(asGetters({ currentDateTime, birthDate }))
+  const milestones = createTimeMilestones(asGetters({ now, birthDate: () => settings().birthDate }))
 
   const ids = createUniqueIds(['heading'])
 
@@ -38,12 +36,4 @@ export default function TimeMilestones(): JSX.Element {
       </div>
     </div>
   )
-}
-
-function createDate(d: ISODate | undefined): Date | null {
-  return d != null ? new Date(d) : null
-}
-
-function isDateEqual<T extends Date | undefined | null>(a: T, b: T): boolean {
-  return a?.valueOf() === b?.valueOf()
 }
