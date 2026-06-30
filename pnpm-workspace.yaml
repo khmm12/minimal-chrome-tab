@@ -1,4 +1,6 @@
+catalog:
+  postcss: ^8.5.16
 overrides:
-  postcss: '$postcss'
+  postcss: 'catalog:'
 allowBuilds:
   esbuild: true

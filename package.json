@@ -57,7 +57,7 @@
     "globals": "^17.7.0",
     "happy-dom": "^20.10.6",
     "npm-run-all2": "^9.0.2",
-    "postcss": "^8.5.16",
+    "postcss": "catalog:",
     "prettier": "^3.9.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.62.0",
