@@ -43,8 +43,8 @@ importers:
         specifier: ^1.11.4
         version: 1.11.4
       '@solidjs/testing-library':
-        specifier: file:vendor/solidjs-testing-library-1.0.0-beta.1-next-b7e188c.tgz
-        version: file:vendor/solidjs-testing-library-1.0.0-beta.1-next-b7e188c.tgz(solid-js@2.0.0-beta.15)
+        specifier: 1.0.0-beta.2
+        version: 1.0.0-beta.2(@solidjs/web@2.0.0-beta.15(solid-js@2.0.0-beta.15))(solid-js@2.0.0-beta.15)
       '@testing-library/dom':
         specifier: ^10.4.1
         version: 10.4.1
@@ -726,11 +726,11 @@ packages:
   '@solidjs/signals@2.0.0-beta.15':
     resolution: {integrity: sha512-lw4a4frNajnmVjILbyfrgJ4ksqU+YKhkepZ8glKK9Q68O3zq7W8qDLOtsz5v1mt0o3TB11/rozJFpgMTmnYegg==}
 
-  '@solidjs/testing-library@file:vendor/solidjs-testing-library-1.0.0-beta.1-next-b7e188c.tgz':
-    resolution: {integrity: sha512-XLDN+28O/J+iqpDC2ZzP+bXA/qPkQZuHZL09BV5ZrfPM0Z/2djK6u6cVSV/L1hM/GpxRPUVZBTXcjfFbPtyeUQ==, tarball: file:vendor/solidjs-testing-library-1.0.0-beta.1-next-b7e188c.tgz}
-    version: 1.0.0-beta.1
+  '@solidjs/testing-library@1.0.0-beta.2':
+    resolution: {integrity: sha512-TLhQ5IUT/fdDfqa4X2rkQWB28Y+zEwi6mK/TVTeiQlEHG63eK2jfgwNYf2NtQoPh2c3ihLilsCzxABiSTP3JoQ==}
     engines: {node: '>= 14'}
     peerDependencies:
+      '@solidjs/web': '>=2.0.0'
       solid-js: '>=2.0.0'
 
   '@solidjs/web@2.0.0-beta.15':
@@ -3905,8 +3905,9 @@ snapshots:
 
   '@solidjs/signals@2.0.0-beta.15': {}
 
-  '@solidjs/testing-library@file:vendor/solidjs-testing-library-1.0.0-beta.1-next-b7e188c.tgz(solid-js@2.0.0-beta.15)':
+  '@solidjs/testing-library@1.0.0-beta.2(@solidjs/web@2.0.0-beta.15(solid-js@2.0.0-beta.15))(solid-js@2.0.0-beta.15)':
     dependencies:
+      '@solidjs/web': 2.0.0-beta.15(solid-js@2.0.0-beta.15)
       '@testing-library/dom': 10.4.1
       solid-js: 2.0.0-beta.15
 
