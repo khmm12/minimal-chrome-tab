@@ -48,13 +48,11 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
   })
   const [isSubmitting, setIsSubmitting] = createOptimistic(false)
 
-  const settings = createMemo(
-    (): Settings => ({
-      milestoneProgressStyle: values.milestoneProgressStyle,
-      themeColorMode: values.themeColorMode,
-      ...(values.birthDate != null ? { birthDate: values.birthDate } : {}),
-    }),
-  )
+  const settings = createMemo((): Settings => ({
+    milestoneProgressStyle: values.milestoneProgressStyle,
+    themeColorMode: values.themeColorMode,
+    ...(values.birthDate != null ? { birthDate: values.birthDate } : {}),
+  }))
 
   createEffect(
     () => ({ initialValues: { ...props.initialValues }, isDirty: state.isDirty }),
@@ -108,8 +106,8 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
         >
           <For each={ThemeColorModeOptions}>
             {(option) => (
-              <option value={option().value} selected={values.themeColorMode === option().value}>
-                {option().label}
+              <option value={option.value} selected={values.themeColorMode === option.value}>
+                {option.label}
               </option>
             )}
           </For>
@@ -131,8 +129,8 @@ export default function SettingsForm(props: SettingsFormProps): JSX.Element {
         >
           <For each={MilestoneProgressStyleOptions}>
             {(option) => (
-              <option value={option().value} selected={values.milestoneProgressStyle === option().value}>
-                {option().label}
+              <option value={option.value} selected={values.milestoneProgressStyle === option.value}>
+                {option.label}
               </option>
             )}
           </For>

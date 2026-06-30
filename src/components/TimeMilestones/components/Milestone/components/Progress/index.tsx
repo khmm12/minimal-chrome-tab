@@ -49,9 +49,7 @@ export default function Progress(_props: ProgressProps): JSX.Element {
           )
         } else {
           const path = buildPathCalculator(props)
-          return (
-            <For each={times(props.barsNumber)}>{(index) => <path stroke="currentColor" {...path(index())} />}</For>
-          )
+          return <For each={times(props.barsNumber)}>{(index) => <path stroke="currentColor" {...path(index)} />}</For>
         }
       })()}
     </svg>

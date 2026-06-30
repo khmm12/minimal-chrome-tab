@@ -16,8 +16,7 @@ interface ShowWithTransitionContextValue {
 type NonZeroParams<T extends (...args: any[]) => any> = Parameters<T>['length'] extends 0 ? never : T // eslint-disable-line @typescript-eslint/no-explicit-any -- used in generics
 type ConditionalRenderCallback<T> = (item: Accessor<NonNullable<T>>) => JSX.Element
 type ConditionalRenderChildren<T, F extends ConditionalRenderCallback<T> = ConditionalRenderCallback<T>> =
-  | JSX.Element
-  | NonZeroParams<F>
+  JSX.Element | NonZeroParams<F>
 
 export const ShowWithTransitionContext = createContext<ShowWithTransitionContextValue>({
   isOpened: true,
