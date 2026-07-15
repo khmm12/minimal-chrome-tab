@@ -1,5 +1,11 @@
 import toISODate from '@/utils/to-iso-date'
-import { MilestoneProgressStyle, type Settings, settingsSerializer, ThemeColorMode } from './settings'
+import {
+  buildSettingsStorage,
+  MilestoneProgressStyle,
+  type Settings,
+  settingsSerializer,
+  ThemeColorMode,
+} from './settings'
 
 describe('settings', () => {
   describe('settingsSerializer', () => {
@@ -55,6 +61,32 @@ describe('settings', () => {
         themeColorMode: ThemeColorMode.Auto,
         milestoneProgressStyle: MilestoneProgressStyle.BarsCompact,
       })
+    })
+  })
+
+  describe('buildSettingsStorage', () => {
+    afterEach(() => {
+      localStorage.clear()
+    })
+
+    it('round-trips settings through the backend using the settings serializer', async () => {
+      // Exercises the wiring of line 59 end-to-end: `write` runs
+      // `settingsSerializer.serialize` into the backend, `read` runs
+      // `deserialize` back out. In the test env `buildStorageAdapter` resolves
+      // to the localStorage adapter (no `chrome` global).
+      const storage = buildSettingsStorage()
+      const settings: Settings = {
+        birthDate: toISODate(new Date()),
+        themeColorMode: ThemeColorMode.Dark,
+        milestoneProgressStyle: MilestoneProgressStyle.HorizontalBar,
+      }
+
+      await storage.write(settings)
+      const read = await storage.read()
+
+      expect(read).toEqual(settings)
+
+      storage.dispose()
     })
   })
 })

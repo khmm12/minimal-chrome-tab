@@ -1,4 +1,4 @@
-import { flush } from 'solid-js'
+import { createSignal, flush } from 'solid-js'
 import { renderHook } from '@solidjs/testing-library'
 import createMediaQuery from '@/hooks/createMediaQuery'
 import useSettings from '@/hooks/useSettings'
@@ -18,6 +18,18 @@ function mockSettings(themeColorMode: ThemeColorMode): void {
 
 function mockOSDark(isDark: boolean): void {
   vi.mocked(createMediaQuery).mockReturnValue(Object.assign(() => isDark, { query: isDark }))
+}
+
+/**
+ * Mocks `createMediaQuery` with a reactive, signal-backed accessor so tests can
+ * flip the OS dark-mode preference and drive the effects. Returns the setter.
+ */
+function mockReactiveOSDark(initial: boolean): (isDark: boolean) => void {
+  const [isOSDark, setIsOSDark] = createSignal(initial)
+  vi.mocked(createMediaQuery).mockReturnValue(Object.assign(() => isOSDark(), { query: initial }))
+  return (isDark) => {
+    setIsOSDark(isDark)
+  }
 }
 
 afterEach(() => {
@@ -73,6 +85,66 @@ describe('createApplyTheme', () => {
       flush()
 
       expect(document.documentElement.getAttribute('data-theme')).toBe('dark')
+    })
+  })
+
+  describe('favicon refresh', () => {
+    let $favicon: HTMLLinkElement | undefined
+
+    function appendFavicon(): void {
+      const $el = document.createElement('link')
+      $el.rel = 'icon'
+      $el.type = 'image/svg+xml'
+      $el.href = '/favicon.svg'
+      document.head.append($el)
+      $favicon = $el
+    }
+
+    function faviconHasRefreshParam(): boolean {
+      if ($favicon == null) throw new Error('favicon link is not mounted')
+      return new URL($favicon.href).searchParams.has('t')
+    }
+
+    afterEach(() => {
+      $favicon?.remove()
+      $favicon = undefined
+    })
+
+    it('leaves the favicon href untouched on the initial run', () => {
+      mockSettings(ThemeColorMode.Auto)
+      mockReactiveOSDark(false)
+      appendFavicon()
+
+      renderHook(() => {
+        createApplyTheme()
+      })
+      flush()
+
+      // The effect is deferred, so the initial settle must not touch the href.
+      expect(faviconHasRefreshParam()).toBe(false)
+    })
+
+    it('toggles the cache-busting param on each OS dark-mode change', () => {
+      mockSettings(ThemeColorMode.Auto)
+      const setOSDark = mockReactiveOSDark(false)
+      appendFavicon()
+
+      renderHook(() => {
+        createApplyTheme()
+      })
+      flush()
+
+      expect(faviconHasRefreshParam()).toBe(false)
+
+      setOSDark(true)
+      flush()
+
+      expect(faviconHasRefreshParam()).toBe(true)
+
+      setOSDark(false)
+      flush()
+
+      expect(faviconHasRefreshParam()).toBe(false)
     })
   })
 })
