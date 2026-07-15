@@ -32,10 +32,13 @@ export const overlay = css.raw({
 })
 
 export const dialog = css.raw({
-  flex: '0 1 30rem',
+  flex: '0 1 28rem',
   background: { base: 'white', _dark: 'neutral.700' },
-  borderRadius: '0.25rem',
-  boxShadow: { base: '0 0 0.5rem 0 {colors.black/48}', _dark: '0 0 0.5rem 0 {colors.black/60}' },
+  borderRadius: '0.75rem',
+  boxShadow: {
+    base: '0 0.625rem 0.9375rem -0.1875rem {colors.black/15}, 0 0.25rem 0.375rem -0.25rem {colors.black/20}',
+    _dark: '0 0.625rem 1.5625rem -0.3125rem {colors.black/50}, 0 0.5rem 0.625rem -0.375rem {colors.black/40}',
+  },
   color: { base: 'black', _dark: 'white' },
   display: 'flex',
   flexDirection: 'column',
@@ -105,7 +108,7 @@ export const closeButtonIcon = css.raw({
 
 export const body = css.raw({
   width: 'full',
-  padding: '1rem 1.5rem',
+  padding: '1.5rem',
   display: 'flex',
   flexDirection: 'column',
 })
