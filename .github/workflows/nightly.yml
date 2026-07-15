@@ -6,6 +6,7 @@ on:
     branches: [main]
 jobs:
   nighly:
+    if: github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -44,11 +45,20 @@ jobs:
           echo "changed=$changed" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish nightly release
+      - name: Update nightly release
         if: steps.release_check.outputs.changed == 'true'
         run: |
-          gh release delete nightly --cleanup-tag --yes 2>/dev/null || true
-          gh release create nightly --prerelease --title "Nightly" --notes "The bleeding edge release." ./minimal-chrome-tab.zip
+          set -euo pipefail
+          # Move the rolling tag to the tested commit so the release points at latest.
+          git tag -f nightly
+          git push -f origin nightly
+          if gh release view nightly >/dev/null 2>&1; then
+            # Editing the existing release is silent — no "release published" notification.
+            gh release upload nightly ./minimal-chrome-tab.zip --clobber
+          else
+            # First run only: creating the release notifies once, then stays in place.
+            gh release create nightly --prerelease --title "Nightly" --notes "The bleeding edge release." ./minimal-chrome-tab.zip
+          fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Skip publishing
