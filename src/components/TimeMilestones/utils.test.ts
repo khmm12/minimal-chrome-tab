@@ -77,6 +77,22 @@ describe('getYearMilestone', () => {
   })
 })
 
+describe('getDayMilestone across a DST transition', () => {
+  afterAll(() => {
+    vi.unstubAllEnvs()
+  })
+
+  it('caps the milestone at 1 during the extra DST hour', () => {
+    // "Fall back" day: the local day is 25h long, longer than the constant 86400s divisor.
+    // On 2021-11-07 New York fell back at 02:00; by 23:30 local, 24.5h have elapsed since
+    // local midnight, so the uncapped fraction would be ~1.0208.
+    vi.stubEnv('TZ', 'America/New_York')
+    const currentDateTime = new Date('2021-11-07T23:30:00')
+
+    expect(getDayMilestone(currentDateTime)).toBe(1)
+  })
+})
+
 describe('getBirthDayMilestone', () => {
   it('handles not appeared birth date in this year', () => {
     const currentDateTime = new Date('2022-04-01')

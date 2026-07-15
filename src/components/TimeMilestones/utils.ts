@@ -65,8 +65,10 @@ function getLastYearDate(date: Date): CalculateRelative<Date> {
 function milestone(getSecondsInEpoch: GetSecondsInEpoch, getStartOfEpoch: GetStartOfEpoch): GetMilestone {
   return (now) => {
     const secondsSinceStart = differenceInSeconds(now, getStartOfEpoch(now))
+    // On a DST "fall back" day the local epoch runs longer than the constant divisor
+    // (a 25h day vs 86400s), so the raw fraction can creep past 1 — cap it.
     const value = secondsSinceStart / getSecondsInEpoch(now)
-    return roundDown(value, PRECISION)
+    return roundDown(Math.min(value, 1), PRECISION)
   }
 }
 
