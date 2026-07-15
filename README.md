@@ -36,14 +36,15 @@ So I replaced it with a single, quiet screen that **suspends itself the moment t
 
 ## ✨ Features
 
-- 🕒 **Time at a glance** – current date and clock, updated to the second.
-- 📊 **Life in progress** – see how much of the day, week, month, and year has elapsed, as clean progress bars. Add your birthday to also track your current year of life.
-- 🎚️ **Your style** – choose compact bars, detailed bars, or a single horizontal bar.
+- 🪶 **Lightweight, all the way down** – easy on resources, minimal permissions, zero clutter.
 - 💅 **Easy on the eyes** – clean typography and thoughtful spacing, and it never tries to sell you anything.
+- ⚡️ **Blazing fast** – tiny bundle, instant first paint.
+- 🕵️ **Private by design** – no analytics, no tracking, no network calls.
+- 🕒 **Time at a glance** – current date and clock, updated to the second.
+- 📊 **Life in progress** – how much of the day, week, month, and year has elapsed – and your year of life.
+- 📐 **Pick a layout** – compact bars, detailed bars, or a single horizontal sweep.
 - 🌓 **Light & dark** – follows your OS theme automatically, or lock it to one.
 - 🔋 **Suspends when idle** – pauses all work when the tab isn't focused, so it costs nothing in the background.
-- ⚡️ **Blazing fast** – tiny bundle, instant first paint.
-- 🕵️ **Private by design** – no analytics, no tracking, no network calls. The only permission it requests is `storage`, used solely to keep your settings.
 
 ## 📦 Install
 
