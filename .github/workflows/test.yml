@@ -1,6 +1,9 @@
 name: Test
 on:
-  push: {}
+  push:
+    # Commits are already tested on their branch; tag pushes (e.g. the moving
+    # `nightly` tag) would only re-run the suite redundantly.
+    tags-ignore: ['**']
 jobs:
   tests:
     strategy:
