@@ -1,9 +1,11 @@
 name: Test
 on:
   push:
-    # Commits are already tested on their branch; tag pushes (e.g. the moving
-    # `nightly` tag) would only re-run the suite redundantly.
-    tags-ignore: ['**']
+    # Run on every branch push, but not on tag pushes — the moving `nightly`
+    # tag would otherwise re-run the suite redundantly. Filtering on `branches`
+    # (rather than `tags-ignore` alone) is what excludes tags: a `push` filter
+    # that defines only `tags-ignore` runs for tags *only*, disabling branches.
+    branches: ['**']
 jobs:
   tests:
     strategy:
