@@ -4,6 +4,8 @@
 
 # Minimal Chrome Tab
 
+*For when the default new tab has already annoyed you.*
+
 **A calm, resource-friendly replacement for your browser's new tab page.**
 
 Shows the current time and how far you are through the day, week, month, year – and your year of life. Nothing else. No feeds, no widgets, no spyware.
@@ -28,15 +30,16 @@ Shows the current time and how far you are through the day, week, month, year �
 
 ## Why
 
-The default new tab page keeps running – and eating memory and CPU – even when you're not looking at it. That felt ridiculous for a page that mostly shows a search box you rarely use.
+One day I realized the default new tab keeps running – eating memory and CPU – even when I'm not looking at it. For a page that mostly shows a search box I rarely touch, that felt ridiculous.
 
-Minimal Chrome Tab replaces it with a single, quiet screen that **suspends itself the moment the tab loses focus**, and wakes up instantly when you come back. It's the new tab page as it should be: there when you need it, invisible when you don't.
+So I replaced it with a single, quiet screen that **suspends itself the moment the tab loses focus**, and wakes up instantly when you come back. It's the new tab page as it should be: there when you need it, invisible when you don't.
 
 ## ✨ Features
 
 - 🕒 **Time at a glance** – current date and clock, updated to the second.
 - 📊 **Life in progress** – see how much of the day, week, month, and year has elapsed, as clean progress bars. Add your birthday to also track your current year of life.
 - 🎚️ **Your style** – choose compact bars, detailed bars, or a single horizontal bar.
+- 💅 **Easy on the eyes** – clean typography and thoughtful spacing, and it never tries to sell you anything.
 - 🌓 **Light & dark** – follows your OS theme automatically, or lock it to one.
 - 🔋 **Suspends when idle** – pauses all work when the tab isn't focused, so it costs nothing in the background.
 - ⚡️ **Blazing fast** – tiny bundle, instant first paint.
