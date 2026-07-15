@@ -1,14 +1,17 @@
 name: Release
 on:
-  push:
-    tags: ['v*']
+  release:
+    types: [published]
 jobs:
   release:
+    if: startsWith(github.event.release.tag_name, 'v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name }}
       - uses: pnpm/action-setup@v6
       - name: Use Node.js
         uses: actions/setup-node@v6
@@ -21,7 +24,8 @@ jobs:
         run: pnpm build
       - name: Pack Chrome extension
         run: cd ./dist && zip -r ../minimal-chrome-tab.zip ./
-      - name: Publish release
-        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --generate-notes ./minimal-chrome-tab.zip
+      - name: Attach build to release
+        run: gh release upload "$TAG" ./minimal-chrome-tab.zip --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ github.event.release.tag_name }}
