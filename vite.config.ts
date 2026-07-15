@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url'
 import browserslistToEsbuild from 'browserslist-to-esbuild'
 import { defineConfig } from 'vite'
-import 'vitest/config'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import solidPlugin from 'vite-plugin-solid'
 import { viteStaticCopy } from 'vite-plugin-static-copy'
+import { coverageConfigDefaults } from 'vitest/config'
 import manifestPlugin from './lib/vite/manifest-plugin.js'
 
 export default defineConfig(() => ({
@@ -48,6 +48,9 @@ export default defineConfig(() => ({
     environment: 'happy-dom',
     coverage: {
       include: ['src'],
+      // Non-code assets (manifest, locale JSON, fonts, icons, styles) are not
+      // executable — drop them so they don't skew the coverage denominator.
+      exclude: [...coverageConfigDefaults.exclude, '**/*.json', '**/*.css', '**/*.svg', '**/*.woff2'],
     },
   },
 }))
