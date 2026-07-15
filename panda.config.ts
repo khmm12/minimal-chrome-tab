@@ -53,7 +53,7 @@ const keyframes = defineKeyframes({
 })
 
 export default defineConfig({
-  preflight: false,
+  preflight: true,
   importMap: 'styled-system',
   include: ['./src/**/*.{js,jsx,ts,tsx}'],
   exclude: [],
@@ -75,23 +75,20 @@ export default defineConfig({
   },
   globalCss: defineGlobalStyles({
     html: {
-      '-webkit-text-size-adjust': '100%',
-      '-webkit-tap-highlight-color': 'rgba(0, 0, 0, 0)',
-      '-webkit-font-smoothing': 'antialiased',
       fontFamily:
         "'Helvetica Neue', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'",
       fontWeight: 400,
-      boxSizing: 'border-box',
+      lineHeight: '1.2',
       background: { base: 'white', _dark: 'neutral.800' },
     },
     body: {
-      margin: 0,
-      touchAction: 'manipulation',
-      fontFamily: 'inherit',
-      fontSize: 'inherit',
-    },
-    '*, *::before, *::after': {
-      boxSizing: 'inherit',
+      // Chrome injects `font-family: system-ui; font-size: 75%` into the body of
+      // new-tab override pages as an unlayered author style, which beats Panda's
+      // layered globals. `!important` is the only reliable way to override it so
+      // the page (and Portal-mounted dialogs, which live directly under body)
+      // inherit our font instead of Chrome's.
+      fontFamily: 'inherit !important',
+      fontSize: 'inherit !important',
     },
     'html, body, #app': {
       height: 'full',
